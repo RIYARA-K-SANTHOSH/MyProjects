@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Profiles</title>
+    <link rel="stylesheet" href="{% static 'css/profile1.css' %}">
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-container">
+        <div class="logo">
+            <!-- Logo here -->
+        </div>
+        <div class="header-links">
+            <a href="{% url 'index' %}" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="{% url 'view_all_details' personal_id=current_user.reg_id %}" class="nav-link"><i class="fas fa-user"></i> My Profile</a>
+            <a href="{% url 'package' %}" class="nav-link"><i class="fas fa-gift"></i> Packages</a>
+            <a href="{% url 'view_received_requests' %}" class="nav-link"><i class="fas fa-user-friends"></i> Received Requests</a>    
+            <a href="{% url 'add_match_preferences' %}"
+                class="nav-link"><i class="fas fa-user-plus"></i>Add Your Match Preferences
+            </a>
+    
+            <!-- Link to View Matching Profiles -->
+            <a href="{% url 'matching_profiles' %}" class="nav-link"> <i class="fas fa-users"></i> Matching Profiles
+            </a>  
+            <a href="{% url 'logout' %}" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+        
+        
+        <div class="search-bar">
+            <form action="{% url 'search_profiles' %}" method="get">
+                <input type="text" name="query" class="search-input" placeholder="Search by name..." value="{{ search_query|default:'' }}">
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            
+            </form>
+        </div>
+        
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Profile Section on Left Side -->
+        <aside class="profile-content">
+            <div class="profile-picture">
+                {% if current_user.profile_picture %}
+                    <img src="{{ current_user.profile_picture.url }}" alt="Profile Picture">
+                {% else %}
+                    <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture">
+                {% endif %}
+            </div>
+            <div class="profile-info">
+                <p><i class="fas fa-user"></i> <strong>First Name:</strong> {{ current_user.first_name }}</p>
+                <p><i class="fas fa-user"></i> <strong>Last Name:</strong> {{ current_user.last_name }}</p>
+                <p><i class="fas fa-phone"></i> <strong>Phone Number:</strong> {{ current_user.phone_number }}</p>
+                <p><i class="fas fa-genderless"></i> <strong>Gender:</strong> {{ current_user.gender }}</p>
+                <p><i class="fas fa-calendar-alt"></i> <strong>Date of Birth:</strong> {{ current_user.dob }}</p>
+            </div>
+            <div class="sidebar-links">
+                <a href="{% url 'view_sent_requests' %}"><i class="fas fa-paper-plane"></i>View Sent Requests</a>
+                <a href=" " class="nav-link"><i class="fas fa-envelope"></i> Messages</a>
+                <a href="{% url 'view_notifications' %}" class="nav-link"><i class="fas fa-bell"></i> Notifications</a>
+                <a href="{% url 'blog_list' %}" class="nav-link"><i class="fas fa-blog"></i> Blogs</a>
+
+            </div>
+            
+        </aside>
+        
+
+        <!-- Profile List on Right Side -->
+        <section class="profile-list-section">
+            {% if search_query %}
+                <h2>Search Results for "{{ search_query }}"</h2>
+            {% endif %}
+            <div class="profile-list">
+                {% for user in other_users %}
+                    <div class="profile-card">
+                        {% if user.profile_picture %}
+                            <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+                        {% else %}
+                            <img src="{% static 'images/default_profile_pic.jpg' %}" alt="Default Profile Picture">
+                        {% endif %}
+                        <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                        <p>Email: {{ user.email }}</p>
+                        <p>Phone Number: {{ user.phone_number }}</p>
+                        <p>Date of Birth: {{ user.dob }}</p>
+                        <p>Gender: {{ user.gender }}</p>
+                        <div class="button-container">
+                            <button type="button" class="button no-bg">
+                                <a href="{% url 'view_profile1' user.profile.personal_id %}" class="view-profile-link">View Full Profile</a>
+                            </button>
+            
+                            {% if user.profile.request_exists %}
+                                <!-- If request has already been sent, disable the button -->
+                                <button type="button" class="button" style="background-color: #D3D3D3; cursor: not-allowed; color: black;" disabled>Request Sent</button>
+
+                            {% else %}
+                                <!-- If no request has been sent, show the "Send Request" button -->
+                                <form action="{% url 'send_request' user.profile.personal_id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="button" style="background-color: #4CAF50;">Send Request</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% empty %}
+                    {% if search_query %}
+                        <p>No profiles found matching your search.</p>
+                    {% else %}
+                        <p>No other users found.</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-container">
+        <p>&copy; 2024 Connect. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

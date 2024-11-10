@@ -1,0 +1,67 @@
+<!-- matrimonypro/matrimonyapp/templates/profile_overview.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ profile.reg_id.first_name }}'s Profile Overview</title>
+    <link rel="stylesheet" href="{% static 'css/view_all_details.css' %}">
+</head>
+<body>
+    
+    <header class="header-container">
+        <div class="logo">
+
+        </div>
+        <div class="header-links">
+            <a href="{% url 'index' %}" class="nav-link">Home</a>
+            <a href="{% url 'view_all_details' profile.reg_id.reg_id %}" class="nav-link">My Profile</a>
+            <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="profile-container">
+            <div class="profile-picture">
+                {% if profile.reg_id.profile_picture %}
+                <img src="{{ profile.reg_id.profile_picture.url }}" alt="Profile Picture">
+                {% else %}
+                <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture">
+                {% endif %}
+            </div>
+            <div class="profile-info">
+                <p><strong>First Name:</strong> {{ profile.reg_id.first_name }}</p>
+                <p><strong>Last Name:</strong> {{ profile.reg_id.last_name }}</p>
+                <p><strong>Phone Number:</strong> {{ profile.reg_id.phone_number }}</p>
+                <p><strong>Gender:</strong> {{ profile.reg_id.gender }}</p>
+                <p><strong>Date of Birth:</strong> {{ profile.reg_id.dob }}</p>
+            </div>
+        </div>
+
+        <!-- Viewers Section -->
+        <div class="viewers-container">
+            <h2>People Who Viewed This Profile</h2>
+            <ul>
+                {% for viewer in viewers %}
+                    <li>
+                        <strong>{{ viewer.viewer.first_name }} {{ viewer.viewer.last_name }}</strong> - 
+                        Viewed on {{ viewer.timestamp|date:"F j, Y, g:i a" }}<br>
+                        <em>Email:</em> {{ viewer.viewer.email }}<br>
+                        <em>Phone Number:</em> {{ viewer.viewer.phone_number }}<br>
+                        <em>Gender:</em> {{ viewer.viewer.gender }}<br>
+                    </li>
+                {% empty %}
+                    <li>No one has viewed this profile yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-container">
+        <p>&copy; 2024 Connect. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

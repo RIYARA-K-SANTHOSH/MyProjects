@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Blog</title>
+    <link rel="stylesheet" href="{% static 'css/adminmain.css' %}">
+    <link rel="stylesheet" href="{% static 'css/blog_create.css' %}">
+    <script src="{% static 'js/blog.js' %}"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'review_users' %}">Users</a></li>
+                    <li><a href="{% url 'blog_create' %}" class="active">Blog</a></li>
+                    <li><a href="#manage-feedback">User Feedback</a></li>
+                    <li><a href="{% url 'create_notification' %}">Notifications</a></li>
+                    <li><a href="{% url 'logout' %}" class="logout-link">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div class="container">
+                <h1>Create a New Blog Post</h1>
+                <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                    {% csrf_token %}
+                    <!-- Title Field -->
+                    <div class="form-group">
+                        <label for="id_title">Title:</label>
+                        <input type="text" id="id_title" name="title" value="{{ form.title.value }}" required>
+                        <small id="title-error" class="error-message"></small> <!-- Error message for title -->
+                    </div>
+
+                    <!-- Content Field -->
+                    <div class="form-group">
+                        <label for="id_content">Content:</label>
+                        <textarea id="id_content" name="content" rows="10" required>{{ form.content.value }}</textarea>
+                        <small id="content-error" class="error-message"></small> <!-- Error message for content -->
+                    </div>
+
+                    <!-- Image Field -->
+                    <div class="form-group">
+                        <label for="id_image">Image:</label>
+                        <input type="file" id="id_image" name="image" accept="image/*">
+                        <small id="image-error" class="error-message"></small> <!-- Error message for image -->
+                    </div>
+
+                    <button type="submit" class="btn btn-block">Save Blog Post</button>
+                </form>
+
+                <h2 class="existing-blog-posts-heading">Existing Blog Posts</h2>
+                <div class="blogs-container">
+                    {% if blogs %}
+                        <div class="blogs-grid">
+                            {% for blog in blogs %}
+                                <div class="blog-card">
+                                    {% if blog.image %}
+                                        <div class="blog-image">
+                                            <img src="{{ blog.image.url }}" alt="Blog Image">
+                                        </div>
+                                    {% endif %}
+                                    <div class="blog-content">
+                                        <h3>{{ blog.title }}</h3>
+                                        <p>{{ blog.content|slice:":300" }}{% if blog.content|length > 300 %}...{% endif %}</p>
+                                    </div>
+                                    <div class="blog-actions">
+                                        <a href="{% url 'edit_blog' blog.blog_id %}" class="btn btn-edit">Edit</a>
+                                        <form action="{% url 'delete_blog' blog.blog_id %}" method="post" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this blog post?')">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>No blogs available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

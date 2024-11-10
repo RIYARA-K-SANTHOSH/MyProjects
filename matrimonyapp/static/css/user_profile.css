@@ -1,0 +1,171 @@
+/* Ensure the container has sufficient width */
+.container {
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 20px; /* Adjusted padding */
+    background-color: #f9f9f9; /* New container background color */
+    position: relative; /* To enable absolute positioning of inner elements if needed */
+}
+
+.header-container {
+    background-color: #cbadd1; /* Background color for the header container */
+    padding: 20px;
+    margin: 0; /* Remove default margins */
+    text-align: center; /* Center-align text */
+    width: 100vw; /* Full viewport width */
+    height: 80px; /* Set the desired height */
+    position: fixed; /* Fixed position at the top */
+    top: 0; /* Stick to the top */
+    left: 0; /* Align to the left side */
+    z-index: 1000; /* Ensure it's above other content */
+    box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+
+/* Header Title */
+.header-container h1 {
+    color: rgb(2, 2, 2); /* Dark color for the header text */
+    font-size: 28px; /* Larger font size for the header title */
+    margin: 0; /* Remove default margin */
+    font-family: 'Cursive', cursive; /* Cursive font style */
+}
+
+/* Profile and Logout Links Container */
+.header-links {
+    position: absolute; /* Absolute positioning to place it in the top-right corner */
+    top: 20px; /* Distance from the top */
+    right: 30px; /* Distance from the right */
+    display: flex; /* Display links in a row */
+    gap: 40px; /* Space between the links */
+    font-family: 'Cursive', cursive;
+}
+
+/* Profile and Logout Links */
+.header-links a {
+    color: #ffffff; /* White color for the links */
+    text-decoration: none; /* Remove underline from links */
+    font-size: 16px; /* Font size for the links */
+    font-style: italic; /* Cursive style for the links */
+    display: flex; /* Align icon and text horizontally */
+    align-items: center; /* Center icon and text vertically */
+    gap: 8px; /* Space between icon and text */
+}
+
+.header-links a:hover {
+    color: #000000; /* Change color on hover if needed */
+}
+
+.header-links i {
+    font-size: 10px; /* Size of the icons */
+}
+
+/* Profile Header */
+.profile-header {
+    background-color: #ffb6c1; /* Light pink background */
+    padding: 20px 20px; /* Increase padding to extend background color length */
+    border-radius: 0px;
+    font-family: 'Cursive', cursive; 
+    width: calc(100% + 40px); /* Extend width beyond container */
+    margin-left: -20px; /* Center-align and extend beyond container */
+    margin-right: -20px; /* Center-align and extend beyond container */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    text-align: center; /* Center-align text inside the profile header */
+    margin-top: -20px; /* Move header up */
+    margin-bottom: 40px; /* Add space between profile header and profile info */
+}
+
+/* Profile Header Title */
+.profile-header h1 {
+    color: #333; /* Dark color for the profile header title */
+    font-size: 32px; /* Larger font size for the profile header title */
+    margin: 0; /* Remove default margin */
+    font-weight: bold; /* Make the font bold */
+}
+
+/* Profile Content */
+.profile-content {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Align the content to the center */
+    flex-direction: column; /* Stack profile picture and info vertically */
+}
+
+.profile-picture {
+    margin-bottom: 20px; /* Space between picture and info */
+}
+
+.profile-picture img {
+    width: 150px; /* Adjust size as needed */
+    height: 150px; /* Adjust size as needed */
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-info {
+    text-align: left; /* Align text to the left */
+}
+
+.profile-info p {
+    font-size: 1.2rem; /* Increased font size for profile details */
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.profile-info i {
+    color: #7d7878; /* Icon color */
+    margin-right: 10px;
+    font-size: 1.0rem; /* Icon size */
+}
+
+/* Edit Button */
+.edit-btn {
+    display: block;
+    margin: 20px auto; /* Center the button */
+    padding: 10px 20px;
+    background-color: #ffb6c1; 
+    color: #000000;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1rem; /* Font size for the button */
+    transition: background-color 0.3s;
+    text-align: center; /* Center text inside the button */
+}
+
+.edit-btn:hover {
+    background-color:#e5a3ae; /* Darker blue shade for hover effect */
+}
+.footer-container {
+    background-color: #cbadd1; /* Background color for the footer */
+    padding: 20px;
+    margin: 0; /* Remove default margins */
+    margin-top: 60px; /* Increased margin-top to move footer further down */
+    text-align: center; /* Center-align text */
+    width: 100vw; /* Full width of the viewport */
+    height: 80px;
+    position: fixed; /* Fixed positioning at the bottom */
+    bottom: 0; /* Stick to the bottom of the page */
+    left: 0; /* Ensure it's aligned to the left edge */
+    right: 0; /* Ensure it's aligned to the right edge */
+    box-sizing: border-box; /* Ensure padding is included in the width */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+
+
+/* Footer Text */
+.footer-container p {
+    color: #333; /* Dark color for the footer text */
+    font-size: 16px; /* Font size for the footer text */
+    margin: 0; /* Remove default margin */
+}
+
+/* Footer Links */
+.footer-container a {
+    color: #ffffff; /* Pink color for footer links */
+    text-decoration: none; /* Remove underline from links */
+}
+
+.footer-container a:hover {
+    text-decoration: underline; /* Underline on hover for links */
+}

@@ -1,0 +1,121 @@
+/* Overall body styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9; /* Light background color */
+}
+
+/* Header Styles */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #cbadd1; /* Dark blue for header */
+    color: #ffffff; /* White text for contrast */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.header-content {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 30px;
+}
+
+.header-links {
+    display: flex;
+    gap: 30px;
+}
+
+.header-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500; /* Medium weight for text */
+    transition: color 0.3s; /* Smooth color transition */
+}
+
+.header-links a:hover {
+    color: #000000; /* Gold color on hover */
+}
+
+/* Main container styling */
+.main-container {
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* Centering the content */
+}
+
+/* Packages section styling */
+.packages-section {
+    max-width: 800px; /* Limit the width */
+    width: 100%; /* Full width */
+}
+
+/* Package cards styling */
+.package-cards {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 20px; /* Space between cards */
+}
+
+/* Individual package card styling */
+.package-card {
+    background-color: #ffffff; /* White background for cards */
+    border: 1px solid #e0e0e0; /* Light grey border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Inner padding */
+    flex: 1 1 calc(33% - 20px); /* Responsive width with a gap */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Light shadow effect */
+    transition: transform 0.3s; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for package cards */
+.package-card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+}
+
+/* Button styling */
+.package-card .payment-button {
+    background-color: #4a90e2; /* Button background color */
+    color: #fff; /* Button text color */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px; /* Rounded corners for buttons */
+    cursor: pointer; /* Pointer on hover */
+    text-align: center; /* Center text */
+    text-decoration: none; /* No underline */
+    margin-top: 10px; /* Space above the button */
+    display: inline-block; /* Inline block for button */
+}
+
+.package-card .payment-button:hover {
+    background-color: #357ab8; /* Darker blue on hover */
+}
+
+/* Toggle button styling */
+.toggle-button {
+    background-color: transparent; /* No background */
+    border: none; /* No border */
+    color: #4a90e2; /* Button color */
+    cursor: pointer; /* Pointer on hover */
+    margin-top: 10px; /* Space above the button */
+    text-decoration: underline; /* Underlined text */
+}
+
+.toggle-button:hover {
+    color: #357ab8; /* Darker color on hover */
+}
+
+/* Footer styling */
+.footer-container {
+    background-color: #cbadd1; /* Footer background color */
+    color: #fff; /* Footer text color */
+    text-align: center;
+    padding: 15px 0;
+    position: relative; /* Position relative for footer */
+    bottom: 0; /* Stay at the bottom */
+    width: 100%; /* Full width */
+}

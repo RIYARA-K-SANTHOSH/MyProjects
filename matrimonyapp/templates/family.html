@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Details</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/family.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-container">
+        <div class="logo">
+            <a href="{% url 'index' %}"><img src="" alt=""></a>
+        </div>
+        <div class="header-links">
+            <a href="{% url 'index' %}" class="nav-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="{% url 'user_profile' %}" class="nav-link">
+                <i class="fas fa-user"></i> Profile
+            </a>
+            <a href="{% url 'logout' %}" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Family Details Title and Progress Bar Container -->
+       
+            <div class="profile-header">
+                <h1>Family Details</h1>
+            </div>
+            <div class="progress-bar">
+                <div class="step">1</div>
+                <div class="step">2</div>
+                <div class="step active">3</div>
+                <div class="step">4</div>
+            </div>
+        </div>
+
+        <!-- Form Container Section -->
+        <div class="form-container">
+            <form method="post" action="{% url 'family' %}">
+                {% csrf_token %}
+                <!-- Hidden field for reg_id -->
+                <input type="hidden" name="reg_id" value="{{ user.reg_id }}">
+
+                <div class="form-section">
+                    <h2>Family Information</h2>
+
+                    <!-- Father's Details -->
+                    <div class="form-section-group">
+                        <h3>Father's Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="father_name">Father's Name *</label>
+                                <input type="text" id="father_name" name="father_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="father_occupation">Father's Occupation</label>
+                                <input type="text" id="father_occupation" name="father_occupation">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mother's Details -->
+                    <div class="form-section-group">
+                        <h3>Mother's Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="mother_name">Mother's Name *</label>
+                                <input type="text" id="mother_name" name="mother_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="mother_occupation">Mother's Occupation</label>
+                                <input type="text" id="mother_occupation" name="mother_occupation">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sibling Details -->
+                    <div class="form-section-group">
+                        <h3>Sibling Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sibling_count">Number of Siblings</label>
+                                <input type="number" id="sibling_count" name="sibling_count">
+                            </div>
+                            <div class="form-group">
+                                <label for="sibling_details">Sibling Details</label>
+                                <textarea id="sibling_details" name="sibling_details"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Family Type and Status -->
+                    <div class="form-section-group">
+                        <h3>Family Type & Status</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="family_type">Family Type *</label>
+                                <select id="family_type" name="family_type" required>
+                                    <option value="">Choose</option>
+                                    <option value="Joint">Joint</option>
+                                    <option value="Nuclear">Nuclear</option>
+                                    <option value="Extended">Extended</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="family_status">Family Status *</label>
+                                <select id="family_status" name="family_status" required>
+                                    <option value="">Choose</option>
+                                    <option value="Middle Class">Middle Class</option>
+                                    <option value="Upper Middle Class">Upper Middle Class</option>
+                                    <option value="Rich">Rich</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Family Values and Native Place -->
+                    <div class="form-section-group">
+                        <h3>Family Values & Native Place</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="family_values">Family Values *</label>
+                                <select id="family_values" name="family_values" required>
+                                    <option value="">Choose</option>
+                                    <option value="Traditional">Traditional</option>
+                                    <option value="Moderate">Moderate</option>
+                                    <option value="Liberal">Liberal</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="native_place">Native Place</label>
+                                <input type="text" id="native_place" name="native_place">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Information -->
+                    <div class="form-section-group">
+                        <h3>Additional Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="additional">Additional Information</label>
+                                <textarea id="additional" name="additional"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Save Button -->
+                    <div class="form-row">
+                        <button type="submit" class="save-btn">Save</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="profile-progress">
+                <div class="progress-rectangle">
+                    <div class="progress-circle">
+                        <span>77%</span>
+                    </div>
+                    <p>Your Profile is 77% Complete<br>(step 3 out of 4)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 YourSiteName. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

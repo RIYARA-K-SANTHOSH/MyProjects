@@ -1,0 +1,314 @@
+/* Main Container for All Details */
+.details-all-container {
+    margin: 20px auto; /* Center container horizontally */
+    padding: 20px;
+    border: 1px solid #d780a0; /* Border color matching the theme */
+    border-radius: 10px;
+    background-color: #ffffff; /* White background for the sections */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-width: 900px; /* Increased width of the section container */
+    width: 90%; /* Full width with 10% margin on each side */
+    font-family: 'Cursive', cursive; /* Cursive font style */
+}
+
+/* Section Headings */
+.details-all-container h1 {
+    font-size: 24px; /* Font size for the section headings */
+    color: #d780a0; /* Darker pink color for headings */
+    font-family: 'Cursive', cursive; /* Cursive font style */
+    margin-bottom: 20px; /* Margin below the heading */
+}
+
+/* Flexbox Layout for Rows */
+.details-row {
+    display: flex;
+    flex-wrap: wrap; /* Allow rows to wrap if necessary */
+    gap: 5px; /* Gap between each field */
+    margin-bottom: 10px; /* Increased space between rows */
+}
+
+/* Flexbox Item Styling */
+.detail-field {
+    flex: 1; /* Allows fields to take equal width */
+    margin-right: 20px; /* Space between fields in the same row */
+    line-height: 1.5;
+}
+
+/* Remove margin from the last field in each row */
+.details-row .detail-field:last-child {
+    margin-right: 0;
+}
+
+/* Heading Styling */
+.details-container h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Icons in Section Headings */
+.details-all-container i {
+    color: #d780a0; /* Icon color matching the theme */
+    margin-right: 10px; /* Space between icon and text */
+}
+
+/* Content Inside Sections */
+.details-all-container .info {
+    font-family: 'Cursive', cursive; /* Cursive font style */
+    color: #333; /* Text color */
+}
+
+.details-all-container .info p {
+    margin: 10px 0; /* Margin around each paragraph */
+    font-size: 16px; /* Font size */
+}
+
+.details-all-container .info strong {
+    color: #000000; /* Highlight color for strong text */
+}
+
+.details-all-container .info i {
+    margin-right: 8px; /* Space between icon and text */
+}
+
+/* Section Headings for Education Details and Family Details */
+.education-details-heading {
+    margin-top: 40px; /* Add space above the Education Details heading */
+}
+
+.family-details-heading {
+    margin-top: 40px; /* Add space above the Family Details heading */
+}
+
+/* Header Container */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 40px;
+    background-color: #cbadd1; /* Dark blue for header */
+    color: #ffffff; /* White text for contrast */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Header Title */
+.header-container h1 {
+    color: rgb(2, 2, 2); /* Dark color for the header text */
+    font-size: 28px; /* Larger font size for the header title */
+    margin: 0; /* Remove default margin */
+    font-family: 'Cursive', cursive; /* Cursive font style */
+}
+
+/* Profile and Logout Links Container */
+.header-links {
+    position: absolute; /* Absolute positioning to place it in the top-right corner */
+    top: 20px; /* Distance from the top */
+    right: 20px; /* Distance from the right */
+    display: flex; /* Display links in a row */
+    gap: 40px; /* Space between the links */
+    font-family: 'Cursive', cursive;
+}
+
+/* Profile and Logout Links */
+.header-links a {
+    color: #ffffff; /* White color for the links */
+    text-decoration: none; /* Remove underline from links */
+    font-size: 14px; /* Font size for the links */
+    font-style: italic; /* Cursive style for the links */
+    display: flex; /* Align icon and text horizontally */
+    align-items: center; /* Center icon and text vertically */
+    gap: 8px; /* Space between icon and text */
+}
+
+.header-links a:hover {
+    color: #000000; /* Change color on hover if needed */
+}
+
+.header-links i {
+    font-size: 14px; /* Size of the icons */
+}
+
+/* Profile Container */
+.profile-container {
+    display: flex;
+    align-items: flex-start; /* Align items at the start of the container */
+    justify-content: center; /* Center the container horizontally */
+    margin: 20px auto; /* Margin around the container */
+    padding: 30px; /* Increase padding for a larger container */
+    border: 1px solid #cbadd1; /* Border color of the container */
+    border-radius: 0px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    background-color: #ffffff; /* Light background color */
+    max-width: 700px; /* Reduced max-width of the container */
+    width: 100%; /* Full width of the container */
+    height: auto; /* Adjust height to fit content */
+    min-height: 250px; /* Minimum height for the container */
+}
+
+/* Profile Picture */
+.profile-picture {
+    flex-shrink: 0; /* Prevent the image from shrinking */
+    margin-right: 20px; /* Space between image and content */
+}
+
+.profile-picture img {
+    width: 220px; /* Width of the profile image */
+    height: 220px; /* Height of the profile image */
+    object-fit: cover; /* Cover the area with the image */
+    border: none; /* Remove border around the image */
+    border-radius: 0px; /* Rounded corners for the image */
+}
+
+/* Profile Info */
+.profile-info {
+    flex-grow: 1; /* Allow the content to grow */
+    font-family: 'Cursive', cursive; /* Cursive font style */
+    color: #333; /* Text color */
+}
+
+.profile-info p {
+    margin: 10px 0; /* Margin around each paragraph */
+    font-size: 16px; /* Font size */
+}
+
+.profile-info strong {
+    color: #000000; /* Highlight color for strong text */
+}
+
+.profile-info i {
+    margin-right: 8px; /* Space between icon and text */
+}
+
+/* Edit Button */
+.edit-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #d780a0; /* Update button background color */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 0px; /* Rounded corners for the button */
+    font-size: 16px;
+    font-family: 'Cursive', cursive;
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.edit-button i {
+    margin-right: 8px;
+}
+
+.edit-button:hover {
+    background-color: #cbadd1; /* Lighter shade on hover */
+}
+
+/* Footer Container */
+.footer-container {
+    background-color: #cbadd1; /* Light gray background for the footer */
+    padding: 20px;
+    margin-top: 40px; /* Increased margin-top to move footer further down */
+    text-align: center; /* Center-align text */
+}
+
+/* Footer Text */
+.footer-container p {
+    color: #333; /* Dark color for the footer text */
+    font-size: 14px; /* Font size for the footer text */
+    margin: 0; /* Remove default margin */
+}
+
+/* Footer Links */
+.footer-container a {
+    color: #ffffff; /* Pink color for footer links */
+    text-decoration: none; /* Remove underline from links */
+}
+
+.footer-container a:hover {
+    text-decoration: underline; /* Underline on hover for links */
+}
+
+/* Gallery Section */
+.gallery {
+    margin-top: 20px;
+}
+
+.gallery-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Space between items */
+}
+
+/* Individual Gallery Item */
+.gallery-item {
+    background-color: #f8f8f8; /* Light background for the card */
+    border: 1px solid #ddd; /* Card border */
+    border-radius: 8px; /* Rounded corners */
+    margin: 10px; /* Space around each card */
+    width: calc(30% - 20px); /* Three items per row with increased width */
+    overflow: hidden; /* Prevent overflow */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
+}
+
+/* Image Styling */
+.gallery-image {
+    width: 100%; /* Fill the card width */
+    height: 250px; /* Increased height for uniformity */
+    object-fit: cover; /* Cover the card area */
+    display: block; /* Remove any inline spacing */
+}
+
+/* Remove any default margin or padding from the image */
+.gallery-item img {
+    margin: 0; /* Remove margin */
+    padding: 0; /* Remove padding */
+}
+
+/* Caption Styling (if needed) */
+.gallery-caption {
+    display: none; /* Hide caption if not needed */
+}
+
+/* Button for adding more phone numbers */
+.add-button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #d780a0; /* Button background color */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px; /* Rounded corners */
+    font-size: 14px;
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.add-button:hover {
+    background-color: #cbadd1; /* Lighter shade on hover */
+}
+
+
+.upload-button .btn-primary {
+    display: inline-block; /* Make it an inline block */
+    padding: 10px 20px; /* Padding for the button */
+    background-color: #d780a0; /* Background color */
+    color: #fff; /* Text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    transition: none; /* Remove transition for hover effect */
+}
+/* Download PDF Button */
+.download-button {
+    margin-top: 20px; /* Space above the button */
+    text-align: center; /* Center the button */
+}
+
+.download-button .btn-primary {
+    display: inline-block; /* Make it an inline block */
+    padding: 10px 20px; /* Padding for the button */
+    background-color: #d780a0; /* Background color */
+    color: #fff; /* Text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.download-button .btn-primary:hover {
+    background-color: #cbadd1; /* Lighter shade on hover */
+}

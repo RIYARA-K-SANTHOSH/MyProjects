@@ -1,0 +1,43 @@
+<!-- matrimonypro/matrimonyapp/templates/view_messages.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages with {{ recipient.first_name }}</title>
+    <link rel="stylesheet" href="{% static 'css/profile1.css' %}">
+</head>
+<body>
+    <header class="header-container">
+        <div class="logo">
+            <a href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" alt=""></a>
+        </div>
+        <div class="header-links">
+            <a href="{% url 'index' %}" class="nav-link">Home</a>
+            <a href="{% url 'view_sent_requests' %}" class="nav-link">Sent Requests</a>
+            <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Messages with {{ recipient.first_name }}</h2>
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="message {% if message.sender == recipient %}received{% else %}sent{% endif %}">
+                    <p><strong>{{ message.sender.first_name }}:</strong> {{ message.content }}</p>
+                    <p><small>{{ message.created_at|date:"F d, Y H:i" }}</small></p>
+                </div>
+            {% empty %}
+                <p>No messages yet.</p>
+            {% endfor %}
+        </div>
+
+        <form method="POST" action="{% url 'send_message' recipient.id %}">
+            {% csrf_token %}
+            <textarea name="content" placeholder="Type your message here..." required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+</body>
+</html>

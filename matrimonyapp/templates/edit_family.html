@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <header class="header-container">
+        <div class="logo">
+            <a href="{% url 'index' %}"><img src="" alt=""></a>
+        </div>
+        <!-- Header Links -->
+        <div class="header-links">
+            <a href="{% url 'index' %}" class="nav-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+        
+            </a>
+            <a href="{% url 'logout' %}" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </header>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Family Details</title>
+    <link rel="stylesheet" href="{% static 'css/edit_family.css' %}">
+</head>
+<body>
+    <div class="form-section">
+        <h2>Edit Family Information</h2>
+        <form method="post">
+            {% csrf_token %}
+            <!-- Father's Details -->
+            <div class="form-section-group">
+                <h3>Father's Information</h3>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="father_name">Father's Name *</label>
+                        <input type="text" id="father_name" name="father_name" value="{{ family.father_name }}" required>
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="father_occupation">Father's Occupation</label>
+                        <input type="text" id="father_occupation" name="father_occupation" value="{{ family.father_occupation }}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mother's Details -->
+            <div class="form-section-group">
+                <h3>Mother's Information</h3>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="mother_name">Mother's Name *</label>
+                        <input type="text" id="mother_name" name="mother_name" value="{{ family.mother_name }}" required>
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="mother_occupation">Mother's Occupation</label>
+                        <input type="text" id="mother_occupation" name="mother_occupation" value="{{ family.mother_occupation }}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Siblings Details -->
+            <div class="form-section-group">
+                <h3>Siblings Information</h3>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="sibling_count">Number of Siblings *</label>
+                        <input type="number" id="sibling_count" name="sibling_count" value="{{ family.sibling_count }}" required>
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="sibling_details">Sibling Details</label>
+                        <textarea id="sibling_details" name="sibling_details">{{ family.sibling_details }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Family Type and Status -->
+            <div class="form-section-group">
+                <h3>Family Type & Status</h3>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="family_type">Family Type *</label>
+                        <select id="family_type" name="family_type" required>
+                            <option value="Joint" {% if family.family_type == "Joint" %}selected{% endif %}>Joint</option>
+                            <option value="Nuclear" {% if family.family_type == "Nuclear" %}selected{% endif %}>Nuclear</option>
+                            <option value="Extended" {% if family.family_type == "Extended" %}selected{% endif %}>Extended</option>
+                        </select>
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="family_status">Family Status *</label>
+                        <select id="family_status" name="family_status" required>
+                            <option value="Middle Class" {% if family.family_status == "Middle Class" %}selected{% endif %}>Middle Class</option>
+                            <option value="Upper Middle Class" {% if family.family_status == "Upper Middle Class" %}selected{% endif %}>Upper Middle Class</option>
+                            <option value="Rich" {% if family.family_status == "Rich" %}selected{% endif %}>Rich</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Family Information -->
+            <div class="form-section-group">
+                <h3>Additional Information</h3>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label for="family_values">Family Values *</label>
+                        <select id="family_values" name="family_values" required>
+                            <option value="Traditional" {% if family.family_values == "Traditional" %}selected{% endif %}>Traditional</option>
+                            <option value="Moderate" {% if family.family_values == "Moderate" %}selected{% endif %}>Moderate</option>
+                            <option value="Liberal" {% if family.family_values == "Liberal" %}selected{% endif %}>Liberal</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="nativeplace">Native Place</label>
+                        <input type="text" id="nativeplace" name="nativeplace" value="{{ family.native_place }}">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="additional">Additional Details</label>
+                        <textarea id="additional" name="additional">{{ family.additional }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <button type="submit" class="submit-button">Update Family Details</button>
+            </div>
+        </form>
+    </div>
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 Connect. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

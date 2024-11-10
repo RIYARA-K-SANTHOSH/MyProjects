@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog List</title>
+    <link rel="stylesheet" href="{% static 'css/profile1.css' %}">
+    <link rel="stylesheet" href="{% static 'css/blog_list.css' %}"> <!-- Adjust the path as needed -->
+    <script src="{% static 'js/blog_list.js' %}" defer></script> <!-- Link to external JS file -->
+</head>
+<header class="header-container">
+    <div class="logo">
+        <a href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" alt=""></a>
+    </div>
+    <!-- Header Links -->
+    <div class="header-links">
+        <a href="{% url 'index' %}" class="nav-link">
+            <i class="fas fa-home"></i> Home
+        </a>
+        
+        <a href="{% url 'logout' %}" class="nav-link">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+</header>
+<body>
+    <div class="blog-container">
+        {% for blog in blogs %}
+            <div class="notification-card">
+                <div class="blog-info">
+                    <h2>{{ blog.title }}</h2> <!-- Title at the top -->
+                </div>
+                {% if blog.image %}
+                    <div class="blog-image">
+                        <img src="{{ blog.image.url }}" alt="Blog Image" />
+                    </div>
+                {% endif %}
+                <div class="blog-info">
+                    <p class="blog-content">{{ blog.content|truncatewords:20 }}</p> <!-- Display a short version -->
+                    <div class="expanded-content" style="display: none;">
+                        <p>{{ blog.content }}</p> <!-- Full content -->
+                    </div>
+                    <button class="view-more-btn">View More <i class="fas fa-chevron-down"></i></button>
+                </div>
+            </div>
+        {% empty %}
+            <p>No blog posts available.</p>
+        {% endfor %}
+    </div>
+    
+    <footer class="footer-container">
+        <p>&copy; 2024 Connect. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

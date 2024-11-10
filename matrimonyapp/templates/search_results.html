@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="{% static 'css/profile1.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-container">
+        <div class="logo">
+            <!-- Logo here -->
+        </div>
+        <div class="header-content">
+            <div class="header-links">
+                <a href="{% url 'index' %}" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                <a href="{% url 'view_all_details' personal_id=current_user.profile.personal_id %}" class="nav-link">
+                    <i class="fas fa-user"></i> My Profile
+                </a>
+                <a href="{% url 'view_sent_requests' %}" class="nav-link"><i class="fas fa-paper-plane"></i> View Sent Requests</a>
+                <a href="{% url 'logout' %}" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+            <div class="search-bar">
+                <form action="{% url 'search_profiles' %}" method="get">
+                    <input type="text" name="query" placeholder="Search..." value="{{ query }}">
+                    <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <section class="profile-section">
+            <h2>Search Results for "{{ query }}"</h2>
+            <div class="profile-list">
+                {% for user in other_users %}
+                    <div class="profile-card">
+                        {% if user.profile_picture %}
+                            <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+                        {% else %}
+                            <img src="{% static 'images/default_profile_pic.jpg' %}" alt="Default Profile Picture">
+                        {% endif %}
+                        <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                        <p>Email: {{ user.email }}</p>
+                        <p>Phone Number: {{ user.phone_number }}</p>
+                        <p>Date of Birth: {{ user.dob }}</p>
+                        <p>Gender: {{ user.gender }}</p>
+                        <div class="button-container">
+                            <a href="{% url 'view_profile1' user.profile.personal_id %}" class="button view-profile-link">View Full Profile</a>
+                            <form action="{% url 'send_request' user.profile.personal_id %}" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="button">Send Request</button>
+                            </form>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No profiles found matching your search.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-container">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

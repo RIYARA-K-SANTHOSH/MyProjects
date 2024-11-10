@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <h1>Complete Your Payment</h1>
+    <form id="razorpay-form">
+        <input type="hidden" name="order_id" value="{{ order_id }}">
+        <input type="hidden" name="amount" value="{{ amount }}">
+        <input type="hidden" name="currency" value="{{ currency }}">
+        <button id="pay-button">Pay Now</button>
+    </form>
+
+    <script>
+        document.getElementById('pay-button').onclick = function(e) {
+            e.preventDefault();
+            var options = {
+                "key": "{{ rzp_test_VzAnpBCfnKYMnh }}", // Enter the Key ID generated from the Dashboard
+                "amount": "{{ amount }}", // Amount is in currency subunits. Default is paise. Hence, 50000 refers to 50000 paise or ₹500.
+                "currency": "{{ currency }}",
+                "name": "Connect",
+                "description": "Payment for Package",
+                "order_id": "{{ order_id }}", // Pass the `id` of the created order here
+                "handler": function (response) {
+                    // Send payment information to your server
+                    var form = document.getElementById('razorpay-form');
+                    var hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'razorpay_payment_id');
+                    hiddenInput.setAttribute('value', response.razorpay_payment_id);
+                    form.appendChild(hiddenInput);
+                    form.submit();
+                },
+                "theme": {
+                    "color": "#F37254"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        };
+    </script>
+</body>
+</html>

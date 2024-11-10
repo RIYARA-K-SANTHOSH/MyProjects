@@ -1,0 +1,25 @@
+<!-- chat_history.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat History - Matrimony Website</title>
+    <link rel="stylesheet" href="{% static 'css/chat_history.css' %}">
+</head>
+<body>
+    <section class="chat-section">
+        <h1>Chat with {{ recipient.first_name }} {{ recipient.last_name }}</h1>
+        <div class="chat-messages">
+            {% for message in chat_messages %}
+                <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                    <p><strong>{{ message.sender.first_name }}:</strong> {{ message.content }}</p>
+                    <span class="timestamp">{{ message.timestamp|date:"F d, Y H:i" }}</span>
+                </div>
+            {% endfor %}
+        </div>
+        <a href="{% url 'send_chat_message' recipient_id=recipient.reg_id %}" class="send-message-button">Send Message</a>
+    </section>
+</body>
+</html>

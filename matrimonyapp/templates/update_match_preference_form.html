@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Match Preferences</title>
+</head>
+<body>
+    <h2>Update Your Match Preferences</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label for="min_age">Minimum Age:</label>
+        <input type="number" name="min_age" value="{{ match_pref.min_age }}" required><br><br>
+
+        <label for="max_age">Maximum Age:</label>
+        <input type="number" name="max_age" value="{{ match_pref.max_age }}" required><br><br>
+
+        <label for="preferred_height">Preferred Height:</label>
+        <input type="text" name="preferred_height" value="{{ match_pref.preferred_height }}" placeholder="e.g., 5'6\""><br><br>
+
+        <label for="preferred_religion">Preferred Religion:</label>
+        <input type="text" name="preferred_religion" value="{{ match_pref.preferred_religion }}" placeholder="e.g., Hindu"><br><br>
+
+        <label for="preferred_caste">Preferred Caste:</label>
+        <input type="text" name="preferred_caste" value="{{ match_pref.preferred_caste }}" placeholder="e.g., Brahmin"><br><br>
+
+        <label for="preferred_education">Preferred Education:</label>
+        <input type="text" name="preferred_education" value="{{ match_pref.preferred_education }}" placeholder="e.g., Graduate"><br><br>
+
+        <label for="preferred_occupation">Preferred Occupation:</label>
+        <input type="text" name="preferred_occupation" value="{{ match_pref.preferred_occupation }}" placeholder="e.g., Software Engineer"><br><br>
+
+        <label for="preferred_location">Preferred Location:</label>
+        <input type="text" name="preferred_location" value="{{ match_pref.preferred_location }}" placeholder="e.g., New York"><br><br>
+
+        <label for="preferred_income">Preferred Income:</label>
+        <input type="text" name="preferred_income" value="{{ match_pref.preferred_income }}" placeholder="e.g., 50000"><br><br>
+
+        <label for="preferred_family_type">Preferred Family Type:</label>
+        <input type="text" name="preferred_family_type" value="{{ match_pref.preferred_family_type }}" placeholder="e.g., Nuclear"><br><br>
+
+        <label for="preferred_physical_status">Preferred Physical Status:</label>
+        <input type="text" name="preferred_physical_status" value="{{ match_pref.preferred_physical_status }}" placeholder="e.g., Healthy"><br><br>
+
+        <button type="submit">Update Preferences</button>
+    </form>
+</body>
+</html>

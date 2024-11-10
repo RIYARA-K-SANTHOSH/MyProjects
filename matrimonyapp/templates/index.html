@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - MatrimonyPro</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-content">
+            <div class="logo">
+                <h1>Connect</h1>
+            </div>
+            <nav class="nav-links">
+                <ul>
+                    <!-- Navigation links (if any) -->
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Registration Section -->
+    <section class="register-container">
+        <div class="register-form">
+            <div class="form-image">
+                <img src="{% static 'images/image10.jpg' %}" alt="Image Description">
+            </div>
+            <form method="post" action="{% url 'index' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-fields">
+                    <div class="form-row">
+                        <div class="input-container">
+                            <input type="text" name="first_name" placeholder="First Name" required>
+                            {% if form.first_name.errors %}
+                                <div class="error-message">{{ form.first_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-container">
+                            <input type="text" name="last_name" placeholder="Last Name" required>
+                            {% if form.last_name.errors %}
+                                <div class="error-message">{{ form.last_name.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-container">
+                            <input type="tel" name="phone_number" placeholder="Phone Number" required>
+                            {% if form.phone_number.errors %}
+                                <div class="error-message">{{ form.phone_number.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-container">
+                            <input type="date" name="dob" placeholder="Date of Birth" required>
+                            {% if form.dob.errors %}
+                                <div class="error-message">{{ form.dob.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-container">
+                            <select name="gender" required>
+                                <option value="" disabled selected>Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                            {% if form.gender.errors %}
+                                <div class="error-message">{{ form.gender.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-container">
+                            <input type="email" name="email" placeholder="Email" required>
+                            {% if form.email.errors %}
+                                <div class="error-message">{{ form.email.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-container">
+                            <input type="password" name="password" placeholder="Password" required>
+                            {% if form.password.errors %}
+                                <div class="error-message">{{ form.password.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-container">
+                            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                            {% if form.confirm_password.errors %}
+                                <div class="error-message">{{ form.confirm_password.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="input-container">
+                            <input type="file" name="profile_picture" accept="image/*">
+                            {% if form.profile_picture.errors %}
+                                <div class="error-message">{{ form.profile_picture.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <button type="submit">Register</button>
+                    <p class="login-link">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                </div>
+            </form>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2024 Connect. All rights reserved.</p>
+    </footer>
+    
+    <!-- Include JavaScript file -->
+    <script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>

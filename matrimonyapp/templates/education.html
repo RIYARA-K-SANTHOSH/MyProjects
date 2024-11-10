@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education Details</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/education.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-container">
+        <div class="logo">
+            <a href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" alt=""></a>
+        </div>
+        <!-- Header Links -->
+        <div class="header-links">
+            <a href="{% url 'index' %}" class="nav-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="{% url 'user_profile' %}" class="nav-link">
+                <i class="fas fa-user"></i> Profile
+            </a>
+            <a href="{% url 'logout' %}" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Education Details Title and Progress Bar Container -->
+        <div class="profile-header">
+            <h1>Education Details</h1>
+        </div>
+        <div class="progress-bar">
+            <div class="step">1</div>
+            <div class="step active">2</div>
+            <div class="step">3</div>
+            <div class="step">4</div>
+        </div>
+
+        <!-- Form Container Section -->
+        <div class="form-container">
+            <form method="post" action="{% url 'education' %}">
+                {% csrf_token %}
+                <!-- Hidden field for user_id -->
+                <input type="hidden" name="reg_id" value="{{ user.reg_id }}">
+
+                <div class="form-section">
+                    <h2>Education Information</h2>
+
+                    <!-- School Education -->
+                    <div class="form-section-group">
+                        <h3>School Education</h3>
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="school_name">School Name *</label>
+                                <input type="text" id="school_name" name="school_name" required>
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="school_passout_year">School Passout Year *</label>
+                                <input type="number" id="school_passout_year" name="school_passout_year" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="school_percentage">Percentage *</label>
+                                <input type="number" id="school_percentage" name="school_percentage" min="0" max="100" step="0.01" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plus Two Education -->
+                    <div class="form-section-group">
+                        <h3>Plus Two Education</h3>
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="plus_two_name">Institution Name *</label>
+                                <input type="text" id="plus_two_name" name="plus_two_name" required>
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="plus_two_passout_year">Pass-Out Year *</label>
+                                <input type="number" id="plus_two_passout_year" name="plus_two_passout_year" min="1900" max="2100" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="plus_two_percentage">Percentage *</label>
+                                <input type="number" id="plus_two_percentage" name="plus_two_percentage" min="0" max="100" step="0.01" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Higher Education (Degree) -->
+                    <div class="form-section-group">
+                        <h3>Higher Education</h3>
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="degree_institution_name">College/University Name *</label>
+                                <input type="text" id="degree_institution_name" name="degree_institution_name" required>
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="degree_passout_year">Pass-Out Year *</label>
+                                <input type="number" id="degree_passout_year" name="degree_passout_year" min="1900" max="2100" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="degree_percentage">Percentage *</label>
+                                <input type="number" id="degree_percentage" name="degree_percentage" min="0" max="100" step="0.01" required>
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="degree_name">Degree Name *</label>
+                                <input type="text" id="degree_name" name="degree_name" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="field_of_study">Field of Study</label>
+                                <input type="text" id="field_of_study" name="field_of_study">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Save Button -->
+                    <div class="form-row">
+                        <button type="submit" class="save-btn">Save</button>
+                    </div>
+                </div>
+            </form>
+            <div class="profile-progress">
+                <div class="progress-rectangle">
+                    <div class="progress-circle">
+                        <span>55%</span>
+                    </div>
+                    <p>Your Profile is 55% Complete<br>(step 2 out of 4)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 Connect. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Multiple Images</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/image_upload.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-container">
+        <div class="logo">
+            <a href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" alt=""></a>
+        </div>
+        
+        <div class="header-links">
+            <a href="{% url 'index' %}" class="nav-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="{% url 'user_profile' %}" class="nav-link">
+                <i class="fas fa-user"></i> Profile
+            </a>
+            <a href="{% url 'logout' %}" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Title -->
+        <div class="profile-header">
+            <h1>Upload Multiple Images</h1>
+        </div>
+        <div class="progress-bar">
+            <div class="step">1</div>
+            <div class="step">2</div>
+            <div class="step">3</div>
+            <div class="step active">4</div>
+
+        </div>
+
+        <!-- Image Upload Form -->
+        <div class="form-container">
+            <form method="post" enctype="multipart/form-data" action="{% url 'upload_images' user.reg_id %}">
+                {% csrf_token %}
+                <input type="hidden" name="reg_id" value="{{ user.reg_id }}">
+
+                <!-- Image Upload Fields -->
+                <div class="form-section">
+                    <h2>Image Upload</h2>
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label for="images">Select Images *</label>
+                            <input type="file" id="images" name="images" multiple required>
+                        </div>
+                    </div>
+
+                    <!-- Preview Selected Images -->
+                    <div class="form-row">
+                        <div id="image-preview"></div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-row">
+                        <button type="submit" class="upload-btn">Upload</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 Connect. All rights reserved.</p>
+        </div>
+    </footer>

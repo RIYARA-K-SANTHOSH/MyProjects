@@ -1,0 +1,29 @@
+<!-- send_message.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Message - Matrimony Website</title>
+    <link rel="stylesheet" href="{% static 'css/send_message.css' %}">
+</head>
+<body>
+    <section class="message-section">
+        <h1>Send Message to {{ recipient.first_name }} {{ recipient.last_name }}</h1>
+        <form method="POST" action="{% url 'send_message' recipient_personal_id=recipient.personal_id %}">
+            {% csrf_token %}
+            <textarea name="content" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+        
+        <div class="message-status">
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+</body>
+</html>

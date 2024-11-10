@@ -1,0 +1,296 @@
+<!-- In your view_all_details.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="{% static 'css/view_all_details.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-container">
+        <div class="logo"></div>
+        <div class="header-links">
+            <a href="{% url 'index' %}" class="nav-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="{% url 'profile1' user.reg_id %}" class="nav-link">
+                <i class="fas fa-user"></i> Profiles
+            </a>
+            <a href="{% url 'logout' %}" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Profile Section -->
+        <div class="profile-container">
+            <div class="profile-picture">
+                {% if user.profile_picture %}
+                <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+                {% else %}
+                <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture">
+                {% endif %}
+            </div>
+            <div class="profile-info">
+                <p><i class="fas fa-user"></i> <strong>First Name:</strong> {{ user.first_name }}</p>
+                <p><i class="fas fa-user"></i> <strong>Last Name:</strong> {{ user.last_name }}</p>
+                <p><i class="fas fa-phone"></i> <strong>Primary Phone Number:</strong> {{ user.phone_number }}</p>
+                <p><i class="fas fa-phone"></i> <strong>Additional Phone Numbers:</strong>
+                    {% if phone_numbers %}
+                        {% for number in phone_numbers %}
+                            {{ number.number }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        No additional phone numbers added.
+                    {% endif %}
+                </p>
+                <p><a href=" " class="add-button"><i class="fas fa-plus"></i> Add More Phone Number</a></p>
+                <p><i class="fas fa-genderless"></i> <strong>Gender:</strong> {{ user.gender }}</p>
+                <p><i class="fas fa-calendar-alt"></i> <strong>Date of Birth:</strong> {{ user.dob }}</p>
+            </div>
+        </div>
+
+        <!-- Details Container -->
+        <div class="details-all-container">
+            <!-- Personal Details Section -->
+            <div class="details-container">
+                <h1><i class="fas fa-user"></i> Personal Details</h1>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Address:</strong> {{ profile.address }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>Height:</strong> {{ profile.height }} cm
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Weight:</strong> {{ profile.weight }} kg
+                    </div>
+                    <div class="detail-field">
+                        <strong>Marital Status:</strong> {{ profile.marital_status }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Mother Tongue:</strong> {{ profile.mother_tongue }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>Religion:</strong> {{ profile.religion }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Caste:</strong> {{ profile.caste }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>Physical Status:</strong> {{ profile.physical_status }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>About:</strong> {{ profile.about }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>Spoken Language:</strong> {{ profile.spoken_language }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Age:</strong> {{ profile.age }} years
+                    </div>
+                    <div class="detail-field">
+                        <strong>Complexion:</strong> {{ profile.complexion }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Hobbies:</strong> {{ profile.hobbies }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>Occupation:</strong> {{ profile.occupation }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Annual Income:</strong> {{ profile.annual_income }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>More About Me:</strong> {{ profile.more_about_me }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <a href="{% url 'edit_personal_details' %}" class="edit-button">
+                        <i class="fas fa-edit"></i> Edit Personal Details
+                    </a>
+                </div>
+            </div>
+
+            <!-- Education Details Section -->
+            <div class="details-container">
+                <h1 class="education-details-heading"><i class="fas fa-graduation-cap"></i> Education Details</h1>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>School Name:</strong> {{ education.school_name }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>School Passout Year:</strong> {{ education.school_passout_year }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>School Percentage:</strong> {{ education.school_percentage }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>Plus Two Name:</strong> {{ education.plus_two_name }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Plus Two Passout Year:</strong> {{ education.plus_two_passout_year }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>Plus Two Percentage:</strong> {{ education.plus_two_percentage }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Degree Institution Name:</strong> {{ education.degree_institution_name }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>Degree Passout Year:</strong> {{ education.degree_passout_year }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Degree Percentage:</strong> {{ education.degree_percentage }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>Degree Name:</strong> {{ education.degree_name }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Field of Study:</strong> {{ education.field_of_study }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <a href="{% url 'edit_education' %}" class="edit-button">
+                        <i class="fas fa-edit"></i> Edit Education Details
+                    </a>
+                </div>
+            </div>
+
+            <!-- Family Details Section -->
+            <div class="details-container">
+                <h1 class="family-details-heading"><i class="fas fa-users"></i> Family Details</h1>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Father's Name:</strong> {{ family.father_name }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>Father's Occupation:</strong> {{ family.father_occupation }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Mother's Name:</strong> {{ family.mother_name }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>Mother's Occupation:</strong> {{ family.mother_occupation }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Number of Siblings:</strong> {{ family.sibling_count }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>Sibling Details:</strong> {{ family.sibling_details }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Family Type:</strong> {{ family.family_type }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>Family Status:</strong> {{ family.family_status }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Family Values:</strong> {{ family.family_values }}
+                    </div>
+                    <div class="detail-field">
+                        <strong>Native Place:</strong> {{ family.native_place }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-field">
+                        <strong>Additional Details:</strong> {{ family.additional }}
+                    </div>
+                </div>
+                <div class="details-row">
+                    <a href="{% url 'edit_family' %}" class="edit-button">
+                        <i class="fas fa-edit"></i> Edit Family Details
+                    </a>
+                </div>
+            </div>
+
+            <!-- Newly Uploaded Images Section -->
+            
+
+            <!-- Previously Uploaded Images Section -->
+ <!-- Newly Uploaded Images Section -->
+<div class="gallery">
+    <div class="gallery-row">
+        {% for image in newly_uploaded_images %}
+        <div class="gallery-item">
+            {% if image.compressed_image %}
+                <img src="{{ image.compressed_image.url }}" alt="Uploaded Image" class="gallery-image">
+            {% endif %}
+            <div class="gallery-caption">
+                <p>Uploaded at: {{ image.uploaded_at }}</p>  <!-- Display upload timestamp -->
+            </div>
+        </div>
+        {% empty %}
+        <p>No newly uploaded images yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Previously Uploaded Images Section -->
+<div class="gallery">
+    <div class="gallery-row">
+        {% for image in previously_uploaded_images %}
+        <div class="gallery-item">
+            {% if image.compressed_image %}
+                <img src="{{ image.compressed_image.url }}" alt="Compressed Image" class="gallery-image">
+            {% endif %}
+            <div class="gallery-caption">
+                <p>Uploaded at: {{ image.uploaded_at }}</p>  <!-- Display upload timestamp -->
+            </div>
+        </div>
+        {% empty %}
+        <p>No previously uploaded images yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+
+            <div class="upload-button">
+                <a href="{% url 'upload_more_image' %}" class="btn btn-primary">Upload More Images</a>
+            </div>
+
+            <div class="download-button">
+                <a href="{% url 'download_profile_pdf' profile.personal_id %}" class="btn btn-primary">Download PDF</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

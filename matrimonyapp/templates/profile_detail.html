@@ -1,0 +1,166 @@
+<!-- matrimonypro/matrimonyapp/templates/profile_detail.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Details</title>
+    <link rel="stylesheet" href="{% static 'css/profile_detail.css' %}">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <!-- Add header content here if needed -->
+    </header>
+
+    <!-- Profile Details Container -->
+    <div class="profile-details-container">
+        <section class="profile-details">
+            <h1>{{ profile.reg_id.first_name }}'s Profile</h1>
+            <h2><i class="fas fa-user"></i> Personal Details</h2>
+            <div class="info-row">
+                <div class="info-item"><strong>Address:</strong> {{ profile.address }}</div>
+                <div class="info-item"><strong>Height:</strong> {{ profile.height }} cm</div>
+            </div>
+            <div class="info-row">
+                <div class="info-item"><strong>Weight:</strong> {{ profile.weight }} kg</div>
+                <div class="info-item"><strong>Marital Status:</strong> {{ profile.marital_status }}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-item"><strong>Religion:</strong> {{ profile.religion }}</div>
+                <div class="info-item"><strong>Mother Tongue:</strong> {{ profile.mother_tongue }}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-item"><strong>Caste:</strong> {{ profile.caste }}</div>
+                <div class="info-item"><strong>Occupation:</strong> {{ profile.occupation }}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-item"><strong>Annual Income:</strong> {{ profile.annual_income }}</div>
+                <div class="info-item"><strong>Spoken Language:</strong> {{ profile.spoken_language }}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-item"><strong>More About Me:</strong> {{ profile.more_about_me }}</div>
+                <div class="info-item"><strong>Age:</strong> {{ profile.age }} years</div>
+            </div>
+            <div class="info-row">
+                <div class="info-item"><strong>Complexion:</strong> {{ profile.complexion }}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-item"><strong>About:</strong> {{ profile.about }}</div>
+                <div class="info-item"><strong>Hobbies:</strong> {{ profile.hobbies }}</div>
+            </div>
+
+            <h2><i class="fas fa-graduation-cap"></i> Education Details</h2>
+            {% if education %}
+                <div class="info-row">
+                    {% for edu in education %}
+                        <div class="info-item">
+                            <strong>Institution:</strong> {{ edu.school_name }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Degree:</strong> {{ edu.degree_name }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Field of Study:</strong> {{ edu.field_of_study }}
+                        </div>
+                        <div class="info-item">
+                            <strong>School Passout Year:</strong> {{ edu.school_passout_year }}
+                        </div>
+                        <div class="info-item">
+                            <strong>School Percentage:</strong> {{ edu.school_percentage }}%
+                        </div>
+                        <div class="info-item">
+                            <strong>Plus Two Name:</strong> {{ edu.plus_two_name }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Plus Two Passout Year:</strong> {{ edu.plus_two_passout_year }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Plus Two Percentage:</strong> {{ edu.plus_two_percentage }}%
+                        </div>
+                        <div class="info-item">
+                            <strong>Degree Institution Name:</strong> {{ edu.degree_institution_name }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Degree Passout Year:</strong> {{ edu.degree_passout_year }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Degree Percentage:</strong> {{ edu.degree_percentage }}%
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No education details available.</p>
+            {% endif %}
+
+            <h2><i class="fas fa-users"></i> Family Details</h2>
+            {% if family %}
+                <div class="info-row">
+                    {% for fam in family %}
+                        <div class="info-item">
+                            <strong>Father's Name:</strong> {{ fam.father_name }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Father's Occupation:</strong> {{ fam.father_occupation }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Mother's Name:</strong> {{ fam.mother_name }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Mother's Occupation:</strong> {{ fam.mother_occupation }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Number of Siblings:</strong> {{ fam.sibling_count }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Sibling Details:</strong> {{ fam.sibling_details }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Family Type:</strong> {{ fam.family_type }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Family Status:</strong> {{ fam.family_status }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Family Values:</strong> {{ fam.family_values }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Native Place:</strong> {{ fam.native_place }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Additional Information:</strong> {{ fam.additional }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No family details available.</p>
+            {% endif %}
+
+            <h2><i class="fas fa-images"></i> Profile Pictures</h2>
+            <div class="image-gallery">
+                {% for img in images %}
+                    <div class="image-card"> <!-- Added image card wrapper -->
+                        {% if img.compressed_image %}
+                            <img src="{{ img.compressed_image.url }}" alt="Compressed Image" class="image-item">
+                        {% else %}
+                            <p>No compressed image available.</p>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <p>No images uploaded yet.</p>
+                {% endfor %}
+            </div>
+
+            <div class="download-button">
+                <a href="{% url 'download_profile_pdf' profile.personal_id %}" class="btn btn-primary">Download PDF</a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Your Matrimony Website</p>
+    </footer>
+</body>
+</html>

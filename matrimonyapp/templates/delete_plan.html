@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Membership Plan</title>
+    <link rel="stylesheet" href="{% static 'css/adminmain.css' %}">
+    <link rel="stylesheet" href="{% static 'css/delete_plan.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'review_users' %}">Users</a></li>
+                    <li><a href="{% url 'add_plan' %}">Add Plan</a></li>
+                    <li><a href="{% url 'view_plans' %}">View Plans</a></li>
+                    <li><a href="{% url 'blog_create' %}">Blogs</a></li>
+                    <li><a href="#manage-feedback">User Feedback</a></li>
+                    <li><a href="{% url 'create_notification' %}">Notifications</a></li>
+                    <li><a href="{% url 'logout' %}" class="logout-link">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div class="container">
+                <h1>Delete Membership Plan</h1>
+                <form method="post" class="delete-plan-form">
+                    {% csrf_token %}
+                    <p>Are you sure you want to delete the membership plan "{{ plan.plan_name }}"?</p>
+                    <button type="submit" class="btn-danger">Delete Plan</button>
+                    <a href="{% url 'view_plans' %}" class="btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

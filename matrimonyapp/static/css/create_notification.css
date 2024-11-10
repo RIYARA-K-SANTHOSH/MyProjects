@@ -1,0 +1,297 @@
+/* Basic Reset */
+body, h2, ul, li, table, th, td {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px; /* Width of the sidebar */
+    background-color: #2c3e50; /* Matching background color */
+    color: #fff;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #ddd; /* Optional: border to separate sidebar from content */
+    position: relative; /* Use relative positioning */
+}
+
+/* Sidebar Heading */
+.sidebar h2 {
+    margin-bottom: 20px;
+    font-size: 1.5em; /* Font size for the sidebar heading */
+    font-weight: normal; /* Make heading not bold */
+}
+
+/* Navigation */
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Enable Flexbox */
+    flex-direction: column; /* Stack items vertically */
+}
+
+.sidebar nav ul li {
+    margin: 10px 0; /* Space between each item */
+}
+
+.sidebar nav ul li a {
+    color: #fff; /* White text color */
+    text-decoration: none;
+    font-size: 1.1em; /* Font size for the links */
+    padding: 10px 15px;
+    display: block;
+    background-color: #34495e; /* Slightly different gray for links */
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: normal; /* Remove boldness from links */
+}
+
+.sidebar nav ul li a:hover,
+.sidebar nav ul li a.active {
+    background-color: #3498db; /* Blue background on hover */
+    color: #fff; /* White text on hover */
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    margin-left: 250px; /* Adjust margin-left to accommodate the sidebar width */
+    max-width: 1200px; /* Set a maximum width for the content */
+}
+
+/* Form Styles */
+form {
+    width: 100%; /* Full width of the container */
+    max-width: 900px; /* Increased maximum width of the form */
+    margin: 0 auto; /* Center the form horizontally */
+}
+
+/* Main Content Heading */
+.main-content h1 {
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    color: #2c3e50;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+/* General Styles for Action Buttons */
+.btn {
+    display: inline-block; /* Inline-block for button layout */
+    padding: 8px 16px; /* Padding inside the buttons */
+    font-size: 0.9em; /* Font size for buttons */
+    color: #fff; /* White text color */
+    text-decoration: none; /* Remove underline from links */
+    border-radius: 4px; /* Rounded corners */
+    margin: 0 5px; /* Margin between buttons */
+    text-align: center; /* Center text inside buttons */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, opacity 0.3s; /* Smooth transition for hover effects */
+    border: none; /* Remove border from buttons */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Primary button color */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-delete {
+    background-color: #e74c3c; /* Red background for delete button */
+}
+
+.btn:hover {
+    opacity: 0.8; /* Slightly transparent on hover */
+}
+
+.btn:active {
+    opacity: 0.6; /* More transparent when button is clicked */
+}
+
+.btn:focus {
+    outline: 2px solid #000; /* Outline for focus state */
+    outline-offset: 2px; /* Offset to ensure visibility */
+}
+
+/* Responsive Form Width */
+@media (max-width: 1200px) {
+    form {
+        max-width: 80%; /* Adjust width for smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    form {
+        max-width: 100%; /* Full width on very small screens */
+    }
+}
+
+/* General container for blogs */
+.blogs-container {
+    margin-top: 40px;
+    margin-left: 0; /* Remove left margin for blogs container */
+}
+
+/* Grid layout for blog cards */
+.blogs-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between blog cards */
+}
+
+/* Individual blog card */
+.blog-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    width: calc(50% - 20px); /* Adjust width to be larger */
+    max-width: 600px; /* Maximum width of blog card */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: box-shadow 0.3s;
+    margin-left: 0; /* Remove left margin */
+}
+
+/* Blog image section */
+.blog-image {
+    width: 100%;
+    height: 150px; /* Reduced height for the image section */
+    overflow: hidden; /* Hide overflow to keep aspect ratio */
+    display: flex; /* Flexbox to center the image */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+}
+
+.blog-image img {
+    max-width: 100%; /* Restrict image width to the container */
+    max-height: 100%; /* Restrict image height to the container */
+    object-fit: cover; /* Ensure image covers the container without distortion */
+}
+
+/* Blog content section */
+.blog-content {
+    padding: 15px; /* Adjust padding for better spacing */
+}
+
+.blog-content h3 {
+    margin-top: 0;
+    font-size: 1.4em; /* Adjust font size for title */
+    color: #2c3e50;
+}
+
+.blog-content p {
+    margin: 10px 0 0;
+    color: #555;
+}
+
+/* Hover effect for blog cards */
+.blog-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive design for blog cards */
+@media (max-width: 768px) {
+    .blog-card {
+        width: 100%; /* Full width on smaller screens */
+        margin-left: 0; /* Remove left margin on smaller screens */
+    }
+}
+
+/* Existing Blog Posts Heading */
+.existing-blog-posts-heading {
+    margin-top: 40px; /* Increase the top margin to move the heading further down */
+    margin-bottom: 20px; /* Space below the heading */
+    font-size: 1.6em; /* Optional: Adjust font size if needed */
+    color: #2c3e50; /* Heading color */
+}
+
+/* General container for blogs */
+.blogs-container {
+    margin-top: 20px; /* Space between heading and blogs container */
+    margin-left: 0; /* Remove left margin for blogs container */
+}
+
+/* Container for buttons */
+.button-container {
+    display: flex; /* Use Flexbox */
+    justify-content: center; /* Center the button horizontally */
+    margin-top: 20px; /* Space above the button, adjust as needed */
+}
+/* Notifications Container */
+.notifications-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Notifications Table */
+.notifications-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.notifications-container th,
+.notifications-container td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.notifications-container th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.notifications-container tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.notifications-container tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+

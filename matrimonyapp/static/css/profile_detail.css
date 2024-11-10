@@ -1,0 +1,124 @@
+/* Existing CSS */
+body {
+    font-family: 'Cursive', cursive; /* Use a cursive font */
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+header {
+    background-color: #ffcccb;
+    padding: 20px;
+    text-align: center;
+    color: #333;
+}
+
+h1 {
+    margin: 0;
+    text-align: center;
+}
+
+.profile-details-container {
+    max-width: 900px; /* Reduce the max-width of the container */
+    margin: 0 auto;
+    padding: 15px; /* Reduce padding */
+}
+
+.profile-details {
+    background-color: #fff;
+    padding: 15px; /* Reduce padding */
+    border-radius: 8px;
+    border: 2px solid #ffcccb; /* Add border with color #ffcccb */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: -3px; /* Reduce bottom margin for tighter spacing */
+}
+
+.info-item {
+    flex: 1 1 48%; /* Adjust width to fit better */
+    padding: 5px; /* Reduce padding */
+    box-sizing: border-box;
+    margin-right: 2%; /* Add small margin to the right */
+}
+
+.info-item:nth-child(even) {
+    margin-right: 0; /* Remove margin for even items to align properly */
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+}
+
+.info-item strong {
+    margin-right: 10px; /* Space between label and value */
+    display: inline; /* Ensure the label does not break to a new line */
+}
+
+.info-item span {
+    display: inline; /* Ensure the value does not break to a new line */
+}
+
+footer {
+    background-color: #ffcccb;
+    padding: 10px;
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
+}
+
+/* New CSS for icon color */
+h2 i {
+    color: #d780a0; /* Apply color to Font Awesome icons */
+    margin-right: 8px; /* Space between icon and text */
+}
+h2  {
+    color: #d780a0;
+}
+
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Space between cards */
+}
+
+.image-card {
+    background-color: #fff; /* Card background color */
+    border: 1px solid #ddd; /* Card border */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    overflow: hidden; /* Prevent overflow */
+    width: 120px; /* Card width */
+    text-align: center; /* Center content */
+}
+
+.image-card .image-item {
+    width: 100%; /* Full width of the card */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure the image covers the card area */
+}
+
+/* Download PDF Button */
+.download-button {
+    margin-top: 20px; /* Space above the button */
+    text-align: center; /* Center the button */
+}
+
+.download-button .btn-primary {
+    display: inline-block; /* Make it an inline block */
+    padding: 10px 20px; /* Padding for the button */
+    background-color: #d780a0; /* Background color */
+    color: #fff; /* Text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.download-button .btn-primary:hover {
+    background-color: #cbadd1; /* Lighter shade on hover */
+}

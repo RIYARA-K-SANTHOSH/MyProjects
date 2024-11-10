@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Package</title>
+    <link rel="stylesheet" href="{% static 'css/package_create.css' %}">
+    <link rel="stylesheet" href="{% static 'css/adminmain.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'review_users' %}">Users</a></li>
+                    <li><a href="{% url 'blog_create' %}">Blogs</a></li>
+                    <li><a href="{% url 'package_create' %}">Package</a></li>
+                    <li><a href="#manage-feedback">User Feedback</a></li>
+                    <li><a href="{% url 'create_notification' %}">Notification</a></li>
+                    <li><a href="{% url 'logout' %}" class="logout-link">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <h1>Edit Package</h1>
+            
+            <form method="post">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <th><label for="name">Name:</label></th>
+                        <td>
+                            <input type="text" id="name" name="name" value="{{ package.name }}" required>
+                            <span class="error"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="price">Price:</label></th>
+                        <td>
+                            <input type="number" id="price" name="price" step="0.01" value="{{ package.price }}" required>
+                            <span class="error"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="description">Description:</label></th>
+                        <td>
+                            <textarea id="description" name="description" required>{{ package.description }}</textarea>
+                            <span class="error"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="duration_days">Duration (days):</label></th>
+                        <td>
+                            <input type="number" id="duration_days" name="duration_days" value="{{ package.duration_days }}" required>
+                            <span class="error"></span>
+                        </td>
+                    </tr>
+                </table>
+                <button type="submit" class="btn">Update Package</button>
+            </form>
+            
+            <a href="{% url 'view_packages' %}" class="btn view-packages-btn">Back to Packages</a>
+        </main>
+    </div>
+
+    <script src="{% static 'js/package_create_validation.js' %}"></script>
+</body>
+</html>

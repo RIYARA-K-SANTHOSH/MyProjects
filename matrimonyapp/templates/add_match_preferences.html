@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Match Preferences</title>
+    <link rel="stylesheet" href="{% static 'css/match_preferences.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Add Your Match Preferences</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <label for="min_age">Minimum Age:</label>
+            <input type="number" name="min_age" required><br>
+
+            <label for="max_age">Maximum Age:</label>
+            <input type="number" name="max_age" required><br>
+
+            <label for="preferred_height">Preferred Height:</label>
+            <input type="text" name="preferred_height" placeholder="e.g., 5'6\""><br>
+
+            <label for="preferred_religion">Preferred Religion:</label>
+            <input type="text" name="preferred_religion" placeholder="e.g., Hindu"><br>
+
+            <label for="preferred_caste">Preferred Caste:</label>
+            <input type="text" name="preferred_caste" placeholder="e.g., Brahmin"><br>
+
+            <label for="preferred_education">Preferred Education:</label>
+            <input type="text" name="preferred_education" placeholder="e.g., Graduate"><br>
+
+            <label for="preferred_occupation">Preferred Occupation:</label>
+            <input type="text" name="preferred_occupation" placeholder="e.g., Software Engineer"><br>
+
+            <label for="preferred_location">Preferred Location:</label>
+            <input type="text" name="preferred_location" placeholder="e.g., New York"><br>
+
+            <label for="preferred_income">Preferred Income:</label>
+            <input type="text" name="preferred_income" placeholder="e.g., 50000"><br>
+
+            <label for="preferred_family_type">Preferred Family Type:</label>
+            <input type="text" name="preferred_family_type" placeholder="e.g., Nuclear"><br>
+
+            <label for="preferred_physical_status">Preferred Physical Status:</label>
+            <input type="text" name="preferred_physical_status" placeholder="e.g., Healthy"><br>
+
+            <button type="submit">Save Preferences</button>
+        </form>
+
+        <br>
+
+        <!-- Link to view the matching profiles -->
+        <a href="{% url 'matching_profiles' %}">
+            <button class="view-matches-btn">View Matching Profiles</button>
+        </a>
+    </div>
+</body>
+</html>

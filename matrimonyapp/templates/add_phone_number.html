@@ -1,0 +1,41 @@
+<!-- matrimonypro/matrimonyapp/templates/add_phone_number.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Phone Number</title>
+    <link rel="stylesheet" href="{% static 'css/view_all_details.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-container">
+        <div class="logo"></div>
+        <div class="header-links">
+            <a href="{% url 'index' %}" class="nav-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+          
+            <a href="{% url 'logout' %}" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Add Phone Number</h1>
+        <form action="{% url 'add_phone_number' %}" method="POST">
+            {% csrf_token %}
+            <div>
+                <label for="phone_number">Phone Number:</label>
+                <input type="text" name="phone_number" id="phone_number" placeholder="Enter new phone number" required>
+            </div>
+            <button type="submit" class="upload-button">Add Number</button>
+        </form>
+       
+    </div>
+</body>
+</html>

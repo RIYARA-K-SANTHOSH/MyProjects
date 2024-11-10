@@ -1,0 +1,79 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Friend Request</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Send Friend Request</h1>
+
+        {% if user.is_authenticated %}
+            <h2>Send a friend request to {{ recipient.first_name }} {{ recipient.last_name }}</h2>
+            <p>Email: {{ recipient.email }}</p>
+            <p>Phone Number: {{ recipient.phone_number }}</p>
+
+            <form action="{% url 'send_friend_request' recipient.reg_id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="send-request-button">Send Request</button>
+            </form>
+
+            <div class="messages">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+        {% else %}
+            <p>You need to be logged in to send a friend request.</p>
+        {% endif %}
+    </div>
+
+    <style>
+        /* Add your styles here or link to an external CSS file */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .send-request-button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .send-request-button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .message.info {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+    </style>
+</body>
+</html>

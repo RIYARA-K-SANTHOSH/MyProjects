@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Packages</title>
+    <link rel="stylesheet" href="{% static 'css/view_packages.css' %}">
+    <link rel="stylesheet" href="{% static 'css/adminmain.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'review_users' %}">Users</a></li>
+                    <li><a href="{% url 'blog_create' %}">Blogs</a></li>
+                    <li><a href="{% url 'package_create' %}">Package</a></li>
+                    <li><a href="#manage-feedback">User Feedback</a></li>
+                    <li><a href="{% url 'create_notification' %}">Notification</a></li>
+                    <li><a href="{% url 'logout' %}" class="logout-link">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <h1>View Packages</h1>
+            <div class="package-container">
+                {% for package in packages %}
+                <div class="package-card">
+                    <h2>{{ package.name }}</h2>
+                    <p class="price">₹{{ package.price }}</p>
+                    <p class="duration">{{ package.duration_days }} days</p>
+                    <p class="description">
+                        <span class="short-description">{{ package.description|truncatechars:100 }}</span>
+                        <span class="full-description" style="display: none;">{{ package.description }}</span>
+                    </p>
+                    <div class="card-actions">
+                        <button class="view-more-btn">View More <i class="fas fa-arrow-right"></i></button>
+                        <a href="{% url 'edit_package' package.id %}" class="edit-btn">Edit</a>
+                        <a href="{% url 'delete_package' package.id %}" class="delete-btn">Delete</a>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="no-packages">No packages available.</p>
+                {% endfor %}
+            </div>
+            <a href="{% url 'package_create' %}" class="create-package-btn">Create New Package</a>
+        </main>
+    </div>
+
+    <script>
+  
+ 
+        document.querySelectorAll('.view-more-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const card = this.closest('.package-card');
+                const shortDesc = card.querySelector('.short-description');
+                const fullDesc = card.querySelector('.full-description');
+                
+                if (shortDesc.style.display !== 'none') {
+                    shortDesc.style.display = 'none';
+                    fullDesc.style.display = 'inline';
+                    this.innerHTML = 'View Less <i class="fas fa-arrow-up"></i>';
+                } else {
+                    shortDesc.style.display = 'inline';
+                    fullDesc.style.display = 'none';
+                    this.innerHTML = 'View More <i class="fas fa-arrow-right"></i>';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

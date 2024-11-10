@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Family Details</title>
+    <link rel="stylesheet" href="{% static 'css/add_family_details.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Add Family Details</h1>
+        <form method="post">
+            {% csrf_token %}
+            <label for="father_name">Father's Name:</label>
+            <input type="text" id="father_name" name="father_name" required>
+            
+            <label for="father_occupation">Father's Occupation:</label>
+            <input type="text" id="father_occupation" name="father_occupation">
+            
+            <label for="mother_name">Mother's Name:</label>
+            <input type="text" id="mother_name" name="mother_name" required>
+            
+            <label for="mother_occupation">Mother's Occupation:</label>
+            <input type="text" id="mother_occupation" name="mother_occupation">
+            
+            <label for="sibling_count">Number of Siblings:</label>
+            <input type="number" id="sibling_count" name="sibling_count">
+            
+            <label for="sibling_details">Sibling Details:</label>
+            <textarea id="sibling_details" name="sibling_details"></textarea>
+            
+            <label for="family_type">Family Type:</label>
+            <select id="family_type" name="family_type" required>
+                <option value="Joint">Joint</option>
+                <option value="Nuclear">Nuclear</option>
+                <option value="Extended">Extended</option>
+            </select>
+            
+            <label for="family_status">Family Status:</label>
+            <select id="family_status" name="family_status" required>
+                <option value="Middle Class">Middle Class</option>
+                <option value="Upper Middle Class">Upper Middle Class</option>
+                <option value="Rich">Rich</option>
+            </select>
+            
+            <label for="family_values">Family Values:</label>
+            <select id="family_values" name="family_values" required>
+                <option value="Traditional">Traditional</option>
+                <option value="Moderate">Moderate</option>
+                <option value="Liberal">Liberal</option>
+            </select>
+            
+            <label for="nativeplace">Native Place:</label>
+            <input type="text" id="nativeplace" name="nativeplace">
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

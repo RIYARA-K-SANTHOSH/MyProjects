@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Notification</title>
+    <link rel="stylesheet" href="{% static 'css/adminmain.css' %}">
+    <link rel="stylesheet" href="{% static 'css/create_notification.css' %}">
+    <script src="{% static 'js/notification.js' %}" defer></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'review_users' %}">Users</a></li>
+                    <li><a href="{% url 'blog_create' %}">Blog</a></li>
+                    <li><a href="#manage-feedback">User Feedback</a></li>
+                    <li><a href="{% url 'create_notification' %}" class="active">Notifications</a></li>
+                    <li><a href="{% url 'logout' %}" class="logout-link">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div class="container">
+                <h1>Create a Notification</h1>
+                <form id="notificationForm" method="post" action="{% url 'create_notification' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" required>
+                        <span id="title-error" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                        <span id="message-error" class="error-message"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Notification</button>
+                </form>
+
+                <div class="notifications-container">
+                    <h2>Notification List</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Message</th>
+                                <th>Date Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for notification in notifications %}
+                            <tr>
+                                <td>{{ notification.title }}</td>
+                                <td>{{ notification.message }}</td>
+                                <td>{{ notification.date_created }}</td>
+                                <td>
+                                    <form method="post" action="{% url 'delete_notification' notification.notification_id %}" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4">No notifications available.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

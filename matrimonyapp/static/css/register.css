@@ -1,0 +1,184 @@
+/* General styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Header styling */
+.site-header {
+    background:#cbadd1;
+    color: #fff;
+    padding: 20px 40px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 24px;
+    font-family: 'Cursive', cursive; /* Apply cursive font */
+}
+
+/* Navigation links styling */
+.nav-links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 10px;
+}
+
+.nav-links li {
+    margin: 0;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+/* Hero image section */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 80px);
+    background: url("{% static 'images/image10.jpg' %}") no-repeat center center/cover;
+    background-attachment: fixed;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Form container */
+.register-form {
+    display: flex;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1000px;
+    flex-direction: row;
+    box-sizing: border-box;
+}
+
+/* Image styling */
+.form-image {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.form-image img {
+    width: 100%;
+    max-width: 500px;
+    height: 600px;
+    object-fit: cover;
+    border: 0px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Form fields container */
+.form-fields {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 100%;
+}
+
+/* Form row styling */
+.form-row {
+    position: relative; /* Position relative for absolute positioning of error messages */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Input fields and select styling */
+.input-container {
+    position: relative; /* Position relative to place error messages absolutely */
+}
+
+.input-container input, 
+.input-container select {
+    width: 100%;
+    max-width: 500px;
+    height: 35px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Error message styling */
+.error-message {
+    color: red;
+    font-size: 12px;
+    position: absolute;
+    top: 100%; /* Position below the input field */
+    left: 0;
+    margin-top: 5px;
+}
+
+/* Button styling */
+button {
+    background-color: pink;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #ff69b4;
+}
+
+/* Login link styling */
+.login-link {
+    text-align: center;
+}
+
+.login-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: none;
+}
+
+/* Footer styling */
+footer {
+    text-align: center;
+    padding: 20px;
+    background:#cbadd1;
+    color: #fff;
+    margin-top: 40px;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .register-form {
+        flex-direction: column;
+    }
+
+    .form-image {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+}

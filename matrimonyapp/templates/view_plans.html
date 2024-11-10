@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Membership Plans</title>
+    <link rel="stylesheet" href="{% static 'css/adminmain.css' %}">
+    <link rel="stylesheet" href="{% static 'css/view_plans.css' %}">
+</head>
+<body class="view-plans">
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'review_users' %}">Users</a></li>
+                    <li><a href="{% url 'add_plan' %}">Add Plan</a></li>
+                    <li><a href="{% url 'view_plans' %}" class="active">View Plans</a></li>
+                    <li><a href="{% url 'blog_create' %}">Blogs</a></li>
+                    <li><a href="#manage-feedback">User Feedback</a></li>
+                    <li><a href="{% url 'create_notification' %}">Notifications</a></li>
+                    <li><a href="{% url 'logout' %}" class="logout-link">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div class="container">
+                <h1>Existing Membership Plans</h1>
+                <div class="plans-container">
+                    {% if plans %}
+                        {% for plan in plans %}
+                            <div class="plan-card">
+                                <h3>{{ plan.plan_name }}</h3>
+                                <p><strong>Details:</strong> {{ plan.plan_details }}</p>
+                                <p><strong>Price (in Rs):</strong> {{ plan.price }}</p>
+                                <p><strong>Duration (months):</strong> {{ plan.duration_months }}</p>
+                                <div class="plan-actions">
+                                    <form action="{% url 'edit_plan' plan.plan_id %}" method="get" style="display:inline;">
+                                        <button type="submit" class="edit-btn">Edit</button>
+                                    </form>
+                                    <form action="{% url 'delete_plan' plan.plan_id %}" method="post" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="delete-btn">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <p>No membership plans available.</p>
+                        {% endfor %}
+                    {% else %}
+                        <p>No membership plans available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

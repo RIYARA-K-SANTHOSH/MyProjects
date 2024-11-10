@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matching Profiles</title>
+    <link rel="stylesheet" href="{% static 'css/match_preferences.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Matching Profiles</h2>
+
+        {% if matching_profiles %}
+            <div class="profiles">
+                {% for profile, score in matching_profiles %}
+                    <div class="profile-card">
+                        <h3>{{ profile.user.username }}</h3>
+                        <p><strong>Age:</strong> {{ profile.age }}</p>
+                        <p><strong>Height:</strong> {{ profile.height }}</p>
+                        <p><strong>Religion:</strong> {{ profile.religion }}</p>
+                        <p><strong>Caste:</strong> {{ profile.caste }}</p>
+                        <p><strong>Education:</strong> {{ profile.education }}</p>
+                        <p><strong>Occupation:</strong> {{ profile.occupation }}</p>
+                        <p><strong>Location:</strong> {{ profile.location }}</p>
+                        <p><strong>Income:</strong> {{ profile.income }}</p>
+                        <p><strong>Family Type:</strong> {{ profile.family_type }}</p>
+                        <p><strong>Physical Status:</strong> {{ profile.physical_status }}</p>
+                        <p><strong>Match Score:</strong> {{ score }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No matching profiles found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrimony Website</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+    <div class="main-container">
+        <div class="image-container">
+            <div class="header-overlay">
+                <div class="site-name"></div> <!-- Site Name -->
+                <nav>
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#stories" class="nav-link">Our Stories</a>
+                    <a href="{% url 'packages' %}" class="nav-link">Packages</a>
+                    <a href="{% url 'view_all_details' %}" class="nav-link">My Profile</a> <!-- Link to Profile Page -->
+                </nav>
+            </div>
+        </div>
+
+        <div class="content-container">
+            <h1>Find someone you love</h1>
+            <p>Find your perfect match and start your new journey together.</p>
+        </div>
+
+        <div class="cards-container">
+            <div class="card">
+                <img src="{% static 'images/img1.png' %}" alt="Signup">
+                <h2>Signup</h2>
+                <p>Join us today and start your journey.</p>
+                <a href="#signup" class="btn">Sign Up</a>
+            </div>
+            <div class="card">
+                <img src="{% static 'images/img1.png' %}" alt="Connect">
+                <h2>Connect</h2>
+                <p>Connect with potential matches and start meaningful conversations.</p>
+                <a href="#connect" class="btn">Connect</a>
+            </div>
+            <div class="card">
+                <img src="{% static 'images/img1.png' %}" alt="Interact">
+                <h2>Interact</h2>
+                <p>Interact with your matches and explore new possibilities.</p>
+                <a href="#interact" class="btn">Interact</a>
+            </div>
+        </div>
+
+        <div id="about" class="about-container">
+            <h2>About Us</h2>
+            <p>
+                Welcome to our Matrimony website, where we are committed to helping you find your perfect life partner.
+                Our platform is designed to provide a seamless and enjoyable experience for individuals seeking meaningful relationships.
+                Our mission is to bring people together in a way that fosters genuine connections and long-lasting relationships. We understand that finding the right partner is a deeply personal journey, and we are here to support you every step of the way.
+                Founded by a team of passionate individuals, our website emerged from the desire to create a more meaningful and personalized matchmaking experience. With years of experience in the industry, we have built a platform that combines technology and empathy to assist you in finding your ideal partner.
+                Whether you are new to online matrimony or looking for a fresh start, we invite you to join our community. Explore the diverse profiles of individuals who share your values and aspirations, and take the first step towards building a fulfilling relationship.
+                Thank you for choosing us as your partner in this important journey. We look forward to helping you find the love and companionship you deserve.
+            </p>
+        </div>
+
+        <div id="stories" class="stories-container">
+            <h2>Our Stories</h2>
+            <div class="stories-cards">
+                <div class="story-card">
+                    <img src="{% static 'images/image6.jpg' %}" alt="Client 1">
+                    <h3>Emma & John</h3>
+                    <p>"I am incredibly grateful for this platform. It helped me find my soulmate, John. Our journey together has been nothing short of magical. Thank you for bringing us together!"</p>
+                </div>
+                <div class="story-card">
+                    <img src="{% static 'images/image3.jpg' %}" alt="Client 2">
+                    <h3>Alice & Robert</h3>
+                    <p>"Our experience with this matrimony site was exceptional. Alice and I connected instantly, and now we are happily married. We appreciate the thoughtful matchmaking process!"</p>
+                </div>
+                <div class="story-card">
+                    <img src="{% static 'images/image4.jpg' %}" alt="Client 3">
+                    <h3>Linda & Michael</h3>
+                    <p>"This platform gave me the chance to meet Michael, who has become the love of my life. The support and options provided were excellent. We couldn't be happier!"</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="packages" class="packages-container">
+            <h2>Membership Packages</h2>
+            <div class="package-cards">
+                {% for package in packages %}
+                    <div class="package-card">
+                        <h3>{{ package.name }}</h3>
+                        <p>{{ package.description }}</p>
+                        <p><strong>Price:</strong> ₹{{ package.price }}</p>
+                        <p><strong>Duration:</strong> {{ package.duration_days }} days</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

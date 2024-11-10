@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-container">
+        <div class="logo">
+            <a href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" alt=""></a>
+        </div>
+        <!-- Header Links -->
+        <div class="header-links">
+            <a href="{% url 'index' %}" class="nav-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="{% url 'profile' %}" class="nav-link">
+                <i class="fas fa-user"></i> Details
+            </a>
+            <a href="{% url 'logout' %}" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="profile-container">
+            <div class="profile-header">
+                <h1>Edit Profile</h1>
+            </div>
+            <div class="profile-content">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="profile-picture">
+                        {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+                        {% else %}
+                        <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture">
+                        {% endif %}
+                        <input type="file" name="profile_picture">
+                    </div>
+                    <div class="profile-info">
+                        <label for="first_name"><i class="fas fa-user"></i> First Name:</label>
+                        <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}">
+                        
+                        <label for="last_name"><i class="fas fa-user"></i> Last Name:</label>
+                        <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}">
+                        
+                        <label for="phone_number"><i class="fas fa-phone"></i> Phone Number:</label>
+                        <input type="text" id="phone_number" name="phone_number" value="{{ user.phone_number }}">
+                        
+                        <label for="gender"><i class="fas fa-genderless"></i> Gender:</label>
+                        <select id="gender" name="gender">
+                            <option value="male" {% if user.gender == "male" %}selected{% endif %}>Male</option>
+                            <option value="female" {% if user.gender == "female" %}selected{% endif %}>Female</option>
+                            <option value="other" {% if user.gender == "other" %}selected{% endif %}>Other</option>
+                        </select>
+                        
+                        <label for="dob"><i class="fas fa-calendar-alt"></i> Date of Birth:</label>
+                        <input type="date" id="dob" name="dob" value="{{ user.dob|date:'Y-m-d' }}">
+                    </div>
+                    <button type="submit">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 Connect. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="{% static 'js/profile_validation.js' %}"></script>
+
+</body>
+</html>

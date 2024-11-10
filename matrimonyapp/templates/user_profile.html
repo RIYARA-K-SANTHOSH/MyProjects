@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Profiles</title>
+    <link rel="stylesheet" href="{% static 'css/profile1.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-container">
+        <div class="logo">
+            <!-- Logo here -->
+        </div>
+        <div class="header-links">
+            <a href="{% url 'index' %}" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="{% url 'view_all_details' personal_id=current_user.reg_id %}" class="nav-link"><i class="fas fa-user"></i> My Profile</a>
+            <a href="{% url 'view_received_requests' personal_id=current_user.profile.personal_id %}" class="nav-link"><i class="fas fa-inbox"></i> View Received Requests</a>
+            <a href="{% url 'view_sent_requests' %}" class="nav-link"><i class="fas fa-paper-plane"></i> Sent Requests</a>
+            <a href="{% url 'package' %}" class="nav-link"><i class="fas fa-gift"></i> Packages</a>
+            <a href="{% url 'logout' %}" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+        <div class="search-bar">
+            <form action="{% url 'profile1' reg_id=current_user.reg_id %}" method="get">
+                <input type="text" name="query" placeholder="Search by name..." value="{{ search_query }}">
+                <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Profile Section on Left Side -->
+        <aside class="profile-content">
+            <div class="profile-picture">
+                {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+                {% else %}
+                    <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture">
+                {% endif %}
+            </div>
+            <div class="profile-info">
+                <p><i class="fas fa-user"></i> <strong>First Name:</strong> {{ user.first_name }}</p>
+                <p><i class="fas fa-user"></i> <strong>Last Name:</strong> {{ user.last_name }}</p>
+                <p><i class="fas fa-phone"></i> <strong>Phone Number:</strong> {{ user.phone_number }}</p>
+                <p><i class="fas fa-genderless"></i> <strong>Gender:</strong> {{ user.gender }}</p>
+                <p><i class="fas fa-calendar-alt"></i> <strong>Date of Birth:</strong> {{ user.dob }}</p>
+            </div>
+        </aside>
+
+        <!-- Profile List on Right Side -->
+        <section class="profile-list-section">
+            {% if search_query %}
+                <h2>Search Results for "{{ search_query }}"</h2>
+            {% endif %}
+            <div class="profile-list">
+                {% for user in other_users %}
+                    <div class="profile-card">
+                        {% if user.profile_picture %}
+                            <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
+                        {% else %}
+                            <img src="{% static 'images/default_profile_pic.jpg' %}" alt="Default Profile Picture">
+                        {% endif %}
+                        <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                        <p>Email: {{ user.email }}</p>
+                        <p>Phone Number: {{ user.phone_number }}</p>
+                        <p>Date of Birth: {{ user.dob }}</p>
+                        <p>Gender: {{ user.gender }}</p>
+                        <div class="button-container">
+                            <button type="button" class="button no-bg">
+                                <a href="{% url 'view_profile1' user.profile.personal_id %}" class="view-profile-link">View Full Profile</a>
+                            </button>
+                            <form action="{% url 'send_request' user.profile.personal_id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="button">Send Request</button>
+                            </form>
+                        </div>
+                    </div>
+                {% empty %}
+                    {% if search_query %}
+                        <p>No profiles found matching your search.</p>
+                    {% else %}
+                        <p>No other users found.</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-container">
+        <p>&copy; 2024 Connect. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

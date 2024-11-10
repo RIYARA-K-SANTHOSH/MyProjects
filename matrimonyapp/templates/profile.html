@@ -1,0 +1,202 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Profile</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+   
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-container">
+        <div class="logo">
+            <a href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" alt=""></a>
+        </div>
+        <!-- Header Links -->
+        <div class="header-links">
+            <a href="{% url 'index' %}" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="{% url 'user_profile' %}" class="nav-link"><i class="fas fa-user"></i> Profile</a>
+            <a href="{% url 'logout' %}" class="nav-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="profile-header">
+            <h1>Create Your Profile</h1>
+        </div>
+        <div class="progress-bar">
+            <div class="step active">1</div>
+            <div class="step">2</div>
+            <div class="step">3</div>
+            <div class="step">4</div>
+        </div>
+
+        <div class="form-container">
+            <form method="post" action="{% url 'profile' %}" id="profileForm" onsubmit="return validateForm(event);">
+                {% csrf_token %}
+                <input type="hidden" name="reg_id" value="{{ user.reg_id }}">
+
+                <div class="form-section">
+                    <h2>Basic Information</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="address">Address *</label>
+                            <input type="text" id="address" name="address" required>
+                            <div class="error-message" id="address-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="height">Height *</label>
+                            <input type="text" id="height" name="height" required>
+                            <div class="error-message" id="height-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="weight">Weight (KG)</label>
+                            <input type="text" id="weight" name="weight">
+                            <div class="error-message" id="weight-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="marital-status">Marital Status *</label>
+                            <select id="marital-status" name="marital_status" required>
+                                <option value="">Please Select</option>
+                                <option value="single">Single</option>
+                                <option value="divorced">Divorced</option>
+                                <option value="widowed">Widowed</option>
+                            </select>
+                            <div class="error-message" id="marital-status-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="mother-tongue">Mother Tongue *</label>
+                            <select id="mother-tongue" name="mother_tongue" required>
+                                <option value="">Choose</option>
+                                <option value="malayalam">Malayalam</option>
+                                <option value="english">English</option>
+                                <option value="tamil">Tamil</option>
+                                <option value="hindi">Hindi</option>
+                            </select>
+                            <div class="error-message" id="mother-tongue-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="religion">Religion *</label>
+                            <select id="religion" name="religion" required>
+                                <option value="">Choose</option>
+                                <option value="christian">Christian</option>
+                            </select>
+                            <div class="error-message" id="religion-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="caste">Caste / Denomination *</label>
+                            <select id="caste" name="caste" required>
+                                <option value="">Choose</option>
+                                <option value="catholic">Catholic</option>
+                                <option value="orthodox">Orthodox</option>
+                            </select>
+                            <div class="error-message" id="caste-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="physical-status">Physical Status</label>
+                            <select id="physical-status" name="physical_status">
+                                <option value="">Choose</option>
+                                <option value="normal">Normal</option>
+                                <option value="differently-abled">Differently-abled</option>
+                            </select>
+                            <div class="error-message" id="physical-status-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="about">About Me *</label>
+                            <textarea id="about" name="about" required></textarea>
+                            <div class="error-message" id="about-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="spoken-language">Spoken Language(s)</label>
+                            <input type="text" id="spoken-language" name="spoken_language" value="Malayalam">
+                            <div class="error-message" id="spoken-language-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" name="age">
+                            <div class="error-message" id="age-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="complexion">Complexion</label>
+                            <select id="complexion" name="complexion">
+                                <option value="">Choose</option>
+                                <option value="fair">Fair</option>
+                                <option value="wheatish">Wheatish</option>
+                                <option value="dark">Dark</option>
+                            </select>
+                            <div class="error-message" id="complexion-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hobbies">Hobbies</label>
+                            <textarea id="hobbies" name="hobbies"></textarea>
+                            <div class="error-message" id="hobbies-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="occupation">Occupation</label>
+                            <input type="text" id="occupation" name="occupation">
+                            <div class="error-message" id="occupation-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="annual_income">Annual Income</label>
+                            <input type="text" id="annual_income" name="annual_income">
+                            <div class="error-message" id="annual-income-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="about_me">More About Me</label>
+                            <textarea id="about_me" name="about_me"></textarea>
+                            <div class="error-message" id="about-me-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <button type="submit" class="save-btn">Save</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="profile-progress">
+                <div class="progress-rectangle">
+                    <div class="progress-circle">
+                        <span>22%</span>
+                    </div>
+                    <p>Your Profile is 22% Complete<br>(step 1 out of 4)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 Connect. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="{% static 'js/profile.js' %}"></script>
+</body>
+</html>

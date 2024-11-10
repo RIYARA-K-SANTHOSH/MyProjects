@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Received Friend Requests</title>
+    <link rel="stylesheet" href="{% static 'css/profile1.css' %}">
+    <link rel="stylesheet" href="{% static 'css/view_received_requests.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-container">
+        <div class="logo">
+            <a href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" alt=""></a>
+        </div>
+        <!-- Header Links -->
+        <div class="header-links">
+            <a href="{% url 'index' %}" class="nav-link">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="{% url 'logout' %}" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="received-requests-container">
+            {% if received_requests %}
+                <div class="request-list">
+                    {% for request in received_requests %}
+                        <div class="request-card">
+                            <div class="sender-profile-picture">
+                                {% if request.sender.profile_picture %}
+                                    <img src="{{ request.sender.profile_picture.url }}" alt="Profile Picture">
+                                {% else %}
+                                    <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture">
+                                {% endif %}
+                            </div>
+                            <div class="sender-info">
+                                <p><strong>Name:</strong> {{ request.sender.first_name }} {{ request.sender.last_name }}</p>
+                                <p><strong>Gender:</strong> {{ request.sender.gender }}</p>
+                                <p><strong>Mobile:</strong> {{ request.sender.phone_number }}</p>
+                                <p><strong>Date of Birth:</strong> {{ request.sender.dob|date:"F d, Y" }}</p>
+                            </div>
+                            <div class="request-status">
+                                <p><strong>Status:</strong> <span class="status-badge">{{ request.status }}</span></p>
+                                <p><strong>Received on:</strong> {{ request.created_at|date:"F d, Y" }}</p>
+                            </div>
+                            {% if request.status == 'pending' %}
+                            <div class="action-buttons">
+                                <form action="{% url 'accept_request' request.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="button accept">Accept</button>
+                                </form>
+                                <form action="{% url 'reject_request' request.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="button reject">Reject</button>
+                                </form>
+                            </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No received requests.</p>
+            {% endif %}
+        </div>
+        
+        <footer class="footer-container">
+            <p>&copy; 2024 Connect. All Rights Reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
