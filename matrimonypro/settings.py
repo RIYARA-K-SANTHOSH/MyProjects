@@ -76,9 +76,10 @@ WSGI_APPLICATION = 'matrimonypro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join('/mnt/data', 'db.sqlite3'),  # SQLite database file
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),  # Store the DB file inside the project directory
     }
 }
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -120,10 +121,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Directories to look for static files (development)
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'matrimonyapp/static'),
+    os.path.join(BASE_DIR, 'matrimonyapp/static'),  # Path to your static files
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Directory to collect static files for production (this is where the collected files will go)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Path to where static files will be stored after 'collectstatic'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
