@@ -12,12 +12,8 @@ SECRET_KEY = 'django-insecure-b)lx!c=i5xb7dwt7$rik5a)ok$525$z%6$s61vk24n$f2lmekc
 
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '127.0.0.1',           # Local development
-    'localhost',           # Local development
-    'matrimonyapp.onrender.com',  # Your Render app URL
-    'www.yourdomain.com',  # (Optional) Your custom domain
-]
+ALLOWED_HOSTS = ['myprojects-9bqk.onrender.com', 'localhost', '127.0.0.1']
+
 
 
 
