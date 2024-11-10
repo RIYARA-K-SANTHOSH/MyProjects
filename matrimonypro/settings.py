@@ -13,9 +13,12 @@ SECRET_KEY = 'django-insecure-b)lx!c=i5xb7dwt7$rik5a)ok$525$z%6$s61vk24n$f2lmekc
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost'
+    '127.0.0.1',           # Local development
+    'localhost',           # Local development
+    'matrimonyapp.onrender.com',  # Your Render app URL
+    'www.yourdomain.com',  # (Optional) Your custom domain
 ]
+
 
 
 # settings.py
@@ -75,7 +78,7 @@ WSGI_APPLICATION = 'matrimonypro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join('/mnt/data', 'db.sqlite3'),  # SQLite database file
     }
 }
 
@@ -122,6 +125,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'matrimonyapp/static'),
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
