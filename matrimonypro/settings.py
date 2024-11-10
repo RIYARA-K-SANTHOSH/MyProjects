@@ -66,6 +66,8 @@ TEMPLATES = [
 ]
 
 
+
+
 WSGI_APPLICATION = 'matrimonypro.wsgi.application'
 
 # Database

@@ -1,4 +1,3 @@
 myenv/Lib/site-packages/*
 # Ignore the SQLite database file
-/db.sqlite3
-/mnt/data/
+
