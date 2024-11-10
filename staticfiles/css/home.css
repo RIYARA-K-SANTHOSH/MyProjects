@@ -1,0 +1,238 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.image-container {
+    height: 100vh; /* Increased height for a larger image */
+    background: url('/static/images/img3.jpg') no-repeat center center;
+    background-size: cover;
+    position: relative;
+}
+/* Site name styling */
+.site-name {
+    font-family: 'Brush Script MT', cursive; /* Cursive font style */
+    font-size: 3em; /* Adjust font size as needed */
+    color: white;
+    text-align: center; /* Center align the site name */
+    margin: 20px 0; /* Space above and below */
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust positioning */
+}
+
+
+.header-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    height: 100%;
+    padding: 20px; /* Add padding to space out content from the edges */
+    box-sizing: border-box; /* Include padding in the element's total width and height */
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.5); /* Optional: add a semi-transparent background */
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 69, 114, 0.7); /* Light pink with transparency */
+}
+
+.content-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.content-container h1 {
+    margin: 0;
+    font-size: 2.5em; /* Increase size for prominence */
+    color: #ff69b4;
+}
+
+.content-container p {
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+
+/* Styles for the cards */
+.cards-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.card {
+    width: 30%;
+    margin: 10px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.card h2 {
+    margin: 15px 0 10px;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.card p {
+    font-size: 1em;
+    color: #666;
+}
+
+.card .btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #ff69b4;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.card .btn:hover {
+    background-color: #ff1493; /* Darker pink on hover */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .card {
+        width: 80%;
+    }
+}
+
+.about-container {
+    padding: 40px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 20px auto;
+    max-width: 1000px;
+    width: 90%;
+}
+
+.about-container h2 {
+    font-size: 2.5em;
+    color: #ff69b4;
+    margin-bottom: 20px;
+}
+
+.about-container p {
+    font-size: 1.2em;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Styles for the Our Stories section */
+.stories-container {
+    padding: 40px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 20px auto;
+    max-width: 1200px;
+    width: 95%;
+}
+
+.stories-container h2 {
+    font-size: 2.5em;
+    color: #ff69b4;
+    margin-bottom: 20px;
+}
+
+.stories-cards {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 1000px;
+    width: 90%;
+}
+
+.story-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 10px;
+    max-width: 250px;
+    text-align: center;
+    flex: 1;
+}
+
+.story-card img {
+    width: 100%;
+    height: auto;
+    max-width: 250px;
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 0px;
+}
+
+.story-card h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin: 15px 0;
+}
+
+.story-card p {
+    font-size: 1em;
+    color: #666;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .story-card {
+        max-width: 80%;
+    }
+}

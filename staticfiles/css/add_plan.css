@@ -1,0 +1,223 @@
+/* Basic Reset */
+body, h2, ul, li, table, th, td {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+/* Sidebar */
+.sidebar {
+    width: 250px; /* Increased width */
+    background-color: #2c3e50; /* Matching background color */
+    color: #fff;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #ddd; /* Optional: border to separate sidebar from content */
+}
+
+/* Sidebar Heading */
+.sidebar h2 {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+/* Navigation */
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Enable Flexbox */
+    flex-direction: column; /* Stack items vertically */
+}
+
+.sidebar nav ul li {
+    margin: 10px 0; /* Space between each item */
+}
+
+.sidebar nav ul li a {
+    color: #fff; /* White text color */
+    text-decoration: none;
+    font-size: 1.1em;
+    padding: 10px 15px;
+    display: block;
+    background-color: #34495e; /* Slightly different gray for links */
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #3498db; /* Blue background on hover */
+    color: #fff; /* White text on hover */
+}
+
+/* Adjustments for Main Content */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 350px; /* Align with the increased width of the sidebar */
+}
+
+
+/* Form Container */
+.form-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+}
+
+/* Form Heading */
+.form-container h1 {
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: #2c3e50;
+    text-align: center;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group select,
+.form-group input[type="number"],
+.form-group textarea {
+    width: 80%;
+    max-width: 400px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 0.9em;
+    color: #333;
+}
+
+.form-group textarea {
+    resize: vertical;
+    height: 120px;
+}
+
+/* Form Button */
+.btn {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 1.1em;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    background-color: #2ecc71;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+.btn:hover {
+    background-color: #27ae60;
+}
+
+.btn:active {
+    opacity: 0.8;
+}
+
+.btn:focus {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+/* Message Styles */
+.message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    font-size: 1em;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.message.success {
+    border-left: 4px solid #2ecc71;
+}
+
+.message.error {
+    border-left: 4px solid #e74c3c;
+}
+
+/* Container for Membership Plans, User Feedback, etc. */
+.section-container {
+    background-color: #3498db; /* Blue background for sections */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #fff; /* White text color */
+    transition: background-color 0.3s;
+}
+
+/* Hover Effect */
+.section-container:hover {
+    background-color: #fff; /* White background on hover */
+    color: #333; /* Dark text color on hover */
+}
+
+/* Membership Plan Card */
+.plan-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+    margin-bottom: 20px; /* Space below each card */
+}
+
+/* Plan Heading */
+.plan-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.5em;
+}
+
+/* Plan Details */
+.plan-card p {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #333;
+}
+
+/* Adjustments for Add Plan Page */
+.add-plan .sidebar {
+    width: 250px; /* Ensure sidebar width matches the default */
+}
+
+.add-plan .main-content {
+    margin-left: 250px; /* Align with the width of the sidebar */
+}
+
+.add-plan .form-container {
+    margin: 20px auto;
+    max-width: 600px;
+    padding-left: 20px;
+    padding-right: 20px;
+}

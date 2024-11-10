@@ -1,0 +1,62 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9; /* Light background color */
+    color: #333; /* Dark text color */
+}
+
+/* Container Styles */
+.container {
+    max-width: 600px; /* Limit container width */
+    margin: 50px auto; /* Center the container */
+    padding: 20px; /* Add padding */
+    background: #ffffff; /* White background for the container */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Heading Styles */
+h2 {
+    font-size: 24px; /* Increase heading size */
+    margin-bottom: 20px; /* Space below heading */
+    color: #2c3e50; /* Darker color for the heading */
+}
+
+/* Form Styles */
+.message-form {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack elements vertically */
+}
+
+/* Textarea Styles */
+textarea {
+    resize: none; /* Disable resizing */
+    padding: 10px; /* Padding inside textarea */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    margin-bottom: 15px; /* Space below textarea */
+}
+
+/* Button Styles */
+button {
+    background-color: #3498db; /* Button background color */
+    color: white; /* Text color */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px 15px; /* Padding inside button */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s; /* Transition effect */
+}
+
+button:hover {
+    background-color: #2980b9; /* Darker shade on hover */
+}

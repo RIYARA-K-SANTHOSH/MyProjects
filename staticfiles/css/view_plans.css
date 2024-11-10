@@ -1,0 +1,334 @@
+/* Basic Reset */
+body, h1, h2, p, ul, li, table, th, td, form {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px; /* Width of the sidebar */
+    background-color: #2c3e50; /* Sidebar background color */
+    color: #fff;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #ddd; /* Optional border to separate sidebar from content */
+    position: relative; /* Use relative positioning */
+    margin-left: -20px; /* Move sidebar further left */
+}
+
+/* Sidebar Heading */
+.sidebar h2 {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+/* Navigation */
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar nav ul li {
+    margin: 10px 0;
+}
+
+.sidebar nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    padding: 10px 15px;
+    display: block;
+    background-color: #34495e; /* Slightly different gray for links */
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #3498db; /* Blue background on hover */
+    color: #fff;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    margin-left: 250px; /* Adjust margin-left to accommodate sidebar width */
+    max-width: 1200px; /* Set a maximum width for the content */
+}
+
+/* Main Content Heading */
+.main-content h1 {
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    color: #2c3e50;
+}
+
+/* Form Styles */
+form {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto; /* Center the form horizontally */
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+/* General Styles for Action Buttons */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 0.9em;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    margin: 0 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.3s;
+    border: none;
+}
+
+/* Button Variants */
+.btn-block {
+    background-color: #2ecc71; /* Green background for block button */
+}
+
+.btn-edit {
+    background-color: #4CAF50; /* Green background */
+}
+
+.btn-delete {
+    background-color: #f44336; /* Red background */
+}
+
+/* Hover and Focus States for Buttons */
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn:active {
+    opacity: 0.6;
+}
+
+.btn:focus {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+/* Responsive Form Width */
+@media (max-width: 1200px) {
+    form {
+        max-width: 80%;
+    }
+}
+
+@media (max-width: 768px) {
+    form {
+        max-width: 100%;
+    }
+}
+
+/* Blog Styles */
+.blogs-container {
+    margin-top: 20px;
+}
+
+.blogs-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.blog-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    width: calc(50% - 20px);
+    max-width: 600px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: box-shadow 0.3s;
+    padding: 20px;
+}
+
+/* Blog Image Section */
+.blog-image {
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blog-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+/* Blog Content Section */
+.blog-content {
+    padding: 15px;
+}
+
+.blog-content h3 {
+    margin-top: 0;
+    font-size: 1.4em;
+    color: #2c3e50;
+}
+
+.blog-content p {
+    margin: 10px 0 0;
+    color: #555;
+}
+
+/* Hover Effect for Blog Cards */
+.blog-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design for Blog Cards */
+@media (max-width: 768px) {
+    .blog-card {
+        width: 100%;
+    }
+}
+
+/* Existing Blog Posts Heading */
+.existing-blog-posts-heading {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 1.6em;
+    color: #2c3e50;
+}
+
+/* Blog Actions Container */
+.blog-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+/* Plan Container */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Plans Container */
+.plans-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Plan Card */
+.plan-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: calc(33% - 20px); /* Adjust width to fit 3 cards per row with gap */
+    box-sizing: border-box;
+}
+
+.plan-card h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.plan-card p {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #666;
+}
+
+.plan-actions {
+    margin-top: 20px;
+}
+
+/* Button Styles */
+.plan-actions button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+/* Edit Button */
+.edit-btn {
+    background-color: #007bff; /* Blue color for edit button */
+    margin-right: 10px;
+}
+
+.edit-btn:hover {
+    background-color: #0056b3; /* Darker blue for hover */
+}
+
+/* Delete Button */
+.delete-btn {
+    background-color: #e74c3c; /* Red color for delete button */
+}
+
+.delete-btn:hover {
+    background-color: #c0392b; /* Darker red for hover */
+}

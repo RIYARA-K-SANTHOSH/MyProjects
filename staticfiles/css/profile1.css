@@ -1,0 +1,457 @@
+/* General Styles */
+body {
+    font-family: 'Cursive', cursive; /* Clean and professional font */
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Light background for a clean look */
+}
+
+/* Header Styles */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #cbadd1; /* Dark blue for header */
+    color: #ffffff; /* White text for contrast */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.header-content {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 30px;
+}
+
+.header-links {
+    display: flex;
+    gap: 30px;
+}
+
+.header-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500; /* Medium weight for text */
+    transition: color 0.3s; /* Smooth color transition */
+}
+
+.header-links a:hover {
+    color: #000000; /* Gold color on hover */
+}
+
+/* Search Bar */
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar form {
+    display: flex;
+}
+
+.search-bar input[type="text"] {
+    padding: 12px;
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px 0 0 4px;
+    font-size: 14px;
+    width: 250px; /* Adjusted width */
+}
+
+.search-bar .search-button {
+    padding: 12px 20px;
+    border: 1px solid #0056b3; /* Blue border */
+    border-radius: 0 4px 4px 0;
+    background-color: #0056b3; /* Blue background */
+    color: #ffffff; /* White text */
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.search-bar .search-button:hover {
+    background-color: #004494; /* Darker blue on hover */
+}
+
+/* Main Container Styling */
+.main-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Filter Section */
+.filter-section {
+    width: 300px;
+    padding: 20px;
+    background-color: #ffffff; /* White background for contrast */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-right: 20px;
+}
+
+.filter-section h2 {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.filter-group {
+    margin-bottom: 15px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.filter-group input[type="number"] {
+    width: calc(50% - 5px);
+    padding: 8px;
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.filter-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #0056b3; /* Blue background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-button:hover {
+    background-color: #004494; /* Darker blue on hover */
+}
+
+/* Profile Section Styling */
+.profile-section {
+    flex: 1;
+    max-width: 1200px;
+}
+
+.profile-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Profile List Styling */
+.profile-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Profile Card Styling */
+.profile-card {
+    background-color: #ffffff; /* White background */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+    transition: transform 0.3s; /* Smooth scaling effect */
+}
+
+.profile-card:hover {
+    transform: scale(1.02); /* Slightly enlarge on hover */
+}
+
+/* Profile Image */
+.profile-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+/* Profile Name */
+.profile-card h3 {
+    margin: 10px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Profile Details */
+.profile-card p {
+    margin: 5px 0;
+    color: #777;
+}
+
+/* Button Container */
+.button-container {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Remove the background of the button wrapping the link */
+button.no-bg {
+    background-color: transparent; /* Remove the background */
+    border: none; /* Remove any borders */
+    padding: 0; /* Remove any padding */
+}
+
+button.no-bg:hover {
+    background-color: transparent; /* No hover background for the button */
+}
+
+/* Style the link */
+.view-profile-link {
+    background-color: #0056b3; /* Blue background */
+    color: #fff; /* White text */
+    padding: 10px 15px; /* Add some padding for spacing */
+    text-decoration: none; /* Remove underline from link */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 14px;
+    display: block; /* Ensure it takes full width of its container */
+    text-align: center; /* Center the text */
+}
+
+.view-profile-link:hover {
+    background-color: #004494; /* Darker blue on hover */
+    color: #fff; /* Keep text white on hover */
+}
+
+/* Send Request Button */
+button {
+    background-color: #28a745; /* Green background */
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+/* Footer */
+.footer-container {
+    background-color: #cbadd1; /* Dark blue for footer */
+    padding: 20px;
+    text-align: center;
+    color: #ffffff; /* White text for contrast */
+    margin-top: 185px; /* Adjusted margin */
+}
+/* Profile Card Styling */
+.profile-card {
+    background-color: #ffffff; /* White background */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+    transition: transform 0.3s; /* Smooth scaling effect */
+    position: relative; /* Set position relative for absolute positioning of the icon */
+}
+
+.eye-icon {
+    position: absolute; /* Position the icon absolutely */
+    top: 10px; /* Adjust the top margin */
+    right: 10px; /* Adjust the right margin */
+    font-size: 1.5em; /* Adjust the size of the icon */
+    color: #007bff; /* Change color if needed */
+    text-decoration: none; /* Remove underline */
+}
+/* Style for the profile content container */
+.profile-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+/* Style for the profile picture as a small, round image */
+.profile-picture img {
+    width: 80px; /* Adjust size as desired */
+    height: 80px;
+    border-radius: 50%; /* Makes the image round */
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+/* Style for profile info */
+.profile-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Sidebar Container */
+.profile-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+/* Style for the profile picture as a small, round image */
+.profile-picture img {
+    width: 80px; /* Adjust size as desired */
+    height: 80px;
+    border-radius: 50%; /* Makes the image round */
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+/* Style for profile info */
+.profile-info p {
+    margin: 5px 0;
+    font-size: 20px;
+    color: #333;
+    font-family: 'Brush Script MT', cursive; /* Cursive font style */
+}
+
+/* Sidebar Container */
+.profile-content {
+    width: 300px;
+    background-color: #fff;
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+/* Profile Picture */
+.profile-picture img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+/* Profile Info */
+.profile-info {
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.profile-info p {
+    margin: 8px 0;
+    font-size: 18px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    font-family: 'Cursive', cursive; /* Cursive font style */
+}
+
+.profile-info p i {
+    color: #0056b3;
+    margin-right: 8px;
+}
+
+/* Sidebar Links Section */
+.sidebar-links {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f7f7f7;
+    border-top: 1px solid #e0e0e0;
+    width: 100%;
+    border-radius: 0 0 8px 8px;
+}
+
+.sidebar-links a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    font-family: 'Cursive', cursive; /* Cursive font style */
+}
+
+.sidebar-links a:hover {
+    background-color: #cbadd1;
+    color: #fff;
+}
+
+/* Specific Link Icons */
+.sidebar-links a .fas {
+    margin-right: 8px;
+    color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-content {
+        width: 100%;
+    }
+}
+.search-bar {
+    display: flex;                     /* Flexbox for horizontal alignment */
+    align-items: center;              /* Center items vertically */
+    border: 1px solid #ccc;           /* Border around the search bar */
+    border-radius: 0px;              /* Rounded corners */
+    overflow: hidden;                  /* Clip any overflowing content */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    background-color: #ffffff;        /* White background */
+}
+
+.search-input {
+    border: none;                     /* Remove default border */
+    outline: none;                    /* Remove outline on focus */
+    padding: 10px 15px;               /* Padding for spacing */
+    flex-grow: 1;                     /* Allow input to take available space */
+    font-size: 16px;                  /* Font size for input text */
+    border-radius: 0px 0 0 0px;    /* Rounded corners for the left side */
+    transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.search-input::placeholder {
+    color: #888;                      /* Lighter color for placeholder text */
+}
+
+.search-input:focus {
+    background-color: #f0f0f0;       /* Light gray background on focus */
+}
+
+.search-button {
+    background-color: #007BFF;       /* Primary button color */
+    color: white;                    /* Text color */
+    border: none;                    /* No border */
+    cursor: pointer;                 /* Pointer cursor on hover */
+    padding: 10px 15px;              /* Padding for button */
+    border-radius: 0 0px 0px 0;    /* Rounded corners for the right side */
+    transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.search-button:hover {
+    background-color: #0056b3;       /* Darker shade on hover */
+}
+.button:disabled {
+    background-color: #ccc;  /* Grey out the button */
+    cursor: not-allowed;     /* Show a not-allowed cursor */
+}

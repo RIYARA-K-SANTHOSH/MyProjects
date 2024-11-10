@@ -1,0 +1,72 @@
+/* notifications.css */
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Light background for contrast */
+    margin: 0;
+    padding: 20px 0; /* Padding for top and bottom, remove side padding */
+}
+
+
+
+.container {
+    max-width: 1200px; /* Max width for the container */
+    margin: 80px auto 40px; /* Center the container with space for header */
+    padding: 20px;
+    background-color: #fff; /* White background for notifications */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+/* Heading Styles */
+h1 {
+    text-align: center;
+    color: #333; /* Dark color for contrast */
+}
+
+/* Notifications Container */
+.notifications-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping to new lines */
+    justify-content: center; /* Center the items */
+    gap: 20px; /* Space between cards */
+}
+
+/* Notification Card Styles */
+.notification-card {
+    background-color: #e7f3fe; /* Light blue background for cards */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* Padding inside the card */
+    width: calc(30% - 20px); /* Set width of each card */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    transition: transform 0.3s; /* Animation for hover effect */
+}
+
+/* Hover effect for cards */
+.notification-card:hover {
+    transform: translateY(-2px); /* Lift effect on hover */
+}
+
+/* Empty Notification Card */
+.notification-card.empty {
+    width: 100%; /* Full width for the empty notification */
+    text-align: center; /* Center the text */
+    background-color: #fff5f5; /* Light red background for empty state */
+    color: #d9534f; /* Dark red text for emphasis */
+    border: 1px solid #d9534f; /* Dark red border */
+}
+
+/* Media Query for Responsiveness */
+@media (max-width: 768px) {
+    .notification-card {
+        width: calc(45% - 20px); /* Adjust width for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .notification-card {
+        width: 100%; /* Full width on mobile */
+    }
+}
+

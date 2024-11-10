@@ -1,0 +1,179 @@
+/* General body styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f2f2f2; /* Light background */
+    margin: 0;
+    padding-top: 100px; /* Spacing for fixed header */
+    padding-bottom: 100px; /* Spacing for fixed footer */
+}
+
+/* Header Styling */
+.header-container {
+    background-color: #cbadd1; /* Light pink header */
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.header-container h1 {
+    font-size: 16px;
+    color: #333; /* Dark text color */
+    margin: 0;
+}
+
+.header-links {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    font-family: 'Cursive', cursive;
+}
+
+/* Profile and Logout Links */
+.header-links a {
+    color: #ffffff; /* White color for the links */
+    text-decoration: none; /* Remove underline from links */
+    font-size: 16px; /* Font size for the links */
+    font-style: italic; /* Cursive style for the links */
+    display: flex; /* Align icon and text horizontally */
+    align-items: center; /* Center icon and text vertically */
+    gap: 8px; /* Space between icon and text */
+}
+
+.header-links a:hover {
+    color: #000;
+}
+
+.header-links i {
+    margin-right: 8px;
+}
+
+/* Footer Styling */
+.footer-container {
+    background-color: #cbadd1;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+    text-align: center;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.footer-container p {
+    color: #ffffff;
+    font-size: 16px;
+    margin: 0;
+}
+
+.footer-container a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-container a:hover {
+    text-decoration: underline;
+}
+
+/* Form Container Styling */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.details-all-container h1 {
+    text-align: center;
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+/* Form field styling */
+.details-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.detail-field {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.detail-field:last-child {
+    margin-right: 0;
+}
+
+.detail-field label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.detail-field input,
+.detail-field select,
+.detail-field textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+}
+
+.detail-field input:focus,
+.detail-field select:focus,
+.detail-field textarea:focus {
+    border-color: #cbadd1;
+    outline: none;
+    background-color: #fff;
+}
+
+/* Button styling */
+.edit-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #cbadd1;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.edit-button:hover {
+    background-color: #a383b8;
+}
+
+/* Responsive form design */
+@media (max-width: 768px) {
+    .details-row {
+        flex-direction: column;
+    }
+
+    .detail-field {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .edit-button {
+        width: 100%;
+        padding: 16px;
+    }
+}

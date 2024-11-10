@@ -1,0 +1,100 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Light background for contrast */
+    margin: 0;
+    padding: 20px; /* Padding for the top and bottom */
+}
+
+/* Blog Container */
+.blog-container {
+    width: 100%; 
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Notification Card Styles */
+.notification-card {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center align items */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px; /* Margin for spacing between cards */
+    background-color: #ffffff; /* White background for each card */
+    width: 300px; /* Fixed width for each card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slightly enhanced shadow */
+    transition: transform 0.2s; /* Smooth scaling on hover */
+}
+
+.notification-card:hover {
+    transform: scale(1.02); /* Slightly scale up on hover */
+}
+
+/* Blog Image Styling */
+.blog-image {
+    margin-top: 10px; /* Space above the image */
+    width: 100%; /* Make the image container full width */
+    overflow: hidden; /* Hide overflow to maintain aspect ratio */
+}
+
+.blog-image img {
+    width: 100%; /* Fill the width of the container */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Slightly rounded corners */
+}
+
+/* Info Section Styling */
+.blog-info {
+    text-align: center; /* Center align text in the info section */
+}
+
+/* Heading Styles */
+h2 {
+    margin: 0; /* Remove default margin */
+    color: #333; /* Dark color for contrast */
+    text-align: center; /* Center align title */
+}
+
+/* Expanded Content Styling */
+.expanded-content {
+    margin-top: 10px; /* Space between truncated and expanded content */
+}
+
+/* Footer Styles */
+.footer-container {
+    background-color: #cbadd1; /* Dark pink for footer */
+    padding: 20px;
+    text-align: center;
+    color: #ffffff; /* White text for contrast */
+    margin-top: 20px; /* Adjusted margin */
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+    .notification-card {
+        width: 90%; /* Use more width on smaller screens */
+    }
+}
+
+/* Button Styles */
+.view-more-btn {
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 8px 12px; /* Padding for the button */
+    font-size: 14px; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin-top: 10px; /* Space above the button */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transition */
+}
+
+/* Change the button color on hover */
+.view-more-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.05); /* Slightly scale up on hover */
+}

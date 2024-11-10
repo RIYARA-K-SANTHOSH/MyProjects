@@ -1,0 +1,395 @@
+/* Container and Grid Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+/* Header Container */
+.header-container {
+    background-color: #cbadd1;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    position: relative;
+}
+
+/* Header Title */
+.header-container h1 {
+    color: rgb(2, 2, 2);
+    font-size: 28px;
+    margin: 0;
+}
+
+/* Profile and Logout Links Container */
+.header-links {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 40px;
+}
+
+/* Profile and Logout Links */
+.header-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-links a:hover {
+    color: #000000;
+}
+
+.header-links i {
+    font-size: 10px;
+}
+
+/* Profile Header Container */
+.profile-header {
+    background-color: #ffb6c1;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Profile Header Title */
+.profile-header h1 {
+    color: #333;
+    font-size: 32px;
+    margin: 0;
+    font-family: 'Cursive', cursive;
+    font-weight: bold;
+}
+
+/* Progress Bar Styling */
+.progress-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin-top: 10px;
+    padding: 0 10px;
+}
+
+.progress-bar::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #ffb6c1;
+    z-index: 0;
+}
+
+.step {
+    width: 30px;
+    height: 30px;
+    background-color: #ffb6c1;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.step.active {
+    background-color: #ff69b4;
+}
+
+/* Form Container */
+.form-container {
+    display: flex;
+    justify-content: center; /* Center align the form container itself */
+    background-color: #fff;
+    padding: 20px; /* Padding for the form container */
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* Slightly reduced shadow */
+    margin: 20px auto;
+    width: 60%; /* Increased width for a more spacious form */
+    position: relative; /* Relative positioning for positioning the progress bar */
+}
+
+/* Form Section */
+.form-section {
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Form Grid Layout */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px; /* Increased gap between input boxes */
+    margin-bottom: 20px;
+}
+.family-section {
+    margin-bottom: 30px; /* Adds space between family section and progress bar */
+}
+
+
+/* Form Row Styling */
+.form-row {
+    display: flex;
+    justify-content: flex-start; /* Align form row items to the left */
+    gap: 30px; /* Increased gap between input boxes */
+    margin-bottom: 20px; /* Increased margin at the bottom */
+    width: 100%;
+}
+
+/* Form Group */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: calc(50% - 15px); /* Increased width, accounting for the gap */
+}
+
+/* Labels */
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Inputs, Selects, Textareas */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+    padding: 12px; /* Increased padding for better usability */
+    border: 1px solid #ff66b2;
+    border-radius: 4px;
+    font-size: 15px; /* Increased font size */
+    width: 100%; /* Full width within the form group */
+    box-sizing: border-box;
+    margin: 0; /* Remove margin to ensure alignment */
+}
+
+/* Textarea */
+textarea {
+    resize: vertical;
+    min-height: 100px; /* Increased minimum height for textarea */
+}
+
+/* Optional: Add hover effect */
+input[type="text"]:hover,
+input[type="number"]:hover,
+input[type="date"]:hover,
+select:hover,
+textarea:hover {
+    border-color: #c24c6a;
+}
+
+/* Optional: Add focus effect */
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #cc0077;
+    outline: none;
+}
+
+/* Save Button Styling */
+.save-btn {
+    background-color: #ff69b4;
+    color: white;
+    padding: 12px 24px; /* Increased padding */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px; /* Increased font size */
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.save-btn:hover {
+    background-color: #ff1493;
+}
+
+/* Progress Bar Styling */
+.progress-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute; /* Positioning outside the form */
+    top: -10px; /* Adjusted based on your layout */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    width: 80%; /* Adjust width to fit within the page */
+}
+
+/* Progress Bar Base Style */
+.progress-bar::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #ffb6c1;
+    z-index: 0;
+}
+
+/* Step Indicator */
+.step {
+    width: 30px;
+    height: 30px;
+    background-color: #ffb6c1;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.step.active {
+    background-color: #ff69b4;
+}
+
+/* Profile Progress Styling */
+.profile-progress {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    position: absolute;
+    right: -30%;
+}
+
+.profile-progress .progress-rectangle {
+    background-color: #ffb6c1;
+    padding: 100px 20px;
+    text-align: center;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.progress-circle {
+    width: 80px;
+    height: 80px;
+    background-color: #ff69b4;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.profile-progress p {
+    color: #333;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Ensure overall layout does not exceed page width */
+.container {
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+.profile-progress .progress-rectangle {
+    background-color: #ffb6c1;
+    padding: 100px 20px;
+    text-align: center;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* Progress Bar Styling */
+.progress-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin-top: 20px; /* Adjust margin to position below family section */
+    padding: 0 10px;
+}
+
+.progress-bar::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #ffb6c1;
+    z-index: 0;
+}
+
+.step {
+    width: 30px;
+    height: 30px;
+    background-color: #ffb6c1;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.step.active {
+    background-color: #ff69b4;
+}
+
+
+.progress-circle {
+    width: 80px;
+    height: 80px;
+    background-color: #ff69b4;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.profile-progress p {
+    color: #333;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Footer Container */
+.footer-container {
+    background-color: #cbadd1;
+    padding: 20px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Footer Text */
+.footer-container p {
+    color: #333;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Footer Links */
+.footer-container a {
+    color: #ff66b2;
+}
+
+.footer-container a:hover {
+    text-decoration: underline;
+}

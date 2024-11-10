@@ -1,0 +1,183 @@
+/* General styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Hero image section */
+.hero-image {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    background: url("{% static 'images/img3.jpg' %}") no-repeat center center/cover;
+    background-attachment: fixed;
+    overflow: hidden; /* Prevent content overflow */
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 24px;
+    font-family: 'Cursive', cursive;
+}
+
+.hero-image header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background:#cbadd1;
+    z-index: 10;
+}
+
+.hero-image header .logo {
+    flex: 1;
+}
+
+.hero-image header .logo h1 {
+    font-size: 24px;
+    color: #fff;
+    margin: 0;
+}
+
+.hero-image header .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+.hero-image header .nav-links li {
+    margin: 0;
+}
+
+.hero-image header .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.hero-image .form-section {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    z-index: 5;
+}
+
+.hero-image .form-section .form {
+    display: flex;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1000px;
+    box-sizing: border-box;
+    overflow: hidden; /* Prevent content overflow */
+}
+
+.hero-image .form-section .form .form-image {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.hero-image .form-section .form .form-image img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.hero-image .form-section .form .form-content {
+    flex: 2;
+    position: relative;
+    padding-top: 60px;
+}
+
+/* Form row styling */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 35px;
+}
+
+.form-row input,
+.form-row select {
+    flex: 1 1 calc(50% - 10px);
+    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.form-row input:last-child,
+.form-row select:last-child {
+    margin-right: 0;
+}
+
+button {
+    background-color: pink;
+    border: none;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 40px 0 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #ff69b4;
+}
+
+.forgot-password-link {
+    text-align: right;
+    margin-top: 40px;
+}
+
+.forgot-password-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.forgot-password-link a:hover {
+    text-decoration: none;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background:#cbadd1;
+    color: #fff;
+    margin-top: 40px;
+    width: 100%; /* Ensure footer spans the full width */
+    position: fixed; /* Fix the footer at the bottom */
+    bottom: 0;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .form-row input,
+    .form-row select {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
