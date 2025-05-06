@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Contact Information</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        .info-section {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .info-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #dee2e6;
+            background-color: #e9ecef;
+            border-radius: 5px 5px 0 0;
+        }
+        .info-title {
+            font-weight: 600;
+            color: #495057;
+        }
+        .info-content {
+            padding: 20px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        .info-section {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .info-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #dee2e6;
+            background-color: #e9ecef;
+            border-radius: 5px 5px 0 0;
+        }
+        .info-title {
+            font-weight: 600;
+            color: #495057;
+        }
+        .info-content {
+            padding: 20px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .address-fields {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Contact Information</h2>
+        <form method="POST" action="{% url 'edit_contact_info' connect_id=current_user.connect_id %}">
+            {% csrf_token %}
+            <div class="info-section">
+                <div class="info-header">
+                    <div class="info-title">
+                        <i class="fas fa-address-book"></i> Contact Information
+                    </div>
+                </div>
+                <div class="info-content">
+                    <div class="info-grid">
+                        <!-- Phone Numbers -->
+                        <div class="form-group">
+                            <label for="mobile_code">Mobile Code:</label>
+                            <select class="form-control" id="mobile_code" name="mobile_code">
+                                {% for code, name in additional_profile.PHONE_CODE_CHOICES %}
+                                    <option value="{{ code }}" {% if code == additional_profile.mobile_code %}selected{% endif %}>{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mobile_number">Mobile Number:</label>
+                            <input type="text" class="form-control" id="mobile_number" name="mobile_number" 
+                                   value="{{ additional_profile.mobile_number }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="whatsapp_code">WhatsApp Code:</label>
+                            <select class="form-control" id="whatsapp_code" name="whatsapp_code">
+                                {% for code, name in additional_profile.PHONE_CODE_CHOICES %}
+                                    <option value="{{ code }}" {% if code == additional_profile.whatsapp_code %}selected{% endif %}>{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="whatsapp_number">WhatsApp Number:</label>
+                            <input type="text" class="form-control" id="whatsapp_number" name="whatsapp_number" 
+                                   value="{{ additional_profile.whatsapp_number }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="secondary_mobile_code">Secondary Mobile Code:</label>
+                            <select class="form-control" id="secondary_mobile_code" name="secondary_mobile_code">
+                                {% for code, name in additional_profile.PHONE_CODE_CHOICES %}
+                                    <option value="{{ code }}" {% if code == additional_profile.secondary_mobile_code %}selected{% endif %}>{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="secondary_mobile">Secondary Mobile No.:</label>
+                            <input type="text" class="form-control" id="secondary_mobile" name="secondary_mobile" 
+                                   value="{{ additional_profile.secondary_mobile|default:'' }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="landline_number">Residential Landline No.:</label>
+                            <input type="text" class="form-control" id="landline_number" name="landline_number" 
+                                   value="{{ additional_profile.landline_number|default:'' }}">
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email">Email ID:</label>
+                            <input type="email" class="form-control" id="email" name="email" 
+                                   value="{{ current_user.email }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="alternate_email">Alternate Email ID:</label>
+                            <input type="email" class="form-control" id="alternate_email" name="alternate_email" 
+                                   value="{{ additional_profile.alternate_email|default:'' }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="preferred_contact_time">Preferred Time To Reach You:</label>
+                            <input type="text" class="form-control" id="preferred_contact_time" name="preferred_contact_time" 
+                                   value="{{ additional_profile.preferred_contact_time|default:'' }}">
+                        </div>
+                        
+                        <!-- Addresses -->
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label for="address">Communication Address:</label>
+                            <textarea class="form-control" id="address" name="address" rows="3">{{ additional_profile.address }}</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pincode">Pincode:</label>
+                            <input type="text" class="form-control" id="pincode" name="pincode" 
+                                   value="{{ additional_profile.pincode }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="present_address_type">Present Address:</label>
+                            <select class="form-control present-address-select" id="present_address_type" name="present_address_type">
+                                <option value="same" {% if additional_profile.present_address_type == 'same' %}selected{% endif %}>Same as Communication Address</option>
+                                <option value="different" {% if additional_profile.present_address_type == 'different' %}selected{% endif %}>Different Address</option>
+                            </select>
+                            <div id="present-address-fields" class="address-fields" {% if additional_profile.present_address_type == 'different' %}style="display: block;"{% endif %}>
+                                <div class="form-group">
+                                    <label for="present_address">Present Address:</label>
+                                    <textarea class="form-control" id="present_address" name="present_address" rows="3">{% if additional_profile.present_address_type == 'different' %}{{ additional_profile.present_address }}{% endif %}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="present_pincode">Present Pincode:</label>
+                                    <input type="text" class="form-control" id="present_pincode" name="present_pincode" 
+                                           value="{% if additional_profile.present_address_type == 'different' %}{{ additional_profile.present_pincode }}{% endif %}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Permanent Address -->
+                        <div class="form-group">
+                            <label for="permanent_address_type">Permanent Address:</label>
+                            <select class="form-control permanent-address-select" id="permanent_address_type" name="permanent_address_type">
+                                <option value="same" {% if additional_profile.permanent_address_type == 'same' %}selected{% endif %}>Same as Communication Address</option>
+                                <option value="different" {% if additional_profile.permanent_address_type == 'different' %}selected{% endif %}>Different Address</option>
+                            </select>
+                            <div id="permanent-address-fields" class="address-fields" {% if additional_profile.permanent_address_type == 'different' %}style="display: block;"{% endif %}>
+                                <div class="form-group">
+                                    <label for="permanent_address">Permanent Address:</label>
+                                    <textarea class="form-control" id="permanent_address" name="permanent_address" rows="3">{% if additional_profile.permanent_address_type == 'different' %}{{ additional_profile.permanent_address }}{% endif %}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="permanent_pincode">Permanent Pincode:</label>
+                                    <input type="text" class="form-control" id="permanent_pincode" name="permanent_pincode" 
+                                           value="{% if additional_profile.permanent_address_type == 'different' %}{{ additional_profile.permanent_pincode }}{% endif %}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <a href="{% url 'profilecompletion' current_user.connect_id %}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Present Address toggle
+            const presentAddressSelect = document.querySelector('.present-address-select');
+            const presentAddressFields = document.getElementById('present-address-fields');
+            
+            presentAddressSelect.addEventListener('change', function() {
+                if (this.value === 'different') {
+                    presentAddressFields.style.display = 'block';
+                } else {
+                    presentAddressFields.style.display = 'none';
+                }
+            });
+            
+            // Permanent Address toggle
+            const permanentAddressSelect = document.querySelector('.permanent-address-select');
+            const permanentAddressFields = document.getElementById('permanent-address-fields');
+            
+            permanentAddressSelect.addEventListener('change', function() {
+                if (this.value === 'different') {
+                    permanentAddressFields.style.display = 'block';
+                } else {
+                    permanentAddressFields.style.display = 'none';
+                }
+            });
+        });
+    </script>
+  
+</body>
+</html>

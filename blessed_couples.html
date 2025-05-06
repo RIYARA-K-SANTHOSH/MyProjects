@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connect Matrimony - Kerala's Most Trusted Matrimonial Service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: black;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .header.scrolled {
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: white;
+            margin-left: 10px;
+            font-weight: 600;
+        }
+        
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        .main-nav li {
+            margin-left: 25px;
+            position: relative;
+        }
+        
+        .main-nav a {
+            text-decoration: none;
+            color: rgb(150, 127, 129);
+            font-weight: 300;
+            font-size: 20px;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .main-nav a i {
+            margin-right: 5px;
+            font-size: 14px;
+        }
+        
+        .main-nav a:hover {
+            color: #333;
+        }
+        
+        /* Dropdown Styles - Updated for click functionality */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgb(250, 249, 249);
+            border-radius: 5px;
+            padding: 10px 0;
+            z-index: 1000;
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .dropdown.active .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        .dropdown-menu li {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .dropdown-menu a {
+            color: #333 !important;
+            padding: 10px 20px;
+            font-size: 16px;
+            display: block;
+            transition: all 0.3s;
+        }
+        
+        .dropdown-menu a:hover {
+            background-color: #f5f5f5;
+            color: #d82a4e !important;
+        }
+        
+        .dropdown > a::after {
+            content: '\f078';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-left: 5px;
+            font-size: 12px;
+            transition: transform 0.3s;
+        }
+        
+        .dropdown.active > a::after {
+            transform: rotate(180deg);
+        }
+        
+        .login-register {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+        
+        .login-btn, .register-btn {
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn {
+            color: white;
+            border: 1px solid white;
+        }
+        
+        .login-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .register-btn {
+            background-color: #d82a4e;
+            color: white;
+            box-shadow: 0 4px 8px rgba(216, 42, 78, 0.3);
+        }
+        
+        .register-btn:hover {
+            background-color: #c21e40;
+            transform: translateY(-2px);
+        }
+        
+        /* Search Bar in Header */
+        .search-container {
+            position: relative;
+            margin-left: 20px;
+        }
+        
+        .search-input {
+            width: 40px;
+            height: 40px;
+            padding: 5px 15px 5px 40px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 14px;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+        
+        .search-input::placeholder {
+            color: transparent;
+        }
+        
+        .search-input:focus {
+            width: 200px;
+            background-color: rgba(255,255,255,0.9);
+            color: #333;
+            cursor: text;
+        }
+        
+        .search-input:focus::placeholder {
+            color: #999;
+        }
+        
+        .search-icon {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            color: white;
+            pointer-events: none;
+        }
+        
+        .search-input:focus + .search-icon {
+            color: #d82a4e;
+        }
+        
+        /* Back Button Styles */
+        .back-button-container {
+            margin-right: 15px;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 15px;
+            background-color: #f5f5f5;
+            color: #333;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid #ddd;
+        }
+        
+        .back-button:hover {
+            background-color: #e9e9e9;
+            color: #000;
+            transform: translateX(-2px);
+        }
+        
+        .back-button i {
+            margin-right: 5px;
+            font-size: 14px;
+        }
+
+        /* Blessed Couples Page Styles */
+        .blessed-couples-container {
+            min-height: 100vh;
+            padding-top: 100px;
+            background: linear-gradient(to bottom, #fff 0%, #fff8f8 100%);
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #ff6b8b 0%, #ff8e9e 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(255, 107, 139, 0.2);
+        }
+        
+        .page-header h1 {
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .couple-card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+            background: white;
+            margin-bottom: 30px;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .couple-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(255, 107, 139, 0.2);
+        }
+        
+        .card-image-container {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+        }
+        
+        .card-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .couple-card:hover .card-image-container img {
+            transform: scale(1.1);
+        }
+        
+        .wedding-date-badge {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        .card-title {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .card-title span {
+            color: #ff6b8b;
+        }
+        
+        .story-excerpt {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .read-more-btn {
+            background: linear-gradient(135deg, #ff6b8b 0%, #ff8e9e 100%);
+            border: none;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .read-more-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 139, 0.4);
+            color: white;
+        }
+        
+        .full-story {
+            display: none;
+            padding-top: 15px;
+            color: #555;
+            line-height: 1.7;
+        }
+        
+        .couple-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .detail-item i {
+            margin-right: 5px;
+            color: #ff6b8b;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #222;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+        
+        .footer-column {
+            width: 23%;
+            margin-bottom: 25px;
+        }
+        
+        .footer-title {
+            font-size: 17px;
+            margin-bottom: 15px;
+            color: #d82a4e;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        
+        .footer-title:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 35px;
+            height: 2px;
+            background-color: #d82a4e;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: #333;
+            color: white;
+            margin-right: 8px;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: #d82a4e;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid #444;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .footer-column {
+                width: 48%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .main-nav {
+                width: 100%;
+                margin-top: 15px;
+            }
+            
+            .main-nav ul {
+                justify-content: center;
+            }
+            
+            .search-container {
+                margin: 15px 0;
+            }
+            
+            .login-register {
+                margin: 0;
+            }
+            
+            .card-image-container {
+                height: 220px;
+            }
+            
+            .page-header {
+                padding: 20px 0;
+                margin-bottom: 30px;
+            }
+            
+            .footer-column {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-container">
+            <div class="back-button-container">
+                <a href="{% url 'home' %}" class="register-btn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+            </div>
+            <div class="logo">
+                <span class="logo-text">Connect</span>
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li class="dropdown">
+                        <a href="#"><i class="fas fa-glass-cheers"></i> Success Stories </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'addyourstory_view' %}"><i class="fas fa-plus-circle"></i> Add Your Story</a></li>
+                            <li><a href="{% url 'blessed_couples' %}"><i class="fas fa-heart"></i> Blessed Couples</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#"><i class="fas fa-question-circle"></i> Help</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'about_contact' %}"><i class="fas fa-envelope"></i> <span data-en="Contact Us">Contact Us</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search by ID">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            
+            <div class="login-register">
+                <a href="{% url 'login' %}" class="login-btn">Login</a>
+                <a href="{% url 'register' %}" class="register-btn">Register Free</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="blessed-couples-container">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="display-4">Blessed Couples</h1>
+                <p class="lead">Success stories of our happy couples</p>
+            </div>
+
+            <div class="row">
+                {% for story in stories %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card couple-card">
+                        <div class="card-image-container">
+                            <img src="{{ story.cover_photo.url }}" class="card-img-top" alt="{{ story.brides_name }} & {{ story.grooms_name }}">
+                            <div class="wedding-date-badge">
+                                <i class="far fa-calendar-alt"></i> {{ story.wedding_date|date:"M d, Y" }}
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ story.brides_name }} <span>&</span> {{ story.grooms_name }}</h5>
+                            
+                            <div class="couple-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-map-marker-alt"></i> {{ story.location }}
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-heart"></i> {{ story.years_married }} years
+                                </div>
+                            </div>
+                            
+                            <div class="story-excerpt">
+                                {{ story.story|truncatewords:30 }}
+                            </div>
+                            
+                            <div class="full-story" id="story-{{ story.id }}">
+                                {{ story.story }}
+                            </div>
+                            
+                            <button class="read-more-btn" onclick="toggleStory('story-{{ story.id }}', this)">
+                                Read More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12 text-center py-5">
+                    <h4>No success stories yet</h4>
+                    <p class="text-muted">Check back later for inspiring love stories</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Success Stories</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Help & Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Safety Tips</a></li>
+                    <li><a href="#">Membership</a></li>
+                    <li><a href="#">Customer Support</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Terms of Use</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Contact Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Kochi, Kerala</a></li>
+                    <li><a href="tel:+911234567890"><i class="fas fa-phone"></i> +91 9234567890</a></li>
+                    <li><a href="mailto:info@example.com"><i class="fas fa-envelope"></i> connect@gmail.com</a></li>
+                </ul>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2025 Connect Matrimony. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Dropdown functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            
+            dropdowns.forEach(dropdown => {
+                const link = dropdown.querySelector('a');
+                
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    dropdown.classList.toggle('active');
+                    
+                    // Close other dropdowns
+                    dropdowns.forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                });
+            });
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.dropdown')) {
+                    dropdowns.forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+            
+            // Header scroll effect
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('.header');
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        });
+
+        function toggleStory(storyId, button) {
+            const storyElement = document.getElementById(storyId);
+            const excerpt = button.parentElement.querySelector('.story-excerpt');
+            
+            if (storyElement.style.display === 'none' || !storyElement.style.display) {
+                storyElement.style.display = 'block';
+                excerpt.style.display = 'none';
+                button.textContent = 'Read Less';
+            } else {
+                storyElement.style.display = 'none';
+                excerpt.style.display = 'block';
+                button.textContent = 'Read More';
+            }
+        }
+    </script>
+</body>
+</html>

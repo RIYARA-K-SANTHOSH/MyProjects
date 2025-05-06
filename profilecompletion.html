@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect - Christian Matrimony Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #8a2be2;
+            --primary-light: #b57eed;
+            --primary-dark: #6a3093;
+            --text-color: #2d3748;
+            --text-light: #718096;
+            --bg-grey: #f8f9fa;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--bg-grey);
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: var(--white);
+            padding: 0.75rem 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        
+        .header-container {
+            width: 98%;
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            margin-right: 4rem;
+            margin-left: 2rem;
+        }
+        
+        .nav-main {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin-right: auto;
+            margin-left: 4rem;
+        }
+        
+        .nav-links li {
+            position: relative;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-light), var(--primary-dark));
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-dark);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--white);
+            min-width: 220px;
+            box-shadow: var(--shadow-lg);
+            border-radius: 0.5rem;
+            z-index: 100;
+            top: 100%;
+            left: 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+            padding: 0.5rem 0;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: rgba(138, 43, 226, 0.05);
+            color: var(--primary-dark);
+            padding-left: 1.75rem;
+        }
+        
+        .dropdown-content a::after {
+            display: none;
+        }
+        
+        /* Right Side Navigation */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-right: 2rem;
+        }
+        
+        /* Search Styles */
+        .search-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 2;
+        }
+        
+        .search-icon:hover {
+            color: var(--primary-dark);
+        }
+        
+        .search-input {
+            width: 36px;
+            height: 36px;
+            padding: 0 10px 0 36px;
+            border: none;
+            border-radius: 2rem;
+            background-color: #f0f0f0;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            opacity: 0;
+            visibility: hidden;
+            cursor: pointer;
+        }
+        
+        .search-input.active {
+            width: 220px;
+            opacity: 1;
+            visibility: visible;
+            cursor: text;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+        
+        /* Profile Icon */
+        .profile-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            overflow: hidden;
+        }
+        
+        .profile-icon:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.05);
+        }
+        
+        .profile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Profile Dropdown */
+        .profile-container {
+            position: relative;
+        }
+        
+        .profile-dropdown {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 3px);
+            background-color: var(--white);
+            min-width: 200px;
+            box-shadow: var(--shadow-lg);
+            border-radius: 0.5rem;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            display: none;
+        }
+        
+        .profile-container:hover .profile-dropdown {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .profile-dropdown a {
+            color: var(--text-color);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .profile-dropdown a:hover {
+            background-color: rgba(138, 43, 226, 0.05);
+            color: var(--primary-dark);
+            padding-left: 1.75rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Main Content Layout */
+        .main-container {
+            display: flex;
+            width: 95%;
+            max-width: 1400px;
+            margin: 30px auto;
+            gap: 30px;
+        }
+        
+        /* Profile Sidebar */
+        .profile-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 20px;
+            position: relative;
+            text-align: center;
+        }
+
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            text-align: center;
+            width: 100%;
+        }
+
+        .profile-info h3 {
+            margin: 0;
+            color: var(--primary-dark);
+            font-size: 18px;
+        }
+        
+        .profile-info p {
+            margin: 5px 0 0;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .profile-details {
+            margin-top: 15px;
+            text-align: left;
+            padding: 0 10px;
+        }
+        
+        .profile-details p {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .profile-details strong {
+            color: var(--text-color);
+        }
+
+        /* Upload button */
+        .upload-btn-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            border: none;
+            text-decoration: none;
+        }
+
+        .upload-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .upload-btn i {
+            margin-right: 8px;
+        }
+
+        .upload-btn input {
+            display: none;
+        }
+        
+        /* Profile Completion */
+        .profile-completion {
+            background: linear-gradient(135deg, #1e90ff, #00bfff);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-md);
+            width: 100%;
+        }
+        
+        .completion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .completion-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+        
+        .completion-percentage {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            width: 50%;
+            background-color: white;
+            border-radius: 4px;
+        }
+        
+        .completion-message {
+            font-size: 13px;
+            margin-top: 10px;
+        }
+        
+        /* Main Content Area */
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        /* Information Sections */
+        .info-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+        
+        .info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: var(--bg-grey);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .info-header:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .info-title {
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            color: var(--primary-dark);
+        }
+        
+        .info-title i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .info-toggle {
+            transition: var(--transition);
+        }
+        
+        .info-toggle.rotate {
+            transform: rotate(180deg);
+        }
+        
+        /* Edit Button Styles */
+        .edit-section-btn {
+            position: absolute;
+            right: 50px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .edit-section-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .edit-section-btn i {
+            font-size: 11px;
+        }
+        
+        .info-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .info-content.active {
+            padding: 20px;
+            max-height: 1000px;
+        }
+        
+        /* Display View */
+        .info-display {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .info-label {
+            font-weight: 500;
+            min-width: 120px;
+            color: var(--text-light);
+        }
+        
+        .info-value {
+            flex: 1;
+            color: var(--text-color);
+        }
+        
+        /* Form Styles */
+        .info-form {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.1);
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 1em;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            grid-column: span 2;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--text-light);
+            color: var(--text-light);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .info-label {
+            font-weight: 500;
+            min-width: 120px;
+            color: var(--text-light);
+        }
+        
+        .info-value {
+            flex: 1;
+            color: var(--text-color);
+        }
+        
+        /* Footer Styles */
+        .footer {
+            background-color: #222;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+        
+        .footer-column {
+            width: 23%;
+            margin-bottom: 25px;
+        }
+        
+        .footer-title {
+            font-size: 17px;
+            margin-bottom: 15px;
+            color: #d82a4e;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        
+        .footer-title:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 35px;
+            height: 2px;
+            background-color: #d82a4e;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: #333;
+            color: white;
+            margin-right: 8px;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: #d82a4e;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid #444;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <!-- White Header Section -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">Connect</div>
+            
+            <div class="nav-main">
+                <ul class="nav-links">
+                    <li class="dropdown">
+                        <a href="#">Home</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'profilecompletion' connect_id=current_user.connect_id %}">View and Edit My Profile</a>
+                            <a href="#">Manage Photo</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Search</a>
+                        <div class="dropdown-content">
+                            <a href="#">Search Partner</a>
+                            <a href="#">Advanced Search</a>
+                            <a href="#">Discover Profile</a>
+                            <a href="#">Digital Magazine</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Matches</a>
+                        <div class="dropdown-content">
+                            <a href="#">My Matches</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Messages</a>
+                        <div class="dropdown-content">
+                            <a href="#">Interests</a>
+                            <a href="#">Send Request</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Activity</a>
+                        <div class="dropdown-content">
+                            <a href="#">Shortlisted Profile</a>
+                            <a href="#">Blocked Profile</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Payment Plans</a>
+                        <div class="dropdown-content">
+                            <a href="#">Upgrade</a>
+                            <a href="#">Other Plans</a>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="nav-right">
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon" id="searchIcon"></i>
+                        <input type="text" class="search-input" placeholder="Search by ID..." id="searchInput">
+                    </div>
+                    
+                    <div class="profile-container">
+                        <div class="profile-icon">
+                          {% if profile_picture %}
+    <img src="{{ profile_picture.image.url }}" 
+         alt="{{ current_user.name }}'s Profile Picture" 
+         class="avatar-image"
+         onerror="this.onerror=null; this.src='{% if current_user.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}'">
+{% else %}
+    <img src="{% if current_user.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}" 
+         alt="Default {% if current_user.gender.lower == 'male' %}Male{% else %}Female{% endif %} Avatar" 
+         class="avatar-image">
+{% endif %}
+                        </div>
+                        <div class="profile-dropdown">
+                            <a href="#">Settings</a>
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="main-container">
+        <!-- Left Sidebar - User Profile -->
+          <!-- Left Sidebar - User Profile -->
+          <div class="profile-sidebar">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        {% if profile_picture %}
+    <img src="{{ profile_picture.image.url }}" 
+         alt="{{ current_user.name }}'s Profile Picture" 
+         class="avatar-image"
+         onerror="this.onerror=null; this.src='{% if current_user.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}'">
+{% else %}
+    <img src="{% if current_user.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}" 
+         alt="Default {% if current_user.gender.lower == 'male' %}Male{% else %}Female{% endif %} Avatar" 
+         class="avatar-image">
+{% endif %}
+                    </div>
+                    <div class="profile-info">
+                        <h3>{{ current_user.full_name }}</h3>
+                        <p>{{ current_user.connect_id }}</p>
+                    </div>
+                </div>
+                <div class="upload-btn-container">
+                    <a href="{% url 'uploadphoto' connect_id=current_user.connect_id  %}" class="upload-btn">
+                        <i class="fas fa-camera"></i> Upload Photo
+                    </a>
+                </div>
+                <div class="profile-details">
+                    <p><strong>Age:</strong> {{ current_user.age }}</p>
+                    <p><strong>Gender:</strong> {{ current_user.gender|title }}</p>
+                    <p><strong>Email:</strong> {{ current_user.email }}</p>
+                </div>
+            </div>
+            
+    
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="content-area">
+            <!-- Primary Information Section -->
+           <!-- Primary Information Section -->
+<div class="info-section">
+    <div class="info-header">
+        <div class="info-title">
+            <i class="fas fa-user"></i> Primary Information
+        </div>
+        <button class="edit-section-btn">
+            <a href="{% url 'edit_primary_info' connect_id=current_user.connect_id %}">
+                <i class="fas fa-pencil-alt"></i> Edit
+            </a>
+        </button>
+        <i class="fas fa-chevron-down info-toggle"></i>
+    </div>
+    <div class="info-content">
+        <!-- Display View -->
+        <div class="info-display">
+            <div class="info-item">
+                <span class="info-label">Full Name:</span>
+                <span class="info-value">{{ current_user.full_name }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Gender:</span>
+                <span class="info-value">{{ current_user.get_gender_display }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Date of Birth:</span>
+                <span class="info-value">
+                    {% if current_user.date_of_birth %}
+                        {{ current_user.date_of_birth|date:"F d, Y" }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Age:</span>
+                <span class="info-value">
+                    {% if current_user.calculate_age %}
+                        {{ current_user.calculate_age }} years
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Height:</span>
+                <span class="info-value">
+                    {% if profile.height %}
+                        {{ profile.get_height_display }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Weight:</span>
+                <span class="info-value">
+                    {% if current_user.weight %}
+                        {{ current_user.weight }} kg
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Complexion:</span>
+                <span class="info-value">
+                    {% if profile.complexion %}
+                        {{ profile.get_complexion_display }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Body Type:</span>
+                <span class="info-value">
+                    {% if profile.body_type %}
+                        {{ profile.get_body_type_display }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Blood Group:</span>
+                <span class="info-value">
+                    {% if current_user.blood_group %}
+                        {{ current_user.get_blood_group_display }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Mother Tongue:</span>
+                <span class="info-value">
+                    {% if current_user.mother_tongue %}
+                        {{ current_user.mother_tongue }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Marital Status:</span>
+                <span class="info-value">
+                    {% if profile.marital_status %}
+                        {{ profile.get_marital_status_display }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Physical Status:</span>
+                <span class="info-value">
+                    {% if profile.physical_status %}
+                        {{ profile.get_physical_status_display }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-item" style="grid-column: span 2;">
+                <span class="info-label">About Me:</span>
+                <span class="info-value">
+                    {% if current_user.about_me %}
+                        {{ current_user.about_me }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+            
+            <div class="info-section">
+                <div class="info-header">
+                    <div class="info-title">
+                        <i class="fas fa-praying-hands"></i> Religion Information
+                    </div>
+                  
+                    <i class="fas fa-chevron-down info-toggle"></i>
+                </div>
+                <div class="info-content">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Religion:</span>
+                            <span class="info-value">Christian</span>  <!-- Hardcoded since all users are Christian in your app -->
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Denomination:</span>
+                            <span class="info-value">
+                                {% if profile.denomination %}
+                                    {{ profile.get_denomination_display }}
+                                {% else %}
+                                    Not Mentioned
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Parish Name:</span>
+                            <span class="info-value">
+                                {% if profile.parish_name %}
+                                    {{ profile.parish_name }}
+                                {% else %}
+                                    Not Mentioned
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Parish Place:</span>
+                            <span class="info-value">
+                                {% if profile.parish_place %}
+                                    {{ profile.parish_place }}
+                                {% else %}
+                                    Not Mentioned
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Education & Profession Section -->
+            <div class="info-section">
+                <div class="info-header">
+                    <div class="info-title">
+                        <i class="fas fa-graduation-cap"></i> Education & Profession
+                    </div>
+                    <button class="edit-section-btn">
+                        <i class="fas fa-pencil-alt"></i> Edit
+                    </button>
+                    <i class="fas fa-chevron-down info-toggle"></i>
+                </div>
+                <div class="info-content">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Education Level:</span>
+                            <span class="info-value">
+                                {% if education_professional.education_level %}
+                                    {{ education_professional.get_education_level_display }}
+                                {% else %}
+                                    Not Mentioned
+                                {% endif %}
+                            </span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Education in Detail:</span>
+                            <span class="info-value">
+                                {% if education_professional.bachelors_degree or education_professional.masters_degree %}
+                                    {% if education_professional.bachelors_degree %}
+                                        {{ education_professional.get_bachelors_degree_display }}
+                                        {% if education_professional.bachelors_specialization %}
+                                            in {{ education_professional.bachelors_specialization }}
+                                        {% endif %}
+                                        <br>
+                                    {% endif %}
+                                    {% if education_professional.masters_degree %}
+                                        {{ education_professional.get_masters_degree_display }}
+                                        {% if education_professional.masters_specialization %}
+                                            in {{ education_professional.masters_specialization }}
+                                        {% endif %}
+                                    {% endif %}
+                                {% else %}
+                                    Not Mentioned
+                                {% endif %}
+                            </span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Occupation Category:</span>
+                            <span class="info-value">
+                                {% if education_professional.occupation %}
+                                    {{ education_professional.get_occupation_display }}
+                                {% else %}
+                                    Not Mentioned
+                                {% endif %}
+                            </span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Employment Type:</span>
+                            <span class="info-value">
+                                {% if education_professional.employment_type %}
+                                    {{ education_professional.get_employment_type_display }}
+                                {% else %}
+                                    Not Mentioned
+                                {% endif %}
+                            </span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Working Country:</span>
+                            <span class="info-value">
+                                {% if education_professional.working_country %}
+                                    {{ education_professional.working_country }}
+                                {% else %}
+                                    Not Mentioned
+                                {% endif %}
+                            </span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Working State:</span>
+                            <span class="info-value">
+                                {% if education_professional.working_state %}
+                                    {{ education_professional.working_state }}
+                                {% else %}
+                                    Not Mentioned
+                                {% endif %}
+                            </span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Working District:</span>
+                            <span class="info-value">
+                                {% if education_professional.working_district %}
+                                    {{ education_professional.working_district }}
+                                {% else %}
+                                    Not Mentioned
+                                {% endif %}
+                            </span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Working City/Town:</span>
+                            <span class="info-value">
+                                {% if education_professional.working_city %}
+                                    {{ education_professional.working_city }}
+                                {% else %}
+                                    Not Mentioned
+                                {% endif %}
+                            </span>
+                        </div>
+                        
+                        <div class="info-item">
+                            <span class="info-label">Annual Income:</span>
+                            <span class="info-value">
+                                {% if education_professional.annual_income and education_professional.annual_income != 'not_disclosed' %}
+                                    {{ education_professional.get_annual_income_display }}
+                                {% else %}
+                                    Not Disclosed
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <!-- Family Information Section -->
+<div class="info-section">
+    <div class="info-header">
+        <div class="info-title">
+            <i class="fas fa-home"></i> Family Information
+        </div>
+        <button class="edit-section-btn">
+            <a href="{% url 'edit_family_info' connect_id=current_user.connect_id %}">
+                <i class="fas fa-pencil-alt"></i> Edit
+            </a>
+        </button>
+        <i class="fas fa-chevron-down info-toggle"></i>
+    </div>
+    <div class="info-content">
+        <div class="info-grid">
+            <!-- Family Status -->
+            <div class="info-item">
+                <span class="info-label">Family Status:</span>
+                <span class="info-value">
+                    {% if family.family_status %}
+                        {{ family.get_family_status_display }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            
+            <!-- Father's Information -->
+            <div class="info-item">
+                <span class="info-label">Father's Name:</span>
+                <span class="info-value">{{ family.father_name|default:"Not Mentioned" }}</span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Mother's Name:</span>
+                <span class="info-value">{{ family.mother_name|default:"Not Mentioned" }}</span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Father's House Name:</span>
+                <span class="info-value">{{ family.father_housename|default:"Not Mentioned" }}</span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Mother's House Name:</span>
+                <span class="info-value">{{ family.mother_housename|default:"Not Mentioned" }}</span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Father's Native Place:</span>
+                <span class="info-value">{{ family.father_native_place|default:"Not Mentioned" }}</span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Mother's Native Place:</span>
+                <span class="info-value">{{ family.mother_native_place|default:"Not Mentioned" }}</span>
+            </div>
+            
+            <!-- Occupations -->
+            <div class="info-item">
+                <span class="info-label">Father's Occupation:</span>
+                <span class="info-value">
+                    {% if family.father_occupation %}
+                        {{ family.get_father_occupation_display }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Mother's Occupation:</span>
+                <span class="info-value">
+                    {% if family.mother_occupation %}
+                        {{ family.get_mother_occupation_display }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            
+            <!-- Siblings Information -->
+            <div class="info-item">
+                <span class="info-label">No. of Brothers:</span>
+                <span class="info-value">
+                    Married: {{ family.no_of_brothers_married|default:"0" }}, 
+                    Unmarried: {{ family.no_of_brothers_unmarried|default:"0" }}, 
+                    Priest: {{ family.no_of_brothers_priest|default:"0" }}
+                </span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">No. of Sisters:</span>
+                <span class="info-value">
+                    Married: {{ family.no_of_sisters_married|default:"0" }}, 
+                    Unmarried: {{ family.no_of_sisters_unmarried|default:"0" }}, 
+                    Nun: {{ family.no_of_sisters_nun|default:"0" }}
+                </span>
+            </div>
+            
+            <!-- Assets and Family Details -->
+            <div class="info-item">
+                <span class="info-label">Candidate's Asset Details:</span>
+                <span class="info-value">{{ family.asset_details|default:"Not Mentioned" }}</span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">About Candidate's Family:</span>
+                <span class="info-value">{{ family.about_family|default:"Not Mentioned" }}</span>
+            </div>
+            
+            <!-- Profile Creator -->
+            <div class="info-item">
+                <span class="info-label">Profile Created By:</span>
+                <span class="info-value">
+                    {% if creation_details.created_by %}
+                        {{ creation_details.get_created_by_display }}
+                        {% if creation_details.creator_name %}
+                            ({{ creation_details.creator_name }})
+                        {% endif %}
+                    {% else %}
+                        Candidate
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+            
+            <!-- Location Information Section -->
+<!-- Location Information Section -->
+<div class="info-section">
+    <div class="info-header">
+        <div class="info-title">
+            <i class="fas fa-map-marker-alt"></i> Location Information
+        </div>
+        <i class="fas fa-chevron-down info-toggle"></i>
+    </div>
+    <div class="info-content">
+        <div class="info-grid">
+            <!-- Native Location -->
+            <div class="info-item">
+                <span class="info-label">Native Country:</span>
+                <span class="info-value">
+                    {% if additional_profile.native_country %}
+                        {{ additional_profile.get_native_country_display }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Native State:</span>
+                <span class="info-value">
+                    {{ additional_profile.native_state|default:"Not Mentioned" }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Native City:</span>
+                <span class="info-value">
+                    {{ additional_profile.native_city|default:"Not Mentioned" }}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Information Section -->
+<div class="info-section">
+    <div class="info-header">
+        <div class="info-title">
+            <i class="fas fa-address-book"></i> Contact Information
+        </div>
+        <button class="edit-section-btn">
+            <a href="{% url 'edit_contact_info' connect_id=current_user.connect_id %}">
+                <i class="fas fa-pencil-alt"></i> Edit
+            </a>
+        </button>
+        <i class="fas fa-chevron-down info-toggle"></i>
+    </div>
+    <div class="info-content">
+        <div class="info-grid">
+            <!-- Phone Numbers -->
+            <div class="info-item">
+                <span class="info-label">Mobile Number:</span>
+                <span class="info-value">
+                    {% if additional_profile.mobile_number %}
+                        {{ additional_profile.mobile_code }} {{ additional_profile.mobile_number }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">WhatsApp Number:</span>
+                <span class="info-value">
+                    {% if additional_profile.whatsapp_number %}
+                        {{ additional_profile.whatsapp_code }} {{ additional_profile.whatsapp_number }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Secondary Mobile No.:</span>
+                <span class="info-value">
+                    {{ additional_profile.secondary_mobile_code }}{{ additional_profile.secondary_mobile|default:"Not Mentioned" }}
+                </span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Residential Landline No.:</span>
+                <span class="info-value">
+                    {{ additional_profile.landline_number|default:"Not Mentioned" }}
+                </span>
+            </div>
+            
+            <!-- Email -->
+            <div class="info-item">
+                <span class="info-label">Email ID:</span>
+                <span class="info-value">
+                    {{ current_user.email|default:"Not Mentioned" }}
+                </span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Alternate Email ID:</span>
+                <span class="info-value">
+                    {{ additional_profile.alternate_email|default:"Not Mentioned" }}
+                </span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Preferred Time To Reach You:</span>
+                <span class="info-value">
+                    {{ additional_profile.preferred_contact_time|default:"Not Mentioned" }}
+                </span>
+            </div>
+            
+            <!-- Addresses -->
+            <div class="info-item" style="grid-column: span 2;">
+                <span class="info-label">Communication Address:</span>
+                <span class="info-value">
+                    {{ additional_profile.address|default:"Not Mentioned" }}
+                </span>
+            </div>
+            
+            <div class="info-item" style="grid-column: span 2;">
+                <span class="info-label">Present Address:</span>
+                <span class="info-value">
+                    {% if additional_profile.present_address_type == 'same' %}
+                        Same as Communication Address
+                    {% else %}
+                        {{ additional_profile.present_address|default:"Not Mentioned" }}
+                        {% if additional_profile.present_pincode %}
+                            (Pincode: {{ additional_profile.present_pincode }})
+                        {% endif %}
+                    {% endif %}
+                </span>
+            </div>
+            
+            <div class="info-item" style="grid-column: span 2;">
+                <span class="info-label">Permanent Address:</span>
+                <span class="info-value">
+                    {% if additional_profile.permanent_address_type == 'same' %}
+                        Same as Communication Address
+                    {% else %}
+                        {{ additional_profile.permanent_address|default:"Not Mentioned" }}
+                        {% if additional_profile.permanent_pincode %}
+                            (Pincode: {{ additional_profile.permanent_pincode }})
+                        {% endif %}
+                    {% endif %}
+                </span>
+            </div>
+            
+           
+            
+           
+        </div>
+    </div>
+</div>
+            
+          <!-- Hobbies & Lifestyle Section -->
+<div class="info-section">
+    <div class="info-header">
+        <div class="info-title">
+            <i class="fas fa-heart"></i> Hobbies & Lifestyle
+        </div>
+        <button class="edit-section-btn">
+            <a href="{% url 'edit_hobbies_lifestyle' connect_id=current_user.connect_id %}">
+                <i class="fas fa-pencil-alt"></i> Edit
+            </a>
+        </button>
+        <i class="fas fa-chevron-down info-toggle"></i>
+    </div>
+    <div class="info-content">
+        <div class="info-grid">
+            <!-- Hobbies and Interests -->
+            <div class="info-item">
+                <span class="info-label">Hobbies:</span>
+                <span class="info-value">
+                    {{ hobbies.hobbies|default:"Not Mentioned" }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Favorite Music:</span>
+                <span class="info-value">
+                    {{ hobbies.favorite_music|default:"Not Mentioned" }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Preferred Books:</span>
+                <span class="info-value">
+                    {{ hobbies.preferred_books|default:"Not Mentioned" }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Preferred Movies:</span>
+                <span class="info-value">
+                    {{ hobbies.preferred_movies|default:"Not Mentioned" }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Sports/Fitness/Games:</span>
+                <span class="info-value">
+                    {{ hobbies.sports_games|default:"Not Mentioned" }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Favorite Cuisine:</span>
+                <span class="info-value">
+                    {{ hobbies.favorite_cuisine|default:"Not Mentioned" }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Spoken Languages:</span>
+                <span class="info-value">
+                    {{ hobbies.spoken_languages|default:"Not Mentioned" }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Cultural Background:</span>
+                <span class="info-value">
+                    {{ hobbies.cultural_background|default:"Not Mentioned" }}
+                </span>
+            </div>
+            
+            <!-- Lifestyle Habits -->
+            <div class="info-item">
+                <span class="info-label">Eating Habits:</span>
+                <span class="info-value">
+                    {% if hobbies.eating_habits %}
+                        {{ hobbies.get_eating_habits_display }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Drinking Habits:</span>
+                <span class="info-value">
+                    {% if hobbies.drinking_habits %}
+                        {{ hobbies.get_drinking_habits_display }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Smoking Habits:</span>
+                <span class="info-value">
+                    {% if hobbies.smoking_habits %}
+                        {{ hobbies.get_smoking_habits_display }}
+                    {% else %}
+                        Not Mentioned
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+            
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3 class="footer-title">About Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Connect</a></li>
+                    <li><a href="#">Success Stories</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Awards</a></li>
+                    <li><a href="#">Press & Media</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3 class="footer-title">Help & Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Safety Tips</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Feedback</a></li>
+                    <li><a href="#">Customer Care</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3 class="footer-title">Services</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Premium Membership</a></li>
+                    <li><a href="#">Profile Verification</a></li>
+                    <li><a href="#">Wedding Services</a></li>
+                    <li><a href="#">Astrology Services</a></li>
+                    <li><a href="#">Photo Privacy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3 class="footer-title">Connect With Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">YouTube</a></li>
+                </ul>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Connect Christian Matrimony. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle search input
+        const searchIcon = document.getElementById('searchIcon');
+        const searchInput = document.getElementById('searchInput');
+        
+        searchIcon.addEventListener('click', () => {
+            searchInput.classList.toggle('active');
+            if (searchInput.classList.contains('active')) {
+                searchInput.focus();
+            }
+        });
+        
+        // Close search when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!searchIcon.contains(e.target) && !searchInput.contains(e.target)) {
+                searchInput.classList.remove('active');
+            }
+        });
+        
+        // Toggle sections
+        const infoHeaders = document.querySelectorAll('.info-header');
+        
+        infoHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const toggle = header.querySelector('.info-toggle');
+                
+                content.classList.toggle('active');
+                toggle.classList.toggle('rotate');
+            });
+        });
+    </script>
+</body>
+</html>

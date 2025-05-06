@@ -1,0 +1,470 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Membership Plans</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+            --secondary-color: #4a42e8;
+            --accent-color: #ff6584;
+            --dark-color: #2a2a72;
+            --light-color: #f8f9fa;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .plan-section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background: var(--primary-color);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title p {
+            color: #6c757d;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .plan-card {
+            transition: var(--transition);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: none;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            background: white;
+            position: relative;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .popular-plan {
+            border: 2px solid var(--primary-color);
+        }
+        
+        .plan-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .popular-plan .plan-header {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #ff3366 100%);
+        }
+        
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 15px 0;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .plan-price::before {
+            content: '₹';
+            font-size: 1.5rem;
+            position: absolute;
+            left: -20px;
+            top: 10px;
+        }
+        
+        .plan-period {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .plan-features {
+            padding: 30px;
+        }
+        
+        .plan-features ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+        }
+        
+        .plan-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .plan-features i {
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .plan-btn {
+            display: block;
+            width: 80%;
+            margin: 20px auto;
+            padding: 12px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            border: none;
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .plan-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .popular-plan .plan-btn {
+            background: var(--accent-color);
+        }
+        
+        .popular-plan .plan-btn:hover {
+            background: #ff3366;
+        }
+        
+        .popular-tag {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+        
+        /* Modal Styles */
+        .payment-modal .modal-content {
+            border-radius: var(--border-radius);
+            border: none;
+        }
+        
+        .payment-modal .modal-header {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .payment-modal .modal-title {
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+        
+        .payment-modal .modal-body {
+            padding: 30px;
+        }
+        
+        .payment-modal .btn-close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+        
+        /* Error Message */
+        .error-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            max-width: 350px;
+            display: none;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .plan-card {
+                margin-bottom: 30px;
+            }
+            
+            .plan-price {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Error Message Container -->
+    <div id="errorAlert" class="error-message alert alert-danger alert-dismissible fade show" role="alert">
+        <span id="errorText"></span>
+        <button type="button" class="btn-close" onclick="hideError()"></button>
+    </div>
+
+    <!-- Plan Selection Section -->
+    <section class="plan-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Choose Your Premium Plan</h2>
+                <p>Select the subscription plan that fits your needs and unlock exclusive features to enhance your experience.</p>
+            </div>
+
+            <div class="row">
+                {% for plan in plans %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="plan-card {% if forloop.counter == 2 %}popular-plan{% endif %}">
+                        {% if forloop.counter == 2 %}
+                        <div class="popular-tag">Most Popular</div>
+                        {% endif %}
+                        
+                        <div class="plan-header">
+                            <h3 class="plan-name">{{ plan.name }}</h3>
+                            <div class="plan-price">{{ plan.price }}</div>
+                            <div class="plan-period">per {{ plan.duration_months }} month(s)</div>
+                        </div>
+                        
+                        <div class="plan-features">
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> Full profile access</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Priority customer support</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Advanced search filters</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Unlimited connections</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Profile boosting</li>
+                            </ul>
+                            
+                            <button class="btn plan-btn" onclick="initiatePayment('{{ plan.id }}', '{{ plan.name }}', '{{ plan.price }}')">
+                                <i class="bi bi-credit-card me-2"></i> Get Started
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Processing Modal -->
+    <div class="modal fade payment-modal" id="paymentProcessingModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Processing Your Payment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Please wait while we process your payment...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Success Modal -->
+    <div class="modal fade payment-modal" id="paymentSuccessModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Payment Successful</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+                    <h4 class="my-3">Thank You!</h4>
+                    <p>Your payment has been processed successfully. Your premium membership is now active.</p>
+                    <button class="btn btn-primary" data-bs-dismiss="modal">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        // Initialize Bootstrap modals
+        const paymentProcessingModal = new bootstrap.Modal(document.getElementById('paymentProcessingModal'));
+        const paymentSuccessModal = new bootstrap.Modal(document.getElementById('paymentSuccessModal'));
+        
+        // Show error message
+        function showError(message) {
+            const errorAlert = document.getElementById('errorAlert');
+            const errorText = document.getElementById('errorText');
+            
+            errorText.textContent = message;
+            errorAlert.style.display = 'block';
+            
+            // Auto-hide after 5 seconds
+            setTimeout(hideError, 5000);
+        }
+        
+        // Hide error message
+        function hideError() {
+            document.getElementById('errorAlert').style.display = 'none';
+        }
+        
+        // Handle payment initiation
+        async function initiatePayment(planId, planName, planPrice) {
+            try {
+                // Show processing modal
+                paymentProcessingModal.show();
+                
+                // Create order on server
+                const response = await fetch('/create-order/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({
+                        plan_id: planId,
+                        plan_name: planName,
+                        plan_price: planPrice,
+                        connect_id: '{{ connect_id }}'  // Pass connect_id from template context
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok || !data.success) {
+                    throw new Error(data.error || 'Failed to create payment order');
+                }
+                
+                // Configure Razorpay options
+                const options = {
+                    key: data.key,
+                    amount: data.amount,
+                    currency: data.currency,
+                    order_id: data.order_id,
+                    name: "Matrimony Connect",
+                    description: `Plan: ${planName}`,
+                    image: "{% static 'img/logo.png' %}",
+                    handler: function(response) {
+                        // Handle successful payment
+                        paymentProcessingModal.hide();
+                        verifyPayment(response, planId);
+                    },
+                    prefill: {
+                        name: "{{ user_profile.full_name|default:'' }}",
+                        email: "{{ user_profile.email|default:'' }}",
+                        contact: "{{ user_profile.phone|default:'' }}"
+                    },
+                    theme: {
+                        color: "#6c63ff"
+                    },
+                    modal: {
+                        ondismiss: function() {
+                            paymentProcessingModal.hide();
+                        }
+                    }
+                };
+                
+                // Open Razorpay payment modal
+                const rzp = new Razorpay(options);
+                rzp.open();
+                
+                rzp.on('payment.failed', function(response) {
+                    paymentProcessingModal.hide();
+                    showError(`Payment failed: ${response.error.description}`);
+                });
+                
+            } catch (error) {
+                paymentProcessingModal.hide();
+                showError(`Payment error: ${error.message}`);
+                console.error('Payment Error:', error);
+            }
+        }
+        
+        // Verify payment with server
+        async function verifyPayment(response, planId) {
+            try {
+                paymentProcessingModal.show();
+                
+                const verificationResponse = await fetch('/verify-payment/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_signature: response.razorpay_signature,
+                        plan_id: planId,
+                        connect_id: '{{ connect_id }}'  // Pass connect_id from template context
+                    })
+                });
+                
+                const verificationData = await verificationResponse.json();
+                
+                if (!verificationResponse.ok || !verificationData.success) {
+                    throw new Error(verificationData.error || 'Payment verification failed');
+                }
+                
+                // Payment successful
+                paymentProcessingModal.hide();
+                paymentSuccessModal.show();
+                
+                // Redirect after success modal is closed
+                paymentSuccessModal._element.addEventListener('hidden.bs.modal', function() {
+                    window.location.href = `/payment-success/{{ connect_id }}/`;
+                });
+                
+            } catch (error) {
+                paymentProcessingModal.hide();
+                showError(`Payment verification failed: ${error.message}`);
+                console.error('Verification Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

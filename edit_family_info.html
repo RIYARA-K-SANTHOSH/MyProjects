@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Family Information</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #0d6efd;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px 10px 0 0 !important;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        h2 {
+            color: #0d6efd;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2><i class="fas fa-home"></i> Edit Family Information</h2>
+        <form method="POST" action="{% url 'edit_family_info' connect_id=current_user.connect_id %}">
+            {% csrf_token %}
+            
+            <div class="card mb-4">
+                <div class="card-header">Family Status</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Family Status</label>
+                        <select name="family_status" class="form-control">
+                            <option value="">Select Family Status</option>
+                            {% for value, label in family_status_choices %}
+                                <option value="{{ value }}" {% if family.family_status == value %}selected{% endif %}>
+                                    {{ label }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">Father's Information</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Father's Name</label>
+                        <input type="text" name="father_name" class="form-control" value="{{ family.father_name|default:'' }}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Father's House Name</label>
+                        <input type="text" name="father_housename" class="form-control" value="{{ family.father_housename|default:'' }}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Father's Native Place</label>
+                        <input type="text" name="father_native_place" class="form-control" value="{{ family.father_native_place|default:'' }}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Father's Occupation</label>
+                        <select name="father_occupation" class="form-control">
+                            <option value="">Select Occupation</option>
+                            {% for value, label in occupation_choices %}
+                                <option value="{{ value }}" {% if family.father_occupation == value %}selected{% endif %}>
+                                    {{ label }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">Mother's Information</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Mother's Name</label>
+                        <input type="text" name="mother_name" class="form-control" value="{{ family.mother_name|default:'' }}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Mother's House Name</label>
+                        <input type="text" name="mother_housename" class="form-control" value="{{ family.mother_housename|default:'' }}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Mother's Native Place</label>
+                        <input type="text" name="mother_native_place" class="form-control" value="{{ family.mother_native_place|default:'' }}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Mother's Occupation</label>
+                        <select name="mother_occupation" class="form-control">
+                            <option value="">Select Occupation</option>
+                            {% for value, label in occupation_choices %}
+                                <option value="{{ value }}" {% if family.mother_occupation == value %}selected{% endif %}>
+                                    {{ label }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">Brothers Information</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Total Brothers</label>
+                        <input type="number" name="no_of_brothers" class="form-control" value="{{ family.no_of_brothers|default:0 }}" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Married Brothers</label>
+                        <input type="number" name="no_of_brothers_married" class="form-control" value="{{ family.no_of_brothers_married|default:0 }}" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Unmarried Brothers</label>
+                        <input type="number" name="no_of_brothers_unmarried" class="form-control" value="{{ family.no_of_brothers_unmarried|default:0 }}" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Priest Brothers</label>
+                        <input type="number" name="no_of_brothers_priest" class="form-control" value="{{ family.no_of_brothers_priest|default:0 }}" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">Sisters Information</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Total Sisters</label>
+                        <input type="number" name="no_of_sisters" class="form-control" value="{{ family.no_of_sisters|default:0 }}" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Married Sisters</label>
+                        <input type="number" name="no_of_sisters_married" class="form-control" value="{{ family.no_of_sisters_married|default:0 }}" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Unmarried Sisters</label>
+                        <input type="number" name="no_of_sisters_unmarried" class="form-control" value="{{ family.no_of_sisters_unmarried|default:0 }}" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Nun Sisters</label>
+                        <input type="number" name="no_of_sisters_nun" class="form-control" value="{{ family.no_of_sisters_nun|default:0 }}" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">Additional Information</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Asset Details</label>
+                        <textarea name="asset_details" class="form-control" rows="3">{{ family.asset_details|default:'' }}</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>About Family</label>
+                        <textarea name="about_family" class="form-control" rows="5">{{ family.about_family|default:'' }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a href="{% url 'profilecompletion' current_user.connect_id %}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

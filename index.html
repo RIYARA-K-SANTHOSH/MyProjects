@@ -1,0 +1,1486 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title data-en="Connect Matrimony - Kerala's Most Trusted Matrimonial Service" data-ml="കണക്റ്റ് മാട്രിമോണി - കേരളത്തിലെ ഏറ്റവും വിശ്വസനീയമായ വിവാഹ സേവനം">Connect Matrimony - Kerala's Most Trusted Matrimonial Service</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Add language switcher styles */
+        .language-switcher {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .language-btn i {
+            font-size: 1rem;
+        }
+        
+        .language-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            z-index: 1000;
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .language-switcher:hover .language-options {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        .language-option {
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .language-option:hover {
+            background-color: #f5f5f5;
+            color: #d82a4e;
+        }
+        
+        .language-option.active {
+            background-color: #f5f5f5;
+            color: #d82a4e;
+            font-weight: 500;
+        }
+        
+        /* RTL support for Malayalam */
+        html[dir="rtl"] {
+            direction: rtl;
+        }
+        
+        html[dir="rtl"] .main-nav ul,
+        html[dir="rtl"] .login-register,
+        html[dir="rtl"] .partner-selection,
+        html[dir="rtl"] .age-group,
+        html[dir="rtl"] .social-links,
+        html[dir="rtl"] .features-container,
+        html[dir="rtl"] .stories-container,
+        html[dir="rtl"] .footer-container {
+            flex-direction: row-reverse;
+        }
+        
+        html[dir="rtl"] .main-nav li {
+            margin-left: 0;
+            margin-right: 25px;
+        }
+        
+        html[dir="rtl"] .main-nav a i {
+            margin-right: 0;
+            margin-left: 5px;
+        }
+        
+        html[dir="rtl"] .dropdown > a::after {
+            margin-left: 0;
+            margin-right: 5px;
+        }
+        
+        html[dir="rtl"] .login-register a {
+            margin-left: 0;
+            margin-right: 10px;
+        }
+        
+        html[dir="rtl"] .search-container {
+            margin-left: 0;
+            margin-right: 20px;
+        }
+        
+        html[dir="rtl"] .search-icon {
+            left: auto;
+            right: 15px;
+        }
+        
+        html[dir="rtl"] .select-wrapper::after {
+            left: auto;
+            right: 15px;
+        }
+        
+        html[dir="rtl"] .story-image {
+            margin-right: 0;
+            margin-left: 20px;
+        }
+        
+        /* Original CSS styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: transparent;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .header.scrolled {
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: white;
+            margin-left: 10px;
+            font-weight: 600;
+        }
+        
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        .main-nav li {
+            margin-left: 25px;
+            position: relative;
+        }
+        
+        .main-nav a {
+            text-decoration: none;
+            color: rgb(150, 127, 129);
+            font-weight: 300;
+            font-size: 20px;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .main-nav a i {
+            margin-right: 5px;
+            font-size: 14px;
+        }
+        
+        .main-nav a:hover {
+            color: #333;
+        }
+        
+        /* Dropdown Styles - Updated for click functionality */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            padding: 10px 0;
+            z-index: 1000;
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .dropdown.active .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        .dropdown-menu li {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .dropdown-menu a {
+            color: #333 !important;
+            padding: 10px 20px;
+            font-size: 16px;
+            display: block;
+            transition: all 0.3s;
+        }
+        
+        .dropdown-menu a:hover {
+            background-color: #f5f5f5;
+            color: #d82a4e !important;
+        }
+        
+        .dropdown > a::after {
+            content: '\f078';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-left: 5px;
+            font-size: 12px;
+            transition: transform 0.3s;
+        }
+        
+        .dropdown.active > a::after {
+            transform: rotate(180deg);
+        }
+        
+        .login-register {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+        
+        .login-btn, .register-btn {
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn {
+            color: white;
+            border: 1px solid white;
+        }
+        
+        .login-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .register-btn {
+            background-color: #d82a4e;
+            color: white;
+            box-shadow: 0 4px 8px rgba(216, 42, 78, 0.3);
+        }
+        
+        .register-btn:hover {
+            background-color: #c21e40;
+            transform: translateY(-2px);
+        }
+        
+        /* Search Bar in Header */
+        .search-container {
+            position: relative;
+            margin-left: 20px;
+        }
+        
+        .search-input {
+            width: 40px;
+            height: 40px;
+            padding: 5px 15px 5px 40px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 14px;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+        
+        .search-input::placeholder {
+            color: transparent;
+        }
+        
+        .search-input:focus {
+            width: 200px;
+            background-color: rgba(255,255,255,0.9);
+            color: #333;
+            cursor: text;
+        }
+        
+        .search-input:focus::placeholder {
+            color: #999;
+        }
+        
+        .search-icon {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            color: white;
+            pointer-events: none;
+        }
+        
+        .search-input:focus + .search-icon {
+            color: #d82a4e;
+        }
+        
+        /* Hero Banner */
+        .hero-banner {
+            background-image: url("{% static 'images/image1.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            min-height: 600px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .hero-text {
+            max-width: 50%;
+            padding-top: 50px;
+        }
+        
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+        
+        .hero-subtitle {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        /* Search Form - Improved Design */
+        .search-form {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 25px;
+            border-radius: 12px;
+            width: 450px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-top: 30px;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .form-title {
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+        
+        .selection-section {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            color: white;
+            font-size: 15px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 500;
+            opacity: 0.9;
+            letter-spacing: 0.3px;
+        }
+        
+        .partner-selection {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .partner-option {
+            position: relative;
+            flex: 1;
+        }
+        
+        .partner-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .partner-btn {
+            display: block;
+            padding: 14px 0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            text-align: center;
+            background-color: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .partner-option input[type="radio"]:checked + .partner-btn {
+            background-color: #d82a4e;
+            font-weight: 600;
+            border-color: #d82a4e;
+        }
+        
+        .age-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .age-separator {
+            color: white;
+            font-size: 16px;
+            padding: 0 5px;
+            font-weight: 500;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: white;
+            font-size: 15px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        
+        .select-wrapper {
+            position: relative;
+        }
+        
+        .select-wrapper select {
+            width: 100%;
+            padding: 14px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 15px;
+            background-color: rgb(255, 255, 255);
+            color: black;
+            appearance: none;
+            transition: all 0.3s;
+        }
+        
+        .select-wrapper select:focus {
+            outline: none;
+            border-color: #d82a4e;
+            background-color: rgb(255, 255, 255);
+        }
+        
+        .select-wrapper::after {
+            content: "▼";
+            font-size: 12px;
+            color: white;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .age-selector .select-wrapper select {
+            width: 100px;
+            text-align: center;
+            padding: 14px 5px;
+        }
+        
+        .search-btn {
+            background-color: #d82a4e;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        
+        .search-btn:hover {
+            background-color: #c21e40;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(216, 42, 78, 0.4);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 60px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: #d82a4e;
+            margin: 15px auto 0;
+        }
+        
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+        
+        .feature-box {
+            width: 30%;
+            text-align: center;
+            padding: 25px 15px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-icon {
+            font-size: 36px;
+            color: #d82a4e;
+            margin-bottom: 15px;
+        }
+        
+        .feature-title {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .feature-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Success Stories */
+        .success-stories {
+            padding: 60px 0;
+            background-color: #f9f9f9;
+        }
+        
+        .stories-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+        
+        .story {
+            width: 48%;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+        }
+        
+        .story-image {
+            width: 120px;
+            height: 120px;
+            overflow: hidden;
+            margin-right: 20px;
+            flex-shrink: 0;
+            border: none;
+            border-radius: 0px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        .story-content {
+            flex: 1;
+        }
+        
+        .story-couple {
+            font-size: 16px;
+            color: #d82a4e;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        
+        .story-date {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .story-date i {
+            margin-right: 5px;
+            font-size: 11px;
+        }
+        
+        .story-text {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #222;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+        
+        .footer-column {
+            width: 23%;
+            margin-bottom: 25px;
+        }
+        
+        .footer-title {
+            font-size: 17px;
+            margin-bottom: 15px;
+            color: #d82a4e;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        
+        .footer-title:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 35px;
+            height: 2px;
+            background-color: #d82a4e;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: #333;
+            color: white;
+            margin-right: 8px;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: #d82a4e;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid #444;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        /* Search Results Section */
+        .search-results {
+            padding: 40px 0;
+            background-color: #f9f9f9;
+        }
+        
+        .results-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .profile-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .profile-image {
+            width: 80px;
+            height: 80px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: #d82a4e;
+            font-size: 36px;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-info h3 {
+            color: #d82a4e;
+            margin-bottom: 10px;
+        }
+        
+        .profile-info p {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .view-profile-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #d82a4e;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .view-profile-btn:hover {
+            background-color: #c21e40;
+        }
+        
+        .no-results {
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+            padding: 20px;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
+            .feature-box {
+                width: 48%;
+                margin-bottom: 25px;
+            }
+            
+            .footer-column {
+                width: 48%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .main-nav {
+                order: 3;
+                width: 100%;
+                margin: 15px 0;
+            }
+            
+            .main-nav ul {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .main-nav li {
+                margin: 5px 10px;
+            }
+            
+            .login-register {
+                margin: 15px 0;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-text {
+                max-width: 100%;
+                padding-top: 40px;
+            }
+            
+            .hero-title {
+                font-size: 32px;
+            }
+            
+            .search-form {
+                width: 100%;
+                max-width: 300px;
+                margin: 20px auto;
+            }
+            
+            .feature-box {
+                width: 100%;
+            }
+            
+            .story {
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .story-image {
+                margin: 0 auto 15px;
+            }
+            
+            .footer-column {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+            
+            .footer-title:after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            /* Dropdown adjustments for mobile */
+            .dropdown-menu {
+                position: static;
+                display: none;
+                width: 100%;
+                box-shadow: none;
+                border-radius: 0;
+                padding: 0;
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+            
+            .dropdown.active .dropdown-menu {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .partner-selection {
+                flex-direction: column;
+                gap: 6px;
+            }
+            
+            .partner-btn {
+                width: 100%;
+            }
+            
+            .age-group {
+                flex-direction: column;
+            }
+            
+            .age-separator {
+                margin: 8px 0;
+            }
+            
+            .hero-banner {
+                height: 80vh;
+                min-height: 700px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-text" data-en="Connect" data-ml="കണക്റ്റ്">Connect</span>
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li class="dropdown">
+                        <a href="#"><i class="fas fa-glass-cheers"></i> <span class="nav-text" data-en="Success Stories" data-ml="വിജയ കഥകൾ">Success Stories</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'addyourstory_view' %}"><i class="fas fa-plus-circle"></i> <span data-en="Add Your Story" data-ml="നിങ്ങളുടെ കഥ ചേർക്കുക">Add Your Story</span></a></li>
+                            <li><a href="{% url 'blessed_couples' %}"><i class="fas fa-heart"></i> 
+                                <span data-en="Blessed Couples" data-ml="അനുഗൃഹീത ദമ്പതികൾ">Blessed Couples</span>
+                            </a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#"><i class="fas fa-question-circle"></i> <span class="nav-text" data-en="Help" data-ml="സഹായം">Help</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'about_contact' %}"><i class="fas fa-envelope"></i> <span data-en="Contact Us" data-ml="ഞങ്ങളെ ബന്ധപ്പെടുക">Contact Us</span></a></li>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- Language Switcher -->
+            <div class="language-switcher">
+                <button class="language-btn">
+                    <i class="fas fa-globe"></i>
+                    <span class="current-language">English</span>
+                </button>
+                <div class="language-options">
+                    <div class="language-option active" data-lang="en">English</div>
+                    <div class="language-option" data-lang="ml">മലയാളം</div>
+                </div>
+            </div>
+            
+            <div class="search-container">
+                <form method="GET" action="{% url 'home' %}">
+                    <input type="text" class="search-input" name="search_id" 
+                           data-en-placeholder="Search by ID (e.g. CONNECTID12345)" 
+                           data-ml-placeholder="ഐഡി ഉപയോഗിച്ച് തിരയുക (ഉദാ: CONNECTID12345)"
+                           placeholder="Search by ID (e.g. CONNECTID12345)">
+                    <i class="fas fa-search search-icon"></i>
+                </form>
+            </div>
+            
+            <div class="login-register">
+                <a href="{% url 'login' %}" class="login-btn" data-en="Login" data-ml="ലോഗിൻ">Login</a>
+                <a href="{% url 'register' %}" class="register-btn" data-en="Register Free" data-ml="സൗജന്യമായി രജിസ്റ്റർ ചെയ്യുക">Register Free</a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title" data-en="Find Your Perfect Christian Life Partner" 
+                    data-ml="നിങ്ങളുടെ തികഞ്ഞ ക്രിസ്ത്യൻ ജീവിത പങ്കാളിയെ കണ്ടെത്തുക">
+                    Find Your Perfect Christian Life Partner
+                </h1>
+                <p class="hero-subtitle" 
+                   data-en="Join Kerala's most trusted matrimonial service with thousands of verified Christian profiles. Begin your journey to a blessed marriage today."
+                   data-ml="ആയിരക്കണക്കിന് പരിശോധിച്ച ക്രിസ്ത്യൻ പ്രൊഫൈലുകളുള്ള കേരളത്തിലെ ഏറ്റവും വിശ്വസനീയമായ വിവാഹ സേവനത്തിൽ ചേരുക. അനുഗൃഹീതമായ വിവാഹത്തിലേക്കുള്ള നിങ്ങളുടെ യാത്ര ഇന്ന് ആരംഭിക്കുക.">
+                    Join Kerala's most trusted matrimonial service with thousands of verified Christian profiles. Begin your journey to a blessed marriage today.
+                </p>
+            </div>
+            
+            <!-- Search Form -->
+            <form class="search-form">
+                <div class="form-header">
+                    <h3 class="form-title" data-en="Start Your Search" data-ml="നിങ്ങളുടെ തിരയൽ ആരംഭിക്കുക">Start Your Search</h3>
+                    
+                    <div class="form-group">
+                        <label data-en="I'm looking for a" data-ml="ഞാൻ തിരയുന്നത് ഒരു">I'm looking for a</label>
+                        <div class="partner-selection">
+                            <label class="partner-option">
+                                <input type="radio" name="partner-type" value="bride" checked>
+                                <span class="partner-btn" data-en="Bride" data-ml="വധു">Bride</span>
+                            </label>
+                            <label class="partner-option">
+                                <input type="radio" name="partner-type" value="groom">
+                                <span class="partner-btn" data-en="Groom" data-ml="വരൻ">Groom</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label data-en="Age Group" data-ml="വയസ്സ് ഗ്രൂപ്പ്">Age Group</label>
+                        <div class="age-group">
+                            <div class="form-group age-selector">
+                                <div class="select-wrapper">
+                                    <select>
+                                        <option value="18">18</option>
+                                        <option value="20">20</option>
+                                        <option value="22">22</option>
+                                        <option value="24" selected>24</option>
+                                        <option value="26">26</option>
+                                        <option value="28">28</option>
+                                        <option value="30">30</option>
+                                        <option value="35">35</option>
+                                        <option value="40">40</option>
+                                        <option value="45">45</option>
+                                        <option value="50">50</option>
+                                        <option value="60">60</option>
+                                        <option value="67">67</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="age-separator" data-en="to" data-ml="മുതൽ">to</div>
+                            
+                            <div class="form-group age-selector">
+                                <div class="select-wrapper">
+                                    <select>
+                                        <option value="24">24</option>
+                                        <option value="26">26</option>
+                                        <option value="28">28</option>
+                                        <option value="30" selected>30</option>
+                                        <option value="35">35</option>
+                                        <option value="40">40</option>
+                                        <option value="45">45</option>
+                                        <option value="50">50</option>
+                                        <option value="60">60</option>
+                                        <option value="67">67</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label data-en="Christian Community" data-ml="ക്രിസ്ത്യൻ സമുദായം">Christian Community</label>
+                        <div class="select-wrapper">
+                            <select>
+                                <option value="" data-en="Any Community" data-ml="ഏതെങ്കിലും സമുദായം">Any Community</option>
+                                <option value="syrian">Syrian Catholic</option>
+                                <option value="latin">Latin Catholic</option>
+                                <option value="malankara">Malankara</option>
+                                <option value="orthodox">Orthodox</option>
+                                <option value="jacobite">Jacobite</option>
+                                <option value="marthoma">Marthoma</option>
+                                <option value="csi">CSI</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="search-btn">
+                        <span class="search-btn-text" data-en="Find Your Bride" data-ml="നിങ്ങളുടെ വധുവിനെ കണ്ടെത്തുക">Find Your Bride</span> 
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+    
+    {% if search_results %}
+    <section class="search-results">
+        <h2 class="section-title" data-en="Search Results" data-ml="തിരയൽ ഫലങ്ങൾ">Search Results</h2>
+        <div class="results-container">
+            {% for profile in search_results %}
+            <div class="profile-card">
+                <div class="profile-image">
+                    {% if profile.profile_photo %}
+                    <img src="{{ profile.profile_photo.url }}" alt="{{ profile.full_name }}">
+                    {% else %}
+                    <i class="fas fa-user-circle"></i>
+                    {% endif %}
+                </div>
+                <div class="profile-info">
+                    <h3>{{ profile.full_name }}</h3>
+                    <p><strong data-en="Connect ID" data-ml="കണക്റ്റ് ഐഡി">Connect ID:</strong> {{ profile.connect_id }}</p>
+                    <p><strong data-en="Age" data-ml="വയസ്സ്">Age:</strong> {{ profile.age }}</p>
+                    <p><strong data-en="Location" data-ml="സ്ഥലം">Location:</strong> {{ profile.district }}, {{ profile.state }}</p>
+                    <p><strong data-en="Community" data-ml="സമുദായം">Community:</strong> {{ profile.community }}</p>
+                    <p><strong data-en="Education" data-ml="വിദ്യാഭ്യാസം">Education:</strong> {{ profile.education }}</p>
+                    <a href="{% url 'view_profile' profile.id %}" class="view-profile-btn" data-en="View Full Profile" data-ml="പൂർണ്ണ പ്രൊഫൈൽ കാണുക">View Full Profile</a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="no-results" data-en="No profiles found with that ID." data-ml="ആ ഐഡിയുള്ള പ്രൊഫൈലുകളൊന്നും കണ്ടെത്തിയില്ല.">
+                No profiles found with that ID.
+            </p>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+    
+    <style>
+        /* Add these styles to your existing CSS */
+        .search-results {
+            padding: 40px 0;
+            background-color: #f9f9f9;
+        }
+        
+        .results-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .profile-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .profile-image {
+            width: 80px;
+            height: 80px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: #d82a4e;
+            font-size: 36px;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-info h3 {
+            color: #d82a4e;
+            margin-bottom: 10px;
+        }
+        
+        .profile-info p {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .view-profile-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #d82a4e;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .view-profile-btn:hover {
+            background-color: #c21e40;
+        }
+        
+        .no-results {
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+            padding: 20px;
+        }
+    </style>
+ 
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">Why Choose Our Service?</h2>
+        
+        <div class="features-container">
+            <div class="feature-box">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">Verified Profiles</h3>
+                <p class="feature-desc">Every profile undergoes strict verification to ensure authenticity and build trust within our Christian community.</p>
+            </div>
+            
+            <div class="feature-box">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="feature-title">Large Christian Network</h3>
+                <p class="feature-desc">Connect with thousands of eligible Christian brides and grooms from across Kerala and beyond.</p>
+            </div>
+            
+            <div class="feature-box">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3 class="feature-title">Complete Privacy</h3>
+                <p class="feature-desc">Your personal information remains secure with advanced privacy controls and protection.</p>
+            </div>
+        </div>
+    </section>
+  
+
+    <!-- Success Stories -->
+    <section class="success-stories">
+        <h2 class="section-title">Blessed Marriages</h2>
+        
+        <div class="stories-container">
+            <div class="story">
+                <div class="story-image">
+                    <img src="{% static 'images/image2.jpg' %}" alt="Happy Couple">
+                </div>
+                <div class="story-content">
+                    <h3 class="story-couple">Anoop & Anitha</h3>
+                    <p class="story-date"><i class="far fa-calendar-alt"></i> Married on 12th January 2023</p>
+                    <p class="story-text">We found each other through this platform after years of searching. The detailed profiles and verification process gave us confidence in our choice. Today, we're happily married with a beautiful family.</p>
+                </div>
+            </div>
+            
+            <div class="story">
+                <div class="story-image">
+                    <img src="{% static 'images/img3.jpg' %}" alt="Happy Couple">
+                </div>
+                <div class="story-content">
+                    <h3 class="story-couple">Binu & Beena</h3>
+                    <p class="story-date"><i class="far fa-calendar-alt"></i> Married on 5th March 2023</p>
+                    <p class="story-text">After trying multiple services, we found our perfect match here. What impressed us most was the genuine profiles and support throughout our journey.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Success Stories</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Help & Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Safety Tips</a></li>
+                    <li><a href="#">Membership</a></li>
+                    <li><a href="#">Customer Support</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Terms of Use</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Contact Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Kochi, Kerala</a></li>
+                    <li><a href="tel:+911234567890"><i class="fas fa-phone"></i> +91 9234567890</a></li>
+                    <li><a href="mailto:info@example.com"><i class="fas fa-envelope"></i> connect@gmail.com</a></li>
+                </ul>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2025 Connect Matrimony. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageOptions = document.querySelectorAll('.language-option');
+            const currentLanguage = document.querySelector('.current-language');
+            
+            languageOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // Update active language in switcher
+                    languageOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    currentLanguage.textContent = lang === 'en' ? 'English' : 'മലയാളം';
+                    
+                    // Update page direction for RTL languages
+                    document.documentElement.dir = lang === 'ml' ? 'rtl' : 'ltr';
+                    
+                    // Update all translatable elements
+                    document.querySelectorAll('[data-en]').forEach(element => {
+                        if (lang === 'en') {
+                            if (element.tagName === 'INPUT' && element.hasAttribute('placeholder')) {
+                                element.placeholder = element.getAttribute('data-en-placeholder') || '';
+                            } else {
+                                element.textContent = element.getAttribute('data-en');
+                            }
+                        } else {
+                            if (element.tagName === 'INPUT' && element.hasAttribute('placeholder')) {
+                                element.placeholder = element.getAttribute('data-ml-placeholder') || '';
+                            } else {
+                                element.textContent = element.getAttribute('data-ml');
+                            }
+                        }
+                    });
+                    
+                    // Update search button text based on selected partner type
+                    updateSearchButtonText(lang);
+                });
+            });
+            
+            // Function to update search button text based on language and partner type
+            function updateSearchButtonText(lang) {
+                const partnerType = document.querySelector('input[name="partner-type"]:checked').value;
+                const searchButton = document.querySelector('.search-btn .search-btn-text');
+                
+                if (lang === 'en') {
+                    searchButton.textContent = partnerType === 'bride' ? 'Find Your Bride' : 'Find Your Groom';
+                } else {
+                    searchButton.textContent = partnerType === 'bride' ? 'നിങ്ങളുടെ വധുവിനെ കണ്ടെത്തുക' : 'നിങ്ങളുടെ വരനെ കണ്ടെത്തുക';
+                }
+            }
+            
+            // Partner type change listener for multilingual support
+            document.querySelectorAll('.partner-option input').forEach(option => {
+                option.addEventListener('change', function() {
+                    const lang = document.querySelector('.language-option.active').getAttribute('data-lang');
+                    updateSearchButtonText(lang);
+                });
+            });
+            
+            // Rest of your existing JavaScript (header scroll, dropdowns, etc.)
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('.header');
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Dropdown toggle functionality
+            const dropdowns = document.querySelectorAll('.dropdown');
+            
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.dropdown')) {
+                    dropdowns.forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+            
+            dropdowns.forEach(dropdown => {
+                const toggle = dropdown.querySelector('a');
+                
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    dropdowns.forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                    
+                    dropdown.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

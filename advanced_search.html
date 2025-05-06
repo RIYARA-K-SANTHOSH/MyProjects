@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Search | Christian Matchmaking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #f8f9fc;
+            --accent-color: #2e59d9;
+            --text-color: #5a5c69;
+            --light-gray: #f8f9fa;
+            --card-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        }
+        
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        .search-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .filter-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .filter-card .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            border-bottom: none;
+        }
+        
+        .filter-card .card-body {
+            padding: 1.5rem;
+        }
+        
+        .results-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            min-height: 500px;
+        }
+        
+        .results-card .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            border-bottom: none;
+        }
+        
+        .profile-card {
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            height: 100%;
+            position: relative;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .profile-img-container {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+            background-color: #e9ecef;
+        }
+        
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-card:hover .profile-img {
+            transform: scale(1.05);
+        }
+        
+        .default-profile-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            color: #adb5bd;
+        }
+        
+        .profile-info {
+            padding: 1.25rem;
+            text-align: center;
+        }
+        
+        .profile-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+        
+        .profile-details {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-bottom: 1rem;
+        }
+        
+        .detail-item {
+            margin-bottom: 0.25rem;
+        }
+        
+        .btn-view-profile {
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-view-profile:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn-search {
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 50px;
+            padding: 0.75rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-search:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn-reset {
+            background-color: #6c757d;
+            border: none;
+            border-radius: 50px;
+            padding: 0.75rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn-reset:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+        
+        .no-results {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            text-align: center;
+        }
+        
+        .no-results-icon {
+            font-size: 5rem;
+            color: #dee2e6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-select, .form-control {
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            border: 1px solid #d1d3e2;
+        }
+        
+        .form-select:focus, .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+        }
+        
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .search-loading {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+        }
+        
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-img-container {
+                height: 200px;
+            }
+            
+            .search-header {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <div class="search-header text-center">
+            <h1 class="mb-3"><i class="fas fa-search me-2"></i>Advanced Search</h1>
+            <p class="mb-0">Find your perfect match using our detailed search filters</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="filter-card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Search Filters</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="searchForm" method="get" action="{% url 'advanced_search' connect_id=current_user.connect_id %}">
+                            <div class="mb-4">
+                                <h6 class="section-title"><i class="fas fa-user me-2"></i>Personal Details</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Marital Status</label>
+                                    <select class="form-select" name="marital_status">
+                                        <option value="">Any Status</option>
+                                        {% for status, display in marital_status_choices %}
+                                            <option value="{{ status }}" {% if search_params.marital_status == status %}selected{% endif %}>
+                                                {{ display }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Denomination</label>
+                                    <select class="form-select" name="denomination">
+                                        <option value="">Any Denomination</option>
+                                        {% for denomination, display in denomination_choices %}
+                                            <option value="{{ denomination }}" {% if search_params.denomination == denomination %}selected{% endif %}>
+                                                {{ display }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h6 class="section-title"><i class="fas fa-graduation-cap me-2"></i>Education & Profession</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Education Level</label>
+                                    <select class="form-select" name="education_level">
+                                        <option value="">Any Level</option>
+                                        {% for level, display in education_levels %}
+                                            <option value="{{ level }}" {% if search_params.education_level == level %}selected{% endif %}>
+                                                {{ display }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Occupation</label>
+                                    <select class="form-select" name="occupation">
+                                        <option value="">Any Occupation</option>
+                                        {% for occupation, display in occupation_choices %}
+                                            <option value="{{ occupation }}" {% if search_params.occupation == occupation %}selected{% endif %}>
+                                                {{ display }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Income</label>
+                                    <select class="form-select" name="income">
+                                        <option value="">Any Income</option>
+                                        {% for income, display in income_choices %}
+                                            <option value="{{ income }}" {% if search_params.income == income %}selected{% endif %}>
+                                                {{ display }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-search">
+                                <i class="fas fa-search me-2"></i>Search
+                            </button>
+                            <a href="{% url 'advanced_search' connect_id=current_user.connect_id %}" class="btn btn-reset">
+                                <i class="fas fa-undo me-2"></i>Reset
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="results-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-users me-2"></i>Search Results</h5>
+                        <span class="badge bg-white text-primary" id="resultsCount">
+                            {% if request.GET and profile_data %}
+                                {{ profile_data|length }} found
+                            {% else %}
+                                0 found
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="card-body position-relative">
+                        <div class="search-loading" id="searchLoading">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        
+                        {% if request.GET %}
+                            {% if profile_data %}
+                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="resultsContainer">
+                                    {% for data in profile_data %}
+                                        <div class="col">
+                                            <div class="profile-card">
+                                                <div class="profile-img-container">
+                                                    {% if data.picture_url %}
+                                                        <img src="{{ data.picture_url }}" class="profile-img" alt="{{ data.profile.full_name }}">
+                                                    {% else %}
+                                                        <i class="fas fa-user-circle default-profile-icon"></i>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="profile-info">
+                                                    <h5 class="profile-name">{{ data.profile.full_name }}</h5>
+                                                 
+                                                    <a href="{% url 'view_profile' connect_id=data.profile.connect_id %}" class="btn btn-view-profile">
+                                                        View Profile <i class="fas fa-arrow-right ms-2"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="no-results">
+                                    <i class="fas fa-user-slash no-results-icon"></i>
+                                    <h4 class="mb-3">No profiles found</h4>
+                                    <p class="text-muted mb-4">Try adjusting your search filters to find more matches.</p>
+                                    <a href="{% url 'advanced_search' connect_id=current_user.connect_id %}" class="btn btn-primary">
+                                        <i class="fas fa-undo me-2"></i>Reset Filters
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="no-results">
+                                <i class="fas fa-search no-results-icon"></i>
+                                <h4 class="mb-3">Start your search</h4>
+                                <p class="text-muted mb-4">Use the filters to find your perfect match. Your results will appear here.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForm = document.getElementById('searchForm');
+            const searchLoading = document.getElementById('searchLoading');
+            
+            if (searchForm) {
+                searchForm.addEventListener('submit', function(e) {
+                    // Show loading indicator
+                    searchLoading.style.display = 'flex';
+                    
+                    // You could also add AJAX submission here if you want to avoid full page reload
+                    // For now, we'll let the form submit normally
+                });
+            }
+            
+            // Update results count based on whether we have search parameters
+            const hasSearchParams = window.location.search.includes('?');
+            const resultsCount = document.getElementById('resultsCount');
+            
+            if (!hasSearchParams && resultsCount) {
+                resultsCount.textContent = '0 found';
+            }
+        });
+    </script>
+</body>
+</html>

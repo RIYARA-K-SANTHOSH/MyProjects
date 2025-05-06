@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect - Profile Photo Upload</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #8a2be2;
+            --primary-light: #b57eed;
+            --primary-dark: #6a3093;
+            --text-color: #2d3748;
+            --text-light: #718096;
+            --bg-grey: #f8f9fa;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--bg-grey);
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: var(--white);
+            padding: 0.75rem 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        
+        .header-container {
+            width: 98%;
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            margin-right: 4rem;
+            margin-left: 2rem;
+        }
+        
+        .nav-main {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin-right: auto;
+            margin-left: 4rem;
+        }
+        
+        .nav-links li {
+            position: relative;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-light), var(--primary-dark));
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-dark);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--white);
+            min-width: 220px;
+            box-shadow: var(--shadow-lg);
+            border-radius: 0.5rem;
+            z-index: 100;
+            top: 100%;
+            left: 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+            padding: 0.5rem 0;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: rgba(138, 43, 226, 0.05);
+            color: var(--primary-dark);
+            padding-left: 1.75rem;
+        }
+        
+        .dropdown-content a::after {
+            display: none;
+        }
+        
+        /* Right Side Navigation */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-right: 2rem;
+        }
+        
+        /* Search Styles */
+        .search-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 2;
+        }
+        
+        .search-icon:hover {
+            color: var(--primary-dark);
+        }
+        
+        .search-input {
+            width: 36px;
+            height: 36px;
+            padding: 0 10px 0 36px;
+            border: none;
+            border-radius: 2rem;
+            background-color: #f0f0f0;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            opacity: 0;
+            visibility: hidden;
+            cursor: pointer;
+        }
+        
+        .search-input.active {
+            width: 220px;
+            opacity: 1;
+            visibility: visible;
+            cursor: text;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+        
+        /* Profile Icon */
+        .profile-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            overflow: hidden;
+        }
+        
+        .profile-icon:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.05);
+        }
+        
+        .profile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Profile Dropdown */
+        .profile-container {
+            position: relative;
+        }
+        
+        .profile-dropdown {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 3px);
+            background-color: var(--white);
+            min-width: 200px;
+            box-shadow: var(--shadow-lg);
+            border-radius: 0.5rem;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            display: none;
+        }
+        
+        .profile-container:hover .profile-dropdown {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .profile-dropdown a {
+            color: var(--text-color);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .profile-dropdown a:hover {
+            background-color: rgba(138, 43, 226, 0.05);
+            color: var(--primary-dark);
+            padding-left: 1.75rem;
+        }
+        
+        /* Main Content Section */
+        .main-content {
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .profile-photo-container {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            padding: 30px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .profile-photo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .profile-photo-title {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        /* Updated Photo Upload Area */
+        .photo-upload-area {
+            text-align: center;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            background-color: #f9f9f9;
+        }
+        
+        .photo-upload-area:hover {
+            border-color: var(--primary-light);
+        }
+        
+        .upload-icon {
+            font-size: 2.5rem;
+            color: var(--primary-light);
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .upload-subtext {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+        
+        .upload-btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            border: none;
+            font-weight: 500;
+            margin: 5px;
+        }
+        
+        .upload-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .upload-btn i {
+            margin-right: 8px;
+        }
+        
+        .upload-btn input {
+            display: none;
+        }
+        
+        /* Upload Container Styles */
+        .upload-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .upload-container h2 {
+            color: var(--primary-dark);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .preview-container {
+            width: 100%;
+            min-height: 200px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .preview-container p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+        }
+        
+        /* Photo Guidelines Section */
+        .photo-guidelines {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .guidelines-title {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .guidelines-title i {
+            margin-right: 10px;
+        }
+        
+        .guidelines-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .guidelines-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .guidelines-list li:before {
+            content: "•";
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            position: absolute;
+            left: 5px;
+            top: -2px;
+        }
+        
+        /* Photo Thumbnails (for when photos are uploaded) */
+        .photo-thumbnails {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .photo-thumbnail {
+            width: 100px;
+            height: 100px;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #ddd;
+        }
+        
+        .photo-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .photo-thumbnail .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 10px;
+        }
+        
+        .photo-thumbnail .delete-btn:hover {
+            background-color: rgba(255,0,0,0.8);
+        }
+        
+        /* Button Container */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .secondary-btn {
+            display: inline-block;
+            background-color: #f0f0f0;
+            color: var(--text-color);
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            border: 1px solid #ddd;
+            font-weight: 500;
+        }
+        
+        .secondary-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #222;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+        
+        .footer-column {
+            width: 23%;
+            margin-bottom: 25px;
+        }
+        
+        .footer-title {
+            font-size: 17px;
+            margin-bottom: 15px;
+            color: #d82a4e;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        
+        .footer-title:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 35px;
+            height: 2px;
+            background-color: #d82a4e;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: #333;
+            color: white;
+            margin-right: 8px;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: #d82a4e;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid #444;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-photo-container {
+                padding: 20px;
+            }
+            
+            .profile-photo-title {
+                font-size: 1.3rem;
+            }
+            
+            .photo-upload-area {
+                padding: 25px 15px;
+            }
+            
+            .upload-icon {
+                font-size: 2rem;
+            }
+            
+            .upload-text {
+                font-size: 1rem;
+            }
+            
+            .upload-btn {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .footer-column {
+                width: 48%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .profile-photo-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .profile-photo-title {
+                margin-bottom: 15px;
+            }
+            
+            .photo-thumbnail {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .footer-column {
+                width: 100%;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .cropper-container {
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            background: #f9f9f9;
+        }
+        
+        .image-container {
+            max-height: 400px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .cropper-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        /* Ensure the image is visible for cropping */
+        #image-to-crop {
+            max-width: 100%;
+            max-height: 400px;
+            display: block;
+        }
+        /* Face detection boxes */
+.face-box {
+    position: absolute;
+    border: 2px solid rgba(255, 0, 0, 0.7);
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    pointer-events: none;
+}
+
+.face-label {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.face-info {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    max-width: 150px;
+    pointer-events: none;
+}
+
+/* Analysis Results Section */
+.analysis-results {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.analysis-title {
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.result-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.result-icon {
+    width: 30px;
+    height: 30px;
+    background-color: rgba(138, 43, 226, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: var(--primary-dark);
+}
+
+.result-text {
+    flex: 1;
+}
+
+.result-label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.result-value {
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-top: 3px;
+}
+
+.confidence-meter {
+    height: 4px;
+    background-color: #e0e0e0;
+    border-radius: 2px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.confidence-level {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-light), var(--primary-dark));
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+.error-message {
+    color: #d82a4e;
+    background-color: rgba(216, 42, 78, 0.1);
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    display: none;
+}
+    </style>
+</head>
+<body>
+    <!-- White Header Section -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">Connect</div>
+            
+            <div class="nav-main">
+                <ul class="nav-links">
+                    <li class="dropdown">
+                        <a href="#">Home</a>
+                        <div class="dropdown-content">
+                            <a href="#">View and Edit My Profile</a>
+                            <a href="#">Manage Photo</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Search</a>
+                        <div class="dropdown-content">
+                            <a href="#">Search Partner</a>
+                            <a href="#">Keyword Search</a>
+                            <a href="#">Discover Profile</a>
+                            <a href="#">Digital Magazine</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Matches</a>
+                        <div class="dropdown-content">
+                            <a href="#">My Matches</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Messages</a>
+                        <div class="dropdown-content">
+                            <a href="#">Interests</a>
+                            <a href="#">Request</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Activity</a>
+                        <div class="dropdown-content">
+                            <a href="#">Shortlisted Profile</a>
+                            <a href="#">Blocked Profile</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Payment Plans</a>
+                        <div class="dropdown-content">
+                            <a href="#">Upgrade</a>
+                            <a href="#">Other Plans</a>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="nav-right">
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon" id="searchIcon"></i>
+                        <input type="text" class="search-input" placeholder="Search by ID..." id="searchInput">
+                    </div>
+                    
+                    <div class="profile-container">
+                        <div class="profile-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="profile-dropdown">
+                            <a href="{% url 'myprofile' %}">My Profile</a>
+                            <a href="#">Settings</a>
+                            <a href="#">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+   
+            <!-- Upload Container Form -->
+            <!-- In the upload-container div, modify the form to include the connect_id -->
+            <div class="upload-container">
+                <h2>Upload Profile Picture</h2>
+                <form method="post" enctype="multipart/form-data" id="profilePhotoForm">
+                    {% csrf_token %}
+                    <label for="profile_picture" class="upload-btn">
+                        <i class="fas fa-folder-open"></i> Choose Image
+                    </label>
+                    <input type="file" id="profile_picture" name="profile_picture" class="file-input" accept="image/*">
+                    
+                    <!-- Cropper container -->
+                    <div class="cropper-container" id="cropper-container" style="display: none;">
+                        <div class="image-container">
+                            <img id="image-to-crop" class="preview-image">
+                        </div>
+                        <div class="cropper-controls">
+                            <button type="button" class="secondary-btn" id="cancel-crop">Cancel Crop</button>
+                            <button type="button" class="upload-btn" id="crop-btn">
+                                <i class="fas fa-crop"></i> Crop & Analyze
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Original preview container (shown when not cropping) -->
+                    <div class="preview-container" id="image-preview">
+                        <p>No image selected</p>
+                    </div>
+                    
+                    <!-- Analysis Results Section -->
+                    <div class="analysis-results" id="analysis-results">
+                        <h4 class="analysis-title"><i class="fas fa-chart-bar"></i> Analysis Results</h4>
+                        <div class="result-item">
+                            <div class="result-icon">
+                                <i class="fas fa-venus-mars"></i>
+                            </div>
+                            <div class="result-text">
+                                <div class="result-label">Gender</div>
+                                <div class="result-value" id="gender-result">Analyzing...</div>
+                                <div class="confidence-meter">
+                                    <div class="confidence-level" id="gender-confidence"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-icon">
+                                <i class="fas fa-birthday-cake"></i>
+                            </div>
+                            <div class="result-text">
+                                <div class="result-label">Age Range</div>
+                                <div class="result-value" id="age-result">Analyzing...</div>
+                                <div class="confidence-meter">
+                                    <div class="confidence-level" id="age-confidence"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-container">
+                        <button type="button" class="secondary-btn" id="cancel-upload">Cancel</button>
+                        <button type="submit" class="upload-btn" id="upload-btn" style="display: none;">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload Picture
+                        </button>
+                    </div>
+                    
+                    <!-- Hidden field to store cropped image data -->
+                    <input type="hidden" name="cropped_image_data" id="cropped_image_data">
+                    <!-- Hidden fields for analysis results -->
+                    <input type="hidden" name="detected_gender" id="detected_gender">
+                    <input type="hidden" name="detected_age" id="detected_age">
+                </form>
+            </div>
+            
+            <div class="photo-guidelines">
+                <h4 class="guidelines-title"><i class="fas fa-info-circle"></i> Photo Guidelines</h4>
+                <ul class="guidelines-list">
+                    <li>Upload clear, recent photos where your face is clearly visible</li>
+                    <li>No group photos, sunglasses, or hats that obscure your face</li>
+                    <li>No inappropriate or offensive content</li>
+                    <li>Smiling photos get more responses</li>
+                    <li>Profile photo should be a close-up of your face</li>
+                </ul>
+            </div>
+            
+            <!-- This section will appear when photos are uploaded -->
+            <div class="photo-thumbnails" id="photoThumbnails" style="display: none;">
+                <!-- Thumbnails will be added here dynamically -->
+            </div>
+            
+            <div class="button-container" id="saveButtons" style="display: none;">
+                <button class="secondary-btn">Cancel</button>
+                <button class="upload-btn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Success Stories</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Help & Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Safety Tips</a></li>
+                    <li><a href="#">Membership</a></li>
+                    <li><a href="#">Customer Support</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Terms of Use</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Contact Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Kochi, Kerala</a></li>
+                    <li><a href="tel:+911234567890"><i class="fas fa-phone"></i> +91 9234567890</a></li>
+                    <li><a href="mailto:info@example.com"><i class="fas fa-envelope"></i> connect@gmail.com</a></li>
+                </ul>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2025 Connect Matrimony. All Rights Reserved.
+        </div>
+    </footer>
+    
+    <script>
+        let cropper;
+        let originalImageData;
+        let faceBoxes = []; // To store face detection boxes
+    
+        // Photo upload functionality
+        const profilePictureInput = document.getElementById('profile_picture');
+        const imagePreview = document.getElementById('image-preview');
+        const cropperContainer = document.getElementById('cropper-container');
+        const cancelUploadBtn = document.getElementById('cancel-upload');
+        const cancelCropBtn = document.getElementById('cancel-crop');
+        const cropBtn = document.getElementById('crop-btn');
+        const uploadBtn = document.getElementById('upload-btn');
+        const profilePhotoForm = document.getElementById('profilePhotoForm');
+        const croppedImageData = document.getElementById('cropped_image_data');
+        const imageToCrop = document.getElementById('image-to-crop');
+        const analysisResults = document.getElementById('analysis-results');
+        const genderResult = document.getElementById('gender-result');
+        const ageResult = document.getElementById('age-result');
+        const detectedGenderInput = document.getElementById('detected_gender');
+        const detectedAgeInput = document.getElementById('detected_age');
+        const analysisContainer = document.getElementById('analysis-container');
+    
+        // Handle image preview when file is selected
+        profilePictureInput.addEventListener('change', function(e) {
+            if (this.files && this.files[0]) {
+                // Validate file type
+                const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                if (!validTypes.includes(this.files[0].type)) {
+                    alert('Please upload a valid image file (JPEG, JPG, PNG)');
+                    this.value = '';
+                    resetPreview();
+                    return;
+                }
+    
+                // Validate file size (5MB max)
+                if (this.files[0].size > 5 * 1024 * 1024) {
+                    alert('File size exceeds 5MB limit');
+                    this.value = '';
+                    resetPreview();
+                    return;
+                }
+                
+                // Create preview and initialize cropper
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    // Show the cropper container
+                    imagePreview.style.display = 'none';
+                    cropperContainer.style.display = 'block';
+                    analysisResults.style.display = 'none';
+                    uploadBtn.style.display = 'none';
+                    
+                    // Set the image source
+                    imageToCrop.src = event.target.result;
+                    originalImageData = event.target.result;
+                    
+                    // First analyze the image for faces
+                    analyzeImage(event.target.result, true);
+                };
+                reader.readAsDataURL(this.files[0]);
+            } else {
+                resetPreview();
+            }
+        });
+    
+        // Function to analyze image via AJAX
+        function analyzeImage(imageData, isInitialAnalysis = false) {
+            // Create form data
+            const formData = new FormData();
+            formData.append('image_data', imageData);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            
+            // Show loading state
+            if (!isInitialAnalysis) {
+                genderResult.textContent = 'Analyzing...';
+                ageResult.textContent = 'Analyzing...';
+            }
+            
+            fetch('/analyze-image/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.results && data.results.length > 0) {
+                        if (isInitialAnalysis) {
+                            // For initial analysis before cropping
+                            faceBoxes = data.results;
+                            initializeCropperWithFaceBoxes();
+                            
+                            // Show face count message
+                            const faceCount = data.results.length;
+                            if (faceCount > 1) {
+                                alert(`Detected ${faceCount} faces. Please crop to select one.`);
+                            }
+                        } else {
+                            // For analysis after cropping
+                            const result = data.results[0];
+                            
+                            // Update the UI with results
+                            genderResult.textContent = result.gender;
+                            ageResult.textContent = result.age;
+                            
+                            // Set hidden fields for form submission
+                            detectedGenderInput.value = result.gender;
+                            detectedAgeInput.value = result.age;
+                            
+                            // Show the upload button
+                            uploadBtn.style.display = 'inline-block';
+                        }
+                    } else {
+                        if (isInitialAnalysis) {
+                            alert('No faces detected in the image. Please try another photo.');
+                            resetPreview();
+                        } else {
+                            genderResult.textContent = 'No faces detected';
+                            ageResult.textContent = 'No faces detected';
+                            alert('No faces detected in the cropped image. Please try again.');
+                        }
+                    }
+                } else {
+                    alert('Error analyzing image: ' + (data.error || 'Unknown error'));
+                    if (isInitialAnalysis) {
+                        resetPreview();
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error analyzing image. Please try again.');
+                if (isInitialAnalysis) {
+                    resetPreview();
+                }
+            });
+        }
+    
+        // Initialize cropper with face detection boxes
+        function initializeCropperWithFaceBoxes() {
+            if (cropper) {
+                cropper.destroy();
+            }
+            
+            cropper = new Cropper(imageToCrop, {
+                aspectRatio: 1,
+                viewMode: 1,
+                autoCropArea: 0.8,
+                responsive: true,
+                ready: function() {
+                    // Draw face boxes on the image
+                    faceBoxes.forEach((face, index) => {
+                        const box = face.box;
+                        const cropBox = this.cropBox;
+                        const container = this.container;
+                        
+                        // Create a div for the face box
+                        const faceBox = document.createElement('div');
+                        faceBox.className = 'face-box';
+                        faceBox.style.position = 'absolute';
+                        faceBox.style.border = '2px solid rgba(255, 0, 0, 0.7)';
+                        faceBox.style.boxShadow = '0 0 5px rgba(0,0,0,0.3)';
+                        faceBox.style.pointerEvents = 'none';
+                        
+                        // Position the face box
+                        faceBox.style.left = `${box[0]}px`;
+                        faceBox.style.top = `${box[1]}px`;
+                        faceBox.style.width = `${box[2]}px`;
+                        faceBox.style.height = `${box[3]}px`;
+                        
+                        // Add face number label
+                        const label = document.createElement('div');
+                        label.className = 'face-label';
+                        label.style.position = 'absolute';
+                        label.style.top = '-20px';
+                        label.style.left = '0';
+                        label.style.backgroundColor = 'rgba(255, 0, 0, 0.7)';
+                        label.style.color = 'white';
+                        label.style.padding = '2px 5px';
+                        label.style.borderRadius = '3px';
+                        label.style.fontSize = '12px';
+                        label.textContent = `Face ${index + 1}`;
+                        
+                        faceBox.appendChild(label);
+                        container.appendChild(faceBox);
+                        
+                        // Add analysis info near the face box
+                        const infoBox = document.createElement('div');
+                        infoBox.className = 'face-info';
+                        infoBox.style.position = 'absolute';
+                        infoBox.style.left = `${box[0] + box[2] + 10}px`;
+                        infoBox.style.top = `${box[1]}px`;
+                        infoBox.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                        infoBox.style.color = 'white';
+                        infoBox.style.padding = '5px';
+                        infoBox.style.borderRadius = '3px';
+                        infoBox.style.fontSize = '12px';
+                        infoBox.style.maxWidth = '150px';
+                        infoBox.innerHTML = `
+                            <div><strong>Face ${index + 1}:</strong></div>
+                            <div>Gender: ${face.gender}</div>
+                            <div>Age: ${face.age}</div>
+                        `;
+                        
+                        container.appendChild(infoBox);
+                    });
+                }
+            });
+        }
+    
+        // Crop button - now also triggers analysis
+        cropBtn.addEventListener('click', function() {
+            if (cropper) {
+                // Get the cropped canvas
+                const canvas = cropper.getCroppedCanvas({
+                    width: 500,
+                    height: 500,
+                    minWidth: 256,
+                    minHeight: 256,
+                    maxWidth: 2000,
+                    maxHeight: 2000,
+                    fillColor: '#fff',
+                    imageSmoothingEnabled: true,
+                    imageSmoothingQuality: 'high',
+                });
+    
+                if (canvas) {
+                    // Convert canvas to base64 string
+                    const croppedImageBase64 = canvas.toDataURL('image/jpeg');
+                    
+                    // Set the hidden field value
+                    croppedImageData.value = croppedImageBase64;
+                    
+                    // Show preview of cropped image
+                    imagePreview.innerHTML = '';
+                    const img = document.createElement('img');
+                    img.src = croppedImageBase64;
+                    img.className = 'preview-image';
+                    imagePreview.appendChild(img);
+                    
+                    // Hide cropper and show preview
+                    cropperContainer.style.display = 'none';
+                    imagePreview.style.display = 'flex';
+                    
+                    // Destroy cropper
+                    cropper.destroy();
+                    cropper = null;
+                    
+                    // Show analyzing message
+                    analysisResults.style.display = 'block';
+                    genderResult.textContent = 'Analyzing...';
+                    ageResult.textContent = 'Analyzing...';
+                    
+                    // Send to server for analysis
+                    analyzeImage(croppedImageBase64);
+                }
+            }
+        });
+    
+        // Cancel crop button
+        cancelCropBtn.addEventListener('click', function() {
+            resetPreview();
+        });
+    
+        // Cancel upload button
+        cancelUploadBtn.addEventListener('click', function() {
+            resetPreview();
+            profilePictureInput.value = '';
+        });
+    
+        // Form submission handler
+        profilePhotoForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!croppedImageData.value && (!profilePictureInput.files || !profilePictureInput.files[0])) {
+                alert('Please select and crop an image to upload');
+                return;
+            }
+            
+            // Submit the form
+            this.submit();
+        });
+    
+        // Reset preview to initial state
+        function resetPreview() {
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            
+            // Remove any face boxes
+            document.querySelectorAll('.face-box, .face-info').forEach(el => el.remove());
+            
+            cropperContainer.style.display = 'none';
+            imagePreview.style.display = 'flex';
+            imagePreview.innerHTML = '<p>No image selected</p>';
+            croppedImageData.value = '';
+            profilePictureInput.value = '';
+            analysisResults.style.display = 'none';
+            uploadBtn.style.display = 'none';
+            detectedGenderInput.value = '';
+            detectedAgeInput.value = '';
+            faceBoxes = [];
+        }
+    </script>
+</body>
+</html>

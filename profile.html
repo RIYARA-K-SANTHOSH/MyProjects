@@ -1,0 +1,536 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            padding-top: 70px; /* Space for fixed header */
+            padding-bottom: 80px; /* Space for fixed next button */
+            overflow-x: hidden; /* No horizontal scrolling */
+            overflow-y: auto; /* Vertical scrolling */
+            min-height: 100vh;
+        }
+        
+        header {
+            background-color: white;
+            color: #333;
+            padding: 10px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 50px;
+        }
+        
+        .logo {
+            font-weight: 700;
+            font-size: 1.2em;
+            color: #6a3093;
+            letter-spacing: 0.5px;
+        }
+        
+        .live-chat {
+            color: #6a3093;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #d3b1f4;
+            font-size: 0.9em;
+        }
+        
+        .live-chat:hover {
+            color: white;
+            background-color: #6a3093;
+            text-decoration: none;
+        }
+        
+        .progress-section {
+            background-color: #f5f0fa;
+            padding: 25px 0;
+            width: 100%;
+            position: relative;
+        }
+        
+        .progress-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+        
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+        
+        .step {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: #e0d0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #8a63b0;
+            font-weight: bold;
+            position: relative;
+            font-size: 18px;
+            z-index: 2;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .step.completed {
+            background-color: #8a2be2;
+            color: white;
+        }
+        
+        .step.completed::before {
+            content: '✓';
+            font-size: 20px;
+        }
+        
+        .step.active {
+            background-color: #6a3093;
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+        }
+        
+        .progress-line {
+            position: absolute;
+            height: 4px;
+            background-color: #e0d0f0;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .progress-active {
+            position: absolute;
+            height: 4px;
+            background: linear-gradient(to right, #8a2be2, #6a3093);
+            left: 0;
+            width: 25%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            transition: width 0.5s ease;
+        }
+        
+        .step-label {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #666;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        
+        .step.completed .step-label,
+        .step.active .step-label {
+            color: #6a3093;
+            font-weight: 600;
+        }
+        
+        .main-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+        }
+        
+        .image-section {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-width: 300px; /* Minimum width before wrapping */
+        }
+        
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .form-section {
+            flex: 1;
+            padding: 20px;
+            min-width: 300px; /* Minimum width before wrapping */
+        }
+        
+        .section-heading {
+            text-transform: uppercase;
+            color: #6a3093;
+            border-bottom: 2px solid #6a3093;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box; /* Include padding in width */
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #6a3093;
+        }
+        
+        .error {
+            border-color: #ff0000 !important;
+        }
+        
+        .error-message {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .next-button-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            z-index: 1000;
+        }
+        
+        .next-button {
+            background-color: #6a3093;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            width: 200px;
+        }
+        
+        .next-button:hover {
+            background-color: #8a2be2;
+        }
+        
+        .next-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        /* Alert messages styling */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        
+        .alert-error {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+        
+        .alert-success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+        
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Connect</div>
+        <a href="#" class="live-chat">Live Chat</a>
+    </header>
+    
+    <div class="progress-section">
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="progress-line"></div>
+                <div class="progress-active"></div>
+                
+                <div class="step completed">
+                    <span class="step-label">Step 1</span>
+                </div>
+                <div class="step active">
+                    <span>2</span>
+                    <span class="step-label">Step 2</span>
+                </div>
+                <div class="step">
+                    <span>3</span>
+                    <span class="step-label">Step 3</span>
+                </div>
+                <div class="step">
+                    <span>4</span>
+                    <span class="step-label">Step 4</span>
+                </div>
+                <div class="step">
+                    <span>5</span>
+                    <span class="step-label">Final Step</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-container">
+        <div class="image-section">
+            <img src="{% static 'images/image10.jpg' %}" alt="Profile setup illustration">
+        </div>
+        
+        <div class="form-section">
+            <h2 style="color: #6a3093;">Profile Setup</h2>
+            <p style="color: #555;">Step 2: Please complete your profile information below.</p>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{% if message.tags == 'error' %}error{% else %}success{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <h2 class="section-heading">Primary Information</h2>
+            <form method="POST" action="{% url 'profile' user.connect_id %}">
+                {% csrf_token %}
+                <div class="two-column">
+                    <div class="form-group">
+                        <label for="height">Height</label>
+                        <select id="height" name="height" required>
+                            <option value="">Select Height</option>
+                            {% for value, label in height_choices %}
+                                <option value="{{ value }}" {% if profile.height == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="error-message">Please select your height</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="complexion">Complexion</label>
+                        <select id="complexion" name="complexion" required>
+                            <option value="">Select Complexion</option>
+                            {% for value, label in complexion_choices %}
+                                <option value="{{ value }}" {% if profile.complexion == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="error-message">Please select your complexion</div>
+                    </div>
+                </div>
+                
+                <div class="two-column">
+                    <div class="form-group">
+                        <label for="body_type">Body Type</label>
+                        <select id="body_type" name="body_type" required>
+                            <option value="">Select Body Type</option>
+                            {% for value, label in body_type_choices %}
+                                <option value="{{ value }}" {% if profile.body_type == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="error-message">Please select your body type</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="physical_status">Physical Status</label>
+                        <select id="physical_status" name="physical_status" required>
+                            <option value="">Select Physical Status</option>
+                            {% for value, label in physical_status_choices %}
+                                <option value="{{ value }}" {% if profile.physical_status == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="error-message">Please select your physical status</div>
+                    </div>
+                </div>
+                
+                <div class="two-column">
+                    <div class="form-group">
+                        <label for="marital_status">Marital Status</label>
+                        <select id="marital_status" name="marital_status" required>
+                            <option value="">Select Marital Status</option>
+                            {% for value, label in marital_status_choices %}
+                                <option value="{{ value }}" {% if profile.marital_status == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="error-message">Please select your marital status</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="family_status">Family Status</label>
+                        <select id="family_status" name="family_status" required>
+                            <option value="">Select Family Status</option>
+                            {% for value, label in family_status_choices %}
+                                <option value="{{ value }}" {% if profile.family_status == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="error-message">Please select your family status</div>
+                    </div>
+                </div>
+                
+                <h2 class="section-heading">Religious Information</h2>
+                
+                <div class="form-group">
+                    <label for="religion">Religion</label>
+                    <input type="text" id="religion" value="Christian" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="denomination">Denomination</label>
+                    <select id="denomination" name="denomination" required>
+                        <option value="">Any Community</option>
+                        {% for value, label in denomination_choices %}
+                            <option value="{{ value }}" {% if profile.denomination == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="error-message">Please select your denomination</div>
+                </div>
+                
+                <div class="two-column">
+                    <div class="form-group">
+                        <label for="parish_name">Parish Name</label>
+                        <input type="text" id="parish_name" name="parish_name" value="{{ profile.parish_name|default:'' }}" required>
+                        <div class="error-message">Please enter your parish name</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="parish_place">Parish Place</label>
+                        <input type="text" id="parish_place" name="parish_place" value="{{ profile.parish_place|default:'' }}" required>
+                        <div class="error-message">Please enter your parish place</div>
+                    </div>
+                    <button type="submit" class="next-button">Next</button>
+                </div>
+                
+         
+            </form>
+        </div>
+    </div>
+    
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.querySelector('form');
+                const requiredFields = form.querySelectorAll('[required]');
+                const nextButton = document.querySelector('.next-button');
+                
+                // Validate fields on blur (when leaving the field)
+                requiredFields.forEach(field => {
+                    field.addEventListener('blur', function() {
+                        validateField(field);
+                        checkFormCompletion();
+                    });
+                });
+                
+                // Also validate on change for select elements
+                document.querySelectorAll('select[required]').forEach(select => {
+                    select.addEventListener('change', function() {
+                        validateField(select);
+                        checkFormCompletion();
+                    });
+                });
+                
+                function validateField(field) {
+                    const errorMessage = field.nextElementSibling;
+                    
+                    if (!field.value) {
+                        field.classList.add('error');
+                        errorMessage.style.display = 'block';
+                        return false;
+                    } else {
+                        field.classList.remove('error');
+                        errorMessage.style.display = 'none';
+                        return true;
+                    }
+                }
+                
+                function checkFormCompletion() {
+                    let allValid = true;
+                    requiredFields.forEach(field => {
+                        if (!field.value) {
+                            allValid = false;
+                        }
+                    });
+                    
+                    nextButton.disabled = !allValid;
+                }
+                
+                // Initial check
+                checkFormCompletion();
+                
+                // Validate on form submission
+                form.addEventListener('submit', function(e) {
+                    let isValid = true;
+                    
+                    requiredFields.forEach(field => {
+                        if (!validateField(field)) {
+                            isValid = false;
+                        }
+                    });
+                    
+                    if (!isValid) {
+                        e.preventDefault();
+                        // Scroll to first error
+                        const firstError = document.querySelector('.error');
+                        if (firstError) {
+                            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }
+                });
+            });
+    </script>
+</body>
+</html>

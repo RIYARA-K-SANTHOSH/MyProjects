@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Hobbies & Lifestyle</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #495057;
+            margin-bottom: 20px;
+        }
+        h3 {
+            color: #6c757d;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.05);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .btn {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Hobbies & Lifestyle</h2>
+        <form method="POST" action="{% url 'edit_hobbies_lifestyle' connect_id=current_user.connect_id %}">
+            {% csrf_token %}
+            <div class="form-section">
+                <h3>Hobbies and Interests</h3>
+                <div class="form-group">
+                    <label for="hobbies">Hobbies:</label>
+                    <textarea id="hobbies" name="hobbies" class="form-control">{{ hobbies.hobbies|default:'' }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="favorite_music">Favorite Music:</label>
+                    <textarea id="favorite_music" name="favorite_music" class="form-control">{{ hobbies.favorite_music|default:'' }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="preferred_books">Preferred Books:</label>
+                    <textarea id="preferred_books" name="preferred_books" class="form-control">{{ hobbies.preferred_books|default:'' }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="preferred_movies">Preferred Movies:</label>
+                    <textarea id="preferred_movies" name="preferred_movies" class="form-control">{{ hobbies.preferred_movies|default:'' }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="sports_games">Sports/Fitness/Games:</label>
+                    <textarea id="sports_games" name="sports_games" class="form-control">{{ hobbies.sports_games|default:'' }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="favorite_cuisine">Favorite Cuisine:</label>
+                    <textarea id="favorite_cuisine" name="favorite_cuisine" class="form-control">{{ hobbies.favorite_cuisine|default:'' }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="spoken_languages">Spoken Languages:</label>
+                    <textarea id="spoken_languages" name="spoken_languages" class="form-control">{{ hobbies.spoken_languages|default:'' }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="cultural_background">Cultural Background:</label>
+                    <textarea id="cultural_background" name="cultural_background" class="form-control">{{ hobbies.cultural_background|default:'' }}</textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Lifestyle Habits</h3>
+                <div class="form-group">
+                    <label for="eating_habits">Eating Habits:</label>
+                    <select id="eating_habits" name="eating_habits" class="form-control">
+                        <option value="">Select</option>
+                        {% for value, label in eating_habits_choices %}
+                            <option value="{{ value }}" {% if hobbies.eating_habits == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="drinking_habits">Drinking Habits:</label>
+                    <select id="drinking_habits" name="drinking_habits" class="form-control">
+                        <option value="">Select</option>
+                        {% for value, label in habit_choices %}
+                            <option value="{{ value }}" {% if hobbies.drinking_habits == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="smoking_habits">Smoking Habits:</label>
+                    <select id="smoking_habits" name="smoking_habits" class="form-control">
+                        <option value="">Select</option>
+                        {% for value, label in habit_choices %}
+                            <option value="{{ value }}" {% if hobbies.smoking_habits == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a href="{% url 'profilecompletion' current_user.connect_id %}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

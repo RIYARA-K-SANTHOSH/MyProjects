@@ -1,0 +1,2085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect - Matchmaking Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #8a2be2;
+            --primary-light: #b57eed;
+            --primary-dark: #6a3093;
+            --text-color: #2d3748;
+            --text-light: #718096;
+            --bg-grey: #f8f9fa;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .profile-heart.liked i {
+            color: red !important;
+            animation: heartbeat 0.5s;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--bg-grey);
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: var(--white);
+            padding: 0.75rem 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        
+        .header-container {
+            width: 98%;
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            margin-right: 4rem;
+            margin-left: 2rem;
+        }
+        
+        .nav-main {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin-right: auto;
+            margin-left: 4rem;
+        }
+        
+        .nav-links li {
+            position: relative;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-light), var(--primary-dark));
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-dark);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--white);
+            min-width: 220px;
+            box-shadow: var(--shadow-lg);
+            border-radius: 0.5rem;
+            z-index: 100;
+            top: 100%;
+            left: 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+            padding: 0.5rem 0;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: rgba(138, 43, 226, 0.05);
+            color: var(--primary-dark);
+            padding-left: 1.75rem;
+        }
+        
+        .dropdown-content a::after {
+            display: none;
+        }
+        
+        /* Right Side Navigation */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-right: 2rem;
+        }
+        
+        /* Search Styles */
+        .search-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 2;
+        }
+        
+        .search-icon:hover {
+            color: var(--primary-dark);
+        }
+        
+        .search-input {
+            width: 36px;
+            height: 36px;
+            padding: 0 10px 0 36px;
+            border: none;
+            border-radius: 2rem;
+            background-color: #f0f0f0;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            opacity: 0;
+            visibility: hidden;
+            cursor: pointer;
+        }
+        
+        .search-input.active {
+            width: 220px;
+            opacity: 1;
+            visibility: visible;
+            cursor: text;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+        
+        /* Profile Icon */
+        .profile-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            overflow: hidden;
+        }
+        
+        .profile-icon:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.05);
+        }
+        
+        .profile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        
+        /* Profile Dropdown */
+        .profile-container {
+            position: relative;
+        }
+        
+        .profile-dropdown {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 3px);
+            background-color: var(--white);
+            min-width: 200px;
+            box-shadow: var(--shadow-lg);
+            border-radius: 0.5rem;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            display: none;
+        }
+        
+        .profile-container:hover .profile-dropdown {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .profile-dropdown a {
+            color: var(--text-color);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .profile-dropdown a:hover {
+            background-color: rgba(138, 43, 226, 0.05);
+            color: var(--primary-dark);
+            padding-left: 1.75rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Main Content Layout */
+        .main-container {
+            display: flex;
+            width: 95%;
+            max-width: 1400px;
+            margin: 30px auto;
+            gap: 30px;
+        }
+        
+        /* Updated Profile Sidebar - Moved more to the left */
+        .profile-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            margin-left: -50px;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 20px;
+            position: relative;
+            text-align: center;
+        }
+
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .profile-info {
+            text-align: center;
+            width: 100%;
+        }
+
+        .profile-info h3 {
+            margin: 0;
+            color: var(--primary-dark);
+            font-size: 18px;
+        }
+        
+        .profile-info p {
+            margin: 5px 0 0;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .profile-details {
+            margin-top: 15px;
+            text-align: left;
+            padding: 0 10px;
+        }
+        
+        .profile-details p {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .profile-details strong {
+            color: var(--text-color);
+        }
+
+        /* Upload button moved below details */
+        .upload-btn-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            border: none;
+            text-decoration: none; /* This ensures no underline */
+        }
+
+        .upload-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .upload-btn i {
+            margin-right: 8px;
+        }
+
+        .upload-btn input {
+            display: none;
+        }
+        
+        /* Print Profile Button */
+        .print-profile-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-md);
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .print-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            border: none;
+            width: 100%;
+        }
+        
+        .print-btn:hover {
+            background-color: #3e8e41;
+            transform: translateY(-2px);
+        }
+        
+        .print-btn i {
+            margin-right: 8px;
+        }
+        
+        /* Moved Profile Completion to main content */
+        .profile-completion-container {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+        }
+
+        .profile-completion {
+            background: linear-gradient(135deg, #1e90ff, #00bfff);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-md);
+            width: 100%;
+        }
+        
+        .completion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .completion-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+        
+        .completion-percentage {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            width: 50%;
+            background-color: white;
+            border-radius: 4px;
+        }
+        
+        .completion-message {
+            font-size: 13px;
+            margin-top: 10px;
+        }
+        
+        /* Updated profiles grid layout */
+        .profiles-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .profile-item {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            padding: 15px;
+            border: 2px solid transparent;
+            box-sizing: border-box;
+            position: relative;
+        }
+        
+        .profile-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+            transform: none;
+        }
+        
+        .profile-item-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .profile-item-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .profile-item-header {
+            margin-bottom: 8px;
+        }
+        
+        .profile-item-header h3 {
+            margin: 0;
+            color: var(--primary-dark);
+            font-size: 16px;
+        }
+        
+        .profile-item-header p {
+            margin: 3px 0 0;
+            color: var(--text-light);
+            font-size: 13px;
+        }
+        
+        .profile-item-details {
+            margin-top: 5px;
+            flex-grow: 1;
+        }
+        
+        .profile-item-details p {
+            margin-bottom: 6px;
+            font-size: 13px;
+            display: flex;
+        }
+        
+        .profile-item-details strong {
+            display: inline-block;
+            width: 70px;
+            color: var(--text-color);
+        }
+        
+        .profile-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        /* Button Styles */
+.btn-primary, .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-outline:hover {
+    background: rgba(138, 43, 226, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Button Icons */
+.btn-primary i, .btn-outline i {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+/* Button Container */
+.profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .btn-primary, .btn-outline {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+    
+    .profile-actions {
+        justify-content: center;
+    }
+}
+
+/* Animation Effects */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.btn-primary:hover i {
+    animation: pulse 1s infinite;
+}
+
+.btn-outline:hover i {
+    transform: translateX(3px);
+    transition: transform 0.3s ease;
+}
+        
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+        
+        .no-profiles {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .no-profiles p {
+            color: var(--text-light);
+        }
+
+        /* Heart/Like Button Styles */
+        .profile-heart {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            z-index: 2;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .profile-heart i {
+            font-size: 20px;
+            color: #ccc;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .profile-heart:hover i {
+            color: #ff6b81;
+            transform: scale(1.1);
+        }
+
+        .profile-heart.liked i {
+            color: #ff4757;
+        }
+
+        .profile-heart.liked:hover i {
+            color: #ff0000;
+        }
+        .profile-heart {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .like-text {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .profile-heart.liked .like-text {
+            color: #ff4757;
+            font-weight: 500;
+        }
+
+        /* Heart beat animation when liked */
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .profile-heart.liked i {
+            animation: heartBeat 0.8s;
+        }
+        
+        /* Blue Send Request Button */
+.btn-blue {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border: none;
+    color: white;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    box-shadow: 0 4px 6px rgba(52, 152, 219, 0.3);
+}
+
+.btn-blue:hover {
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4);
+}
+
+.btn-blue:active {
+    transform: translateY(0);
+}
+
+.btn-blue i {
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+.btn-blue:hover i {
+    transform: translateX(3px);
+}
+
+/* Optional Ripple Effect */
+.btn-blue::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+    z-index: -1;
+}
+
+.btn-blue:focus:not(:active)::after {
+    animation: ripple-blue 0.6s ease-out;
+}
+
+@keyframes ripple-blue {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(20, 20);
+        opacity: 0;
+    }
+}
+
+/* Button Container */
+.profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .btn-blue {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+    
+    .profile-actions {
+        justify-content: center;
+    }
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    animation: fadeIn 0.3s;
+    overflow: auto;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal-image {
+    max-width: 90%;
+    max-height: 80vh;
+    object-fit: contain;
+    animation: zoomIn 0.3s;
+}
+
+.close-modal {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: var(--primary-light);
+    text-decoration: none;
+    transform: rotate(90deg);
+}
+
+#caption {
+    margin: 15px auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    font-size: 18px;
+}
+
+/* Animations */
+@keyframes zoomIn {
+    from {transform: scale(0.8); opacity: 0;}
+    to {transform: scale(1); opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .header-container {
+                width: 95%;
+            }
+            
+            .nav-links {
+                gap: 1.5rem;
+            }
+            
+            .search-input.active {
+                width: 180px;
+            }
+            
+            .profiles-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .profile-sidebar {
+                margin-left: -30px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .nav-right {
+                gap: 1rem;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .profile-sidebar {
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+            
+            .nav-main {
+                width: 100%;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                margin: 0 auto 1rem;
+                gap: 1rem;
+            }
+            
+            .nav-right {
+                width: 100%;
+                justify-content: center;
+                margin-right: 0;
+            }
+            
+            .logo {
+                margin: 0 auto 1rem;
+            }
+            
+            .search-input.active {
+                width: 200px;
+            }
+            
+            .profile-actions {
+                flex-direction: column;
+            }
+            
+            .profiles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .profile-item-avatar {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .profile-item-details p {
+                justify-content: center;
+            }
+            
+            .profile-item-details strong {
+                width: auto;
+                margin-right: 5px;
+            }
+
+            .profile-heart {
+                top: 10px;
+                right: 10px;
+            }
+        }
+        /* Footer */
+        .footer {
+            background-color: #222;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+        
+        .footer-column {
+            width: 23%;
+            margin-bottom: 25px;
+        }
+        
+        .footer-title {
+            font-size: 17px;
+            margin-bottom: 15px;
+            color: #d82a4e;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        
+        .footer-title:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 35px;
+            height: 2px;
+            background-color: #d82a4e;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: #333;
+            color: white;
+            margin-right: 8px;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: #d82a4e;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid #444;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #999;
+        }
+        /* Block button specific styles */
+.btn-outline {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff0000;
+    border-color: #ff0000;
+}
+
+.btn-outline i {
+    margin-right: 8px;
+}
+
+/* Animation for removing blocked profiles */
+.profile-item {
+    transition: all 0.3s ease;
+}
+.language-switcher {
+    position: relative;
+    margin-left: 15px;
+}
+
+.language-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+.language-btn:hover {
+    background-color: rgba(138, 43, 226, 0.1);
+}
+
+.language-btn i {
+    font-size: 1rem;
+}
+
+.language-options {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--white);
+    min-width: 120px;
+    box-shadow: var(--shadow-lg);
+    border-radius: 0.5rem;
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: var(--transition);
+    padding: 0.5rem 0;
+    display: none;
+}
+
+.language-switcher:hover .language-options {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.language-option {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.9rem;
+}
+
+.language-option:hover {
+    background-color: rgba(138, 43, 226, 0.05);
+    color: var(--primary-dark);
+}
+
+.language-option.active {
+    background-color: rgba(138, 43, 226, 0.1);
+    color: var(--primary-dark);
+    font-weight: 500;
+}
+    </style>
+</head>
+<body>
+    {% csrf_token %}
+    <!-- White Header Section -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">Connect</div>
+            
+            <div class="nav-main">
+                <ul class="nav-links">
+                    <li class="dropdown">
+                        <a href="#" data-en="Home" data-ml="വീട്">Home</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'profilecompletion' connect_id=current_user.connect_id %}" data-en="View and Edit My Profile" data-ml="എന്റെ പ്രൊഫൈൽ കാണുകയും എഡിറ്റ് ചെയ്യുകയും">View and Edit My Profile</a>
+                            <a href="{% url 'uploadphoto' connect_id=current_user.connect_id  %}" data-en="Manage Photo" data-ml="ഫോട്ടോ മാനേജ് ചെയ്യുക">Manage Photo</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-en="Search" data-ml="തിരയുക">Search</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'advanced_search' connect_id=connect_id %}" data-en="Advanced Search" data-ml="വിപുലമായ തിരയൽ">Advanced Search</a>
+                            <a href="#" data-en="Discover Profile" data-ml="പ്രൊഫൈൽ കണ്ടെത്തുക">Discover Profile</a>
+                            <a href="#" data-en="Digital Magazine" data-ml="ഡിജിറ്റൽ മാഗസിൻ">Digital Magazine</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-en="Matches" data-ml="താല്ക്കാലികങ്ങൾ">Matches</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'find_matches' connect_id=connect_id %}" data-en="My Matches" data-ml="എന്റെ താല്ക്കാലികങ്ങൾ">My Matches</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-en="Messages" data-ml="സന്ദേശങ്ങൾ">Messages</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'received_interests' connect_id=current_user.connect_id %}" class="nav-link" data-en="Interests" data-ml="താല്പര്യങ്ങൾ">
+                              <span class="text-content" data-en="Interests" data-ml="താല്പര്യങ്ങൾ">Interests</span>
+                                {% if new_interests_count > 0 %}
+                                    <span class="badge bg-danger rounded-pill ms-1">{{ new_interests_count }}</span>
+                                {% endif %}
+                            </a>
+                            <a href="{% url 'view_sent_requests' connect_id=current_user.connect_id %}" class="btn btn-outline-primary" data-en="View Sent Requests" data-ml="അയച്ച അഭ്യർത്ഥനകൾ കാണുക">
+                                View Sent Requests
+                            </a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-en="Activity" data-ml="പ്രവർത്തനം">Activity</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'blocked_profiles' connect_id=current_user.connect_id %}" data-en="Blocked Profile" data-ml="തടഞ്ഞ പ്രൊഫൈലുകൾ">Blocked Profile</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" data-en="Payment Plans" data-ml="പേയ്മെന്റ് പ്ലാനുകൾ">Payment Plans</a>
+                        <div class="dropdown-content">
+                            <a href="#" data-en="Upgrade" data-ml="അപ്ഗ്രേഡ് ചെയ്യുക">Upgrade</a>
+                            <a href="{% url 'payment_plans' connect_id=current_user.connect_id %}" 
+                            data-en="Plans" 
+                            data-ml="പ്ലാനുകൾ">
+                            Plans
+                         </a>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="nav-right">
+                    <!-- Language Switcher -->
+                    <div class="language-switcher">
+                        <button class="language-btn">
+                            <i class="fas fa-globe"></i>
+                            <span class="current-language">English</span>
+                        </button>
+                        <div class="language-options">
+                            <div class="language-option active" data-lang="en">English</div>
+                            <div class="language-option" data-lang="ml">മലയാളം</div>
+                        </div>
+                    </div>
+                    
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon" id="searchIcon"></i>
+                        <input type="text" class="search-input" placeholder="Search by ID..." id="searchInput" data-en-placeholder="Search by ID..." data-ml-placeholder="ഐഡി ഉപയോഗിച്ച് തിരയുക...">
+                    </div>
+                    
+                    <div class="profile-container">
+                        <div class="profile-icon">
+                          {% if profile_picture %}
+                            <img src="{{ profile_picture.image.url }}" 
+                                 alt="{{ current_user.name }}'s Profile Picture" 
+                                 class="avatar-image"
+                                 onerror="this.onerror=null; this.src='{% if current_user.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}'">
+                          {% else %}
+                            <img src="{% if current_user.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}" 
+                                 alt="Default {% if current_user.gender.lower == 'male' %}Male{% else %}Female{% endif %} Avatar" 
+                                 class="avatar-image">
+                          {% endif %}
+                        </div>
+                        <div class="profile-dropdown">
+                            <a href="#" data-en="Settings" data-ml="സെറ്റിംഗുകൾ">Settings</a>
+                            <a href="{% url 'logout' %}" data-en="Logout" data-ml="ലോഗൗട്ട്">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="main-container">
+        <!-- Left Sidebar - User Profile -->
+        <div class="profile-sidebar">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        {% if profile_picture %}
+                            <img src="{{ profile_picture.image.url }}" 
+                                 alt="{{ current_user.name }}'s Profile Picture" 
+                                 class="avatar-image"
+                                 onerror="this.onerror=null; this.src='{% if current_user.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}'">
+                        {% else %}
+                            <img src="{% if current_user.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}" 
+                                 alt="Default {% if current_user.gender.lower == 'male' %}Male{% else %}Female{% endif %} Avatar" 
+                                 class="avatar-image">
+                        {% endif %}
+                    </div>
+                    <div class="profile-info">
+                        <h3>{{ current_user.full_name }}</h3>
+                        <p>{{ current_user.connect_id }}</p>
+                    </div>
+                </div>
+                <div class="upload-btn-container">
+                    <div class="upload-btn-container">
+                        <a href="{% url 'uploadphoto' connect_id=current_user.connect_id  %}" class="upload-btn" data-en="Upload Photo" data-ml="ഫോട്ടോ അപ്ലോഡ് ചെയ്യുക">
+                            <i class="fas fa-camera"></i> <span class="text-content">Upload Photo</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="profile-details">
+                    <p><strong data-en="Age:" data-ml="വയസ്സ്:">Age:</strong> {{ current_user.age }}</p>
+                    <p><strong data-en="Gender:" data-ml="ലിംഗഭേദം:">Gender:</strong> {{ current_user.gender|title }}</p>
+                    <p><strong data-en="Email:" data-ml="ഇമെയിൽ:">Email:</strong> {{ current_user.email }}</p>
+                </div>
+            </div>
+            
+            <!-- Print Profile Button -->
+            <div class="print-profile-container">
+                <button class="print-btn" onclick="window.location.href='{% url 'view_profile' current_user.connect_id %}'" data-en="View Your Profile" data-ml="നിങ്ങളുടെ പ്രൊഫൈൽ കാണുക">
+                    <i class="fas fa-eye"></i> <span class="text-content">View Your Profile</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Right Content - Other Profiles -->
+        <div class="profiles-content">
+            <h2 class="section-title" data-en="Discover Profiles" data-ml="പ്രൊഫൈലുകൾ കണ്ടെത്തുക">
+                Discover Profiles
+            </h2>
+            
+            <div class="profiles-grid">
+                {% for profile in profiles %}
+                <div class="profile-item">
+                 
+                    <div class="profile-item-avatar">
+                        {% if profile.picture_url %}
+                            <img src="{{ profile.picture_url }}" alt="Profile" class="avatar-image">
+                        {% else %}
+                            {% if profile.gender.lower == 'male' %}
+                                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Male Avatar" class="avatar-image">
+                            {% else %}
+                                <img src="https://cdn-icons-png.flaticon.com/512/4140/4140047.png" alt="Female Avatar" class="avatar-image">
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="profile-item-content">
+                        <div class="profile-item-header">
+                            <h3>{{ profile.full_name }}</h3>
+                            <p>{{ profile.connect_id }}</p>
+                        </div>
+                        
+                        <div class="profile-item-details">
+                            <p><strong data-en="Age:" data-ml="വയസ്സ്:">Age:</strong> {{ profile.age }}</p>
+                            <p><strong data-en="Gender:" data-ml="ലിംഗഭേദം:">Gender:</strong> {{ profile.gender|title }}</p>
+                            <p><strong data-en="Email:" data-ml="ഇമെയിൽ:">Email:</strong> {{ profile.email}}</p>
+                        </div>
+                        
+                        <div class="profile-actions">
+                            <div class="profile-actions">
+                                <a href="{% url 'view_profile' profile.connect_id %}" class="btn-primary">
+                                    <i class="fas fa-eye"></i> <span class="text-content" data-en="View Profile" data-ml="പ്രൊഫൈൽ കാണുക">View Profile</span>
+                                </a>
+                                {% if not profile.request_sent %}
+                                <form method="post" action="{% url 'send_interest' connect_id=current_user.connect_id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="receiver_id" value="{{ profile.connect_id }}">
+                                    <button type="submit" class="btn-blue">
+                                        <i class="fas fa-paper-plane"></i> <span class="text-content" data-en="Send Request" data-ml="അഭ്യർത്ഥന അയയ്ക്കുക">Send Request</span>
+                                    </button>
+                                </form>
+                                {% else %}
+                                <button class="btn-blue" disabled>
+                                    <i class="fas fa-check"></i> <span class="text-content" data-en="Request Sent" data-ml="അഭ്യർത്ഥന അയച്ചു">Request Sent</span>
+                                </button>
+                                {% endif %}
+                             <button class="btn-outline block-btn" data-profile-id="{{ profile.connect_id }}">
+                                <i class="fas fa-ban"></i> <span class="text-content" data-en="Block" data-ml="തടയുക">Block</span>
+                            </button>
+                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                        <div class="no-profiles">
+                            <p data-en="No matching profiles found." data-ml="യോജിക്കുന്ന പ്രൊഫൈലുകൾ ഒന്നും കണ്ടെത്തിയില്ല.">No matching profiles found.</p>
+                            {% if current_user.gender.lower == 'male' %}
+                                <p data-en="No female profiles available at the moment." data-ml="ഇപ്പോൾ സ്ത്രീ പ്രൊഫൈലുകൾ ലഭ്യമല്ല.">No female profiles available at the moment.</p>
+                            {% elif current_user.gender.lower == 'female' %}
+                                <p data-en="No male profiles available at the moment." data-ml="ഇപ്പോൾ പുരുഷ പ്രൊഫൈലുകൾ ലഭ്യമല്ല.">No male profiles available at the moment.</p>
+                            {% else %}
+                                <p data-en="No other profiles available at the moment." data-ml="ഇപ്പോൾ മറ്റ് പ്രൊഫൈലുകൾ ലഭ്യമല്ല.">No other profiles available at the moment.</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Image Preview Modal -->
+            <div id="imageModal" class="modal">
+                <span class="close-modal">&times;</span>
+                <div class="modal-content">
+                    <img id="modalImage" class="modal-image">
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-container">
+                    <div class="footer-column">
+                        <h3 class="footer-title" data-en="Quick Links" data-ml="ദ്രുത ലിങ്കുകൾ">Quick Links</h3>
+                        <ul class="footer-links">
+                            <li><a href="#" data-en="Home" data-ml="വീട്">Home</a></li>
+                            <li><a href="#" data-en="About Us" data-ml="ഞങ്ങളെക്കുറിച്ച്">About Us</a></li>
+                            <li><a href="#" data-en="Success Stories" data-ml="വിജയ കഥകൾ">Success Stories</a></li>
+                            <li><a href="#" data-en="Blog" data-ml="ബ്ലോഗ്">Blog</a></li>
+                            <li><a href="#" data-en="Contact Us" data-ml="ഞങ്ങളെ ബന്ധപ്പെടുക">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3 class="footer-title" data-en="Help & Support" data-ml="സഹായവും പിന്തുണയും">Help & Support</h3>
+                        <ul class="footer-links">
+                            <li><a href="#" data-en="FAQ" data-ml="പതിവ് ചോദ്യങ്ങൾ">FAQ</a></li>
+                            <li><a href="#" data-en="Safety Tips" data-ml="സുരക്ഷാ നുറുങ്ങുകൾ">Safety Tips</a></li>
+                            <li><a href="#" data-en="Membership" data-ml="അംഗത്വം">Membership</a></li>
+                            <li><a href="#" data-en="Customer Support" data-ml="ഉപഭോക്തൃ പിന്തുണ">Customer Support</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3 class="footer-title" data-en="Legal" data-ml="നിയമപരമായ">Legal</h3>
+                        <ul class="footer-links">
+                            <li><a href="#" data-en="Terms of Use" data-ml="ഉപയോഗ നിബന്ധനകൾ">Terms of Use</a></li>
+                            <li><a href="#" data-en="Privacy Policy" data-ml="സ്വകാര്യതാ നയം">Privacy Policy</a></li>
+                            <li><a href="#" data-en="Refund Policy" data-ml="റീഫണ്ട് നയം">Refund Policy</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3 class="footer-title" data-en="Contact Us" data-ml="ഞങ്ങളെ ബന്ധപ്പെടുക">Contact Us</h3>
+                        <ul class="footer-links">
+                            <li><a href="#"><i class="fas fa-map-marker-alt"></i> <span data-en="Kochi, Kerala" data-ml="കൊച്ചി, കേരളം">Kochi, Kerala</span></a></li>
+                            <li><a href="tel:+911234567890"><i class="fas fa-phone"></i> +91 9234567890</a></li>
+                            <li><a href="mailto:info@example.com"><i class="fas fa-envelope"></i> connect@gmail.com</a></li>
+                        </ul>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="copyright">
+                    &copy; 2025 <span data-en="Connect Matrimony. All Rights Reserved." data-ml="കണക്റ്റ് മാട്രിമോണി. എല്ലാ അവകാശങ്ങളും നിക്ഷിപ്തം.">Connect Matrimony. All Rights Reserved.</span>
+                </div>
+            </footer>
+    
+            <script>
+                // Language translation functionality
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Initialize language switcher
+                    initializeLanguageSwitcher();
+                    
+                    // Initialize all other functionality
+                    initializeSearch();
+                    initializeAvatarUpload();
+                    initializeLikeButtons();
+                    initializeRequestButtons();
+                    checkExistingInterests();
+                    initializeImagePreview();
+                    initializeImageCropper();
+                    initializeBlockButtons();
+                });
+                
+                // ================== LANGUAGE SWITCHER ==================
+                function initializeLanguageSwitcher() {
+                    const languageBtn = document.querySelector('.language-btn');
+                    const currentLanguageSpan = document.querySelector('.current-language');
+                    const languageOptions = document.querySelectorAll('.language-option');
+                    const textElements = document.querySelectorAll('[data-en], [data-ml]');
+                    const placeholderElements = document.querySelectorAll('[data-en-placeholder], [data-ml-placeholder]');
+                    
+                    // Check for saved language preference
+                    const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
+                    setLanguage(savedLanguage);
+                    
+                    // Set up language option click handlers
+                    languageOptions.forEach(option => {
+                        option.addEventListener('click', function() {
+                            const lang = this.getAttribute('data-lang');
+                            setLanguage(lang);
+                            localStorage.setItem('preferredLanguage', lang);
+                            
+                            // Update active state
+                            languageOptions.forEach(opt => opt.classList.remove('active'));
+                            this.classList.add('active');
+                        });
+                    });
+                    
+                    function setLanguage(lang) {
+                        // Update button text
+                        currentLanguageSpan.textContent = lang === 'en' ? 'English' : 'മലയാളം';
+                        
+                        // Update all text elements
+                        textElements.forEach(element => {
+                            const text = element.getAttribute(`data-${lang}`);
+                            if (text) {
+                                if (element.classList.contains('text-content')) {
+                                    element.textContent = text;
+                                } else {
+                                    // For elements that might contain HTML (like the like button)
+                                    element.innerHTML = text;
+                                }
+                            }
+                        });
+                        
+                        // Update all placeholder elements
+                        placeholderElements.forEach(element => {
+                            const placeholder = element.getAttribute(`data-${lang}-placeholder`);
+                            if (placeholder) {
+                                element.placeholder = placeholder;
+                            }
+                        });
+                        
+                        // Update like button text based on state
+                        updateLikeButtonTexts(lang);
+                    }
+                    
+                    function updateLikeButtonTexts(lang) {
+                        document.querySelectorAll('.profile-heart').forEach(heart => {
+                            const isLiked = heart.classList.contains('liked');
+                            const likeText = heart.querySelector('.like-text');
+                            if (likeText) {
+                                if (isLiked) {
+                                    likeText.textContent = lang === 'en' ? 'Liked' : likeText.getAttribute('data-ml-liked');
+                                } else {
+                                    likeText.textContent = lang === 'en' ? 'Like' : likeText.getAttribute('data-ml-unliked');
+                                }
+                            }
+                        });
+                    }
+                }
+                
+                // ================== SEARCH FUNCTIONALITY ==================
+                function initializeSearch() {
+                    const searchIcon = document.getElementById('searchIcon');
+                    const searchInput = document.getElementById('searchInput');
+                
+                    if (!searchIcon || !searchInput) return;
+                
+                    searchIcon.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        searchInput.classList.add('active');
+                        searchInput.focus();
+                    });
+                
+                    searchInput.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        searchInput.classList.add('active');
+                    });
+                
+                    document.addEventListener('click', function(event) {
+                        if (!searchInput.contains(event.target) && !searchIcon.contains(event.target)) {
+                            if (searchInput.value === '') {
+                                searchInput.classList.remove('active');
+                            }
+                        }
+                    });
+                
+                    searchInput.addEventListener('keydown', function(e) {
+                        if (e.key === 'Escape') {
+                            searchInput.classList.remove('active');
+                            searchInput.blur();
+                        }
+                    });
+                
+                    // Get placeholder text based on current language
+                    const currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
+                    const placeholderAttr = `data-${currentLanguage}-placeholder`;
+                    const placeholderText = searchInput.getAttribute(placeholderAttr) || 'Search by ID...';
+                    searchInput.placeholder = placeholderText;
+                
+                    searchInput.addEventListener('focus', function() {
+                        this.placeholder = placeholderText;
+                    });
+                
+                    searchInput.addEventListener('blur', function() {
+                        if (!this.classList.contains('active')) {
+                            this.placeholder = '';
+                        }
+                    });
+                }
+                
+                // ================== AVATAR UPLOAD ==================
+                function initializeAvatarUpload() {
+                    const uploadInput = document.getElementById('avatar-upload');
+                    if (!uploadInput) return;
+                
+                    uploadInput.addEventListener('change', function(e) {
+                        if (e.target.files && e.target.files[0]) {
+                            const reader = new FileReader();
+                            const avatar = document.querySelector('.profile-avatar');
+                            
+                            reader.onload = function(event) {
+                                let img = avatar.querySelector('.avatar-image');
+                                if (!img) {
+                                    img = document.createElement('img');
+                                    img.classList.add('avatar-image');
+                                    avatar.insertBefore(img, avatar.firstChild);
+                                }
+                                img.src = event.target.result;
+                                
+                                // Upload to server
+                                uploadAvatarToServer(e.target.files[0]);
+                            };
+                            
+                            reader.readAsDataURL(e.target.files[0]);
+                        }
+                    });
+                }
+                
+                function uploadAvatarToServer(file) {
+                    const formData = new FormData();
+                    formData.append('profile_picture', file);
+                    
+                    fetch('/upload-profile-picture/', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': getCookie('csrftoken'),
+                        },
+                        body: formData
+                    }).then(response => {
+                        if (!response.ok) throw new Error('Upload failed');
+                        return response.json();
+                    }).then(data => {
+                        showToast(data.message || 'Profile picture updated successfully!', 'success');
+                    }).catch(error => {
+                        showToast('Failed to upload profile picture', 'error');
+                        console.error('Upload error:', error);
+                    });
+                }
+                
+                // ================== LIKE FUNCTIONALITY ==================
+                function initializeLikeButtons() {
+                    document.querySelectorAll('.profile-heart').forEach(heart => {
+                        heart.addEventListener('click', function() {
+                            toggleLikeProfile(this);
+                        });
+                    });
+                }
+                
+                function toggleLikeProfile(element) {
+                    const profileId = element.getAttribute('data-profile-id');
+                    const isCurrentlyLiked = element.classList.contains('liked');
+                    const action = isCurrentlyLiked ? 'unlike' : 'like';
+                    const url = `/toggle-shortlist/${profileId}/`;
+                    
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCookie('csrftoken'),
+                        },
+                        body: JSON.stringify({
+                            'action': action,
+                            'profile_id': profileId
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.status === 'success') {
+                            // Update UI based on the response
+                            if (data.is_liked) {
+                                element.classList.add('liked');
+                                const icon = element.querySelector('i');
+                                icon.classList.remove('far');
+                                icon.classList.add('fas');
+                                
+                                // Update like text based on current language
+                                const currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
+                                const likeText = element.querySelector('.like-text');
+                                if (likeText) {
+                                    likeText.textContent = currentLanguage === 'en' ? 'Liked' : likeText.getAttribute('data-ml-liked');
+                                }
+                            } else {
+                                element.classList.remove('liked');
+                                const icon = element.querySelector('i');
+                                icon.classList.remove('fas');
+                                icon.classList.add('far');
+                                
+                                // Update like text based on current language
+                                const currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
+                                const likeText = element.querySelector('.like-text');
+                                if (likeText) {
+                                    likeText.textContent = currentLanguage === 'en' ? 'Like' : likeText.getAttribute('data-ml-unliked');
+                                }
+                            }
+                            
+                            // Show success message
+                            showToast(data.message, 'success');
+                        } else {
+                            // Show error message
+                            showToast(data.message || 'Failed to update like status', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showToast('Failed to update like status. Please try again.', 'error');
+                    });
+                }
+                
+                // ================== REQUEST FUNCTIONALITY ==================
+                function initializeRequestButtons() {
+                    document.querySelectorAll('.send-request-btn').forEach(button => {
+                        const receiverId = button.getAttribute('data-receiver-id');
+                        
+                        if (localStorage.getItem(`request-sent-${receiverId}`)) {
+                            disableRequestButton(button);
+                        }
+                
+                        button.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            handleRequestClick(this);
+                        });
+                    });
+                }
+                
+                function handleRequestClick(button) {
+                    const senderId = button.getAttribute('data-sender-id');
+                    const receiverId = button.getAttribute('data-receiver-id');
+                    
+                    disableRequestButton(button);
+                    sendInterestRequest(senderId, receiverId, button);
+                }
+                
+                function sendInterestRequest(senderId, receiverId, button) {
+                    fetch('/send-interest/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCookie('csrftoken'),
+                        },
+                        body: JSON.stringify({
+                            'sender_id': senderId,
+                            'receiver_id': receiverId
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(err => Promise.reject(err));
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.status === 'success') {
+                            localStorage.setItem(`request-sent-${receiverId}`, 'true');
+                            if (data.interest_id) {
+                                button.setAttribute('data-interest-id', data.interest_id);
+                            }
+                            
+                            // Update button text based on current language
+                            const currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
+                            const btnText = button.querySelector('.text-content');
+                            if (btnText) {
+                                btnText.textContent = currentLanguage === 'en' ? 'Request Sent' : 'അഭ്യർത്ഥന അയച്ചു';
+                            }
+                            
+                            showToast(data.message || 'Request sent successfully!', 'success');
+                        } else {
+                            enableRequestButton(button);
+                            showToast(data.message || 'Failed to send request', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        enableRequestButton(button);
+                        showToast(error.message || 'Network error occurred', 'error');
+                    });
+                }
+                
+                function checkExistingInterests() {
+                    const currentUserId = "{{ current_user.connect_id }}";
+                    if (!currentUserId) return;
+                    
+                    fetch(`/api/user-interests/?sender_id=${currentUserId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            data.interests.forEach(interest => {
+                                const button = document.querySelector(
+                                    `.send-request-btn[data-receiver-id="${interest.receiver_id}"]`
+                                );
+                                if (button) {
+                                    disableRequestButton(button);
+                                    localStorage.setItem(`request-sent-${interest.receiver_id}`, 'true');
+                                    if (interest.id) {
+                                        button.setAttribute('data-interest-id', interest.id);
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => console.error('Error checking interests:', error));
+                }
+                
+                // ================== IMAGE PREVIEW FUNCTIONALITY ==================
+                function initializeImagePreview() {
+                    // Profile avatar in sidebar
+                    const profileAvatar = document.querySelector('.profile-avatar img');
+                    if (profileAvatar) {
+                        profileAvatar.addEventListener('click', function() {
+                            showImageModal(this.src, "{{ current_user.full_name }}'s Profile Picture");
+                        });
+                    }
+                
+                    // Profile icon in header
+                    const headerProfileIcon = document.querySelector('.profile-icon img');
+                    if (headerProfileIcon) {
+                        headerProfileIcon.addEventListener('click', function() {
+                            showImageModal(this.src, "{{ current_user.full_name }}'s Profile Picture");
+                        });
+                    }
+                
+                    // Close modal when clicking X
+                    document.querySelector('.close-modal').addEventListener('click', closeImageModal);
+                
+                    // Close modal when clicking outside image
+                    document.getElementById('imageModal').addEventListener('click', function(e) {
+                        if (e.target === this) {
+                            closeImageModal();
+                        }
+                    });
+                
+                    // Close modal with ESC key
+                    document.addEventListener('keydown', function(e) {
+                        if (e.key === 'Escape') {
+                            closeImageModal();
+                        }
+                    });
+                }
+                
+                function showImageModal(src, caption) {
+                    const modal = document.getElementById('imageModal');
+                    const modalImg = document.getElementById('modalImage');
+                    const captionText = document.getElementById('caption');
+                    
+                    modal.style.display = "block";
+                    modalImg.src = src;
+                    captionText.innerHTML = caption;
+                    
+                    // Disable body scrolling
+                    document.body.style.overflow = 'hidden';
+                }
+                
+                function closeImageModal() {
+                    document.getElementById('imageModal').style.display = "none";
+                    // Enable body scrolling
+                    document.body.style.overflow = 'auto';
+                }
+                
+                // ================== BLOCK FUNCTIONALITY ==================
+                function initializeBlockButtons() {
+                    document.querySelectorAll('.block-btn').forEach(button => {
+                        button.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const profileId = this.getAttribute('data-profile-id');
+                            const currentUserId = "{{ current_user.connect_id }}";
+                            
+                            // Get confirmation message based on current language
+                            const currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
+                            const confirmMsg = currentLanguage === 'en' 
+                                ? 'Are you sure you want to block this profile?\n\nYou will no longer see them in your searches.'
+                                : 'ഈ പ്രൊഫൈൽ തടയാൻ നിങ്ങൾക്ക് തീർച്ചയാണോ?\n\nനിങ്ങളുടെ തിരയലുകളിൽ അവരെ ഇനി കാണില്ല.';
+                            
+                            if (confirm(confirmMsg)) {
+                                blockProfile(currentUserId, profileId, this);
+                            }
+                        });
+                    });
+                }
+                
+                function blockProfile(currentUserId, profileId, button) {
+                    fetch(`/${currentUserId}/block/${profileId}/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCookie('csrftoken'),
+                        },
+                        body: JSON.stringify({})
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            // Show success message in current language
+                            const currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
+                            const successMsg = currentLanguage === 'en' 
+                                ? 'Profile blocked successfully' 
+                                : 'പ്രൊഫൈൽ വിജയകരമായി തടഞ്ഞു';
+                            showToast(successMsg, 'success');
+                            
+                            // Remove the profile card with animation
+                            const profileCard = button.closest('.profile-item');
+                            profileCard.style.transition = 'all 0.3s ease';
+                            profileCard.style.opacity = '0';
+                            profileCard.style.height = '0';
+                            profileCard.style.margin = '0';
+                            profileCard.style.padding = '0';
+                            profileCard.style.border = 'none';
+                            
+                            // Remove from DOM after animation
+                            setTimeout(() => {
+                                profileCard.remove();
+                                
+                                // Check if no profiles left
+                                if (document.querySelectorAll('.profile-item').length === 0) {
+                                    const grid = document.querySelector('.profiles-grid');
+                                    const currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
+                                    
+                                    if (currentLanguage === 'en') {
+                                        grid.innerHTML = `
+                                            <div class="no-profiles">
+                                                <p>No profiles found.</p>
+                                                <p>Try adjusting your search criteria.</p>
+                                            </div>
+                                        `;
+                                    } else {
+                                        grid.innerHTML = `
+                                            <div class="no-profiles">
+                                                <p>പ്രൊഫൈലുകൾ ഒന്നും കണ്ടെത്തിയില്ല.</p>
+                                                <p>നിങ്ങളുടെ തിരയൽ മാനദണ്ഡം മാറ്റി ശ്രമിക്കുക.</p>
+                                            </div>
+                                        `;
+                                    }
+                                }
+                            }, 300);
+                        } else {
+                            showToast(data.message || 'Failed to block profile', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showToast('Network error occurred', 'error');
+                    });
+                }
+                
+                // ================== HELPER FUNCTIONS ==================
+                function disableRequestButton(button) {
+                    button.disabled = true;
+                    
+                    // Update button text based on current language
+                    const currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
+                    const btnText = button.querySelector('.text-content');
+                    if (btnText) {
+                        btnText.textContent = currentLanguage === 'en' ? 'Request Sent' : 'അഭ്യർത്ഥന അയച്ചു';
+                    }
+                    
+                    button.style.opacity = '0.7';
+                    button.style.cursor = 'not-allowed';
+                    button.classList.add('request-sent');
+                }
+                
+                function enableRequestButton(button) {
+                    button.disabled = false;
+                    
+                    // Update button text based on current language
+                    const currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
+                    const btnText = button.querySelector('.text-content');
+                    if (btnText) {
+                        btnText.textContent = currentLanguage === 'en' ? 'Send Request' : 'അഭ്യർത്ഥന അയയ്ക്കുക';
+                    }
+                    
+                    button.style.opacity = '1';
+                    button.style.cursor = 'pointer';
+                    button.classList.remove('request-sent');
+                }
+                
+                function showToast(message, type = 'info') {
+                    // Implement your toast notification system here
+                    const toast = document.createElement('div');
+                    toast.className = `toast show align-items-center text-white bg-${type}`;
+                    toast.style.position = 'fixed';
+                    toast.style.bottom = '20px';
+                    toast.style.right = '20px';
+                    toast.style.zIndex = '9999';
+                    
+                    toast.innerHTML = `
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ${message}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                        </div>
+                    `;
+                    
+                    document.body.appendChild(toast);
+                    
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 3000);
+                }
+                
+                function getCookie(name) {
+                    let cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        const cookies = document.cookie.split(';');
+                        for (let i = 0; i < cookies.length; i++) {
+                            const cookie = cookies[i].trim();
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+            </script>
+        </body>
+        </html>

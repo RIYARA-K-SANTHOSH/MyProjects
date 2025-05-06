@@ -1,0 +1,393 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Connect</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("{% static 'images/image7.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: -1;
+            transform: scale(1.02); /* Fix blur edge effect */
+        }
+        
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #6a3093, #8a2be2);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header h2 {
+            color: #6c5ce7;
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+        
+        .login-header p {
+            color: #666;
+            margin-top: 0;
+            font-size: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+            font-size: 14px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: all 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color:#6c5ce7;
+            box-shadow: 0 0 0 3px rgba(106, 48, 147, 0.1);
+        }
+        
+        .forgot-password {
+            text-align: right;
+            margin-top: -12px;
+            margin-bottom: 20px;
+        }
+        
+        .forgot-password a {
+            color: #6c5ce7;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .forgot-password a:hover {
+            text-decoration: none;
+            color: #6c5ce7;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #6c5ce7,#5649c7);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+            color: #999;
+            font-size: 13px;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 42%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ddd, transparent);
+        }
+        
+        .divider::before {
+            left: 0;
+        }
+        
+        .divider::after {
+            right: 0;
+        }
+        
+        .otp-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: white;
+            color: #6c5ce7;
+            border: 1px solid #6c5ce7;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .otp-btn:hover {
+            background-color: #f5f0fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .social-login {
+            text-align: center;
+            margin-top: 25px;
+        }
+        
+        .google-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            background-color: white;
+            color: #444;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            width: 100%;
+        }
+        
+        .google-btn:hover {
+            background-color: #f8f8f8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-color: #ccc;
+        }
+        
+        .google-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .register-link a {
+            color: #6c5ce7;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .register-link a:hover {
+            text-decoration: none;
+            color: #6c5ce7;
+        }
+        
+        .error-message {
+            color: #ff3860;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+            padding-left: 5px;
+        }
+        
+        input.error {
+            border-color: #ff3860;
+            background-color: #fff5f7;
+        }
+        
+        /* Password toggle eye icon styles */
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 40px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .password-toggle:hover {
+            color: #6c5ce7;
+        }
+        
+        .password-input-container {
+            position: relative;
+        }
+    </style>
+    <!-- Font Awesome for eye icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h2>Welcome to Connect</h2>
+            <p>Sign in to access your account</p>
+        </div>
+        
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="username">Connect ID, Email or Mobile</label>
+                <input type="text" id="username" name="username" required placeholder="Enter your ID or email">
+                <div class="error-message" id="username-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="password-input-container">
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                    <span class="password-toggle" id="togglePassword">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+                <div class="error-message" id="password-error"></div>
+            </div>
+            
+            <div class="forgot-password">
+                <a href=" ">Forgot password?</a>
+            </div>
+            
+            <button type="submit" class="login-btn">Sign In</button>
+        </form>
+        
+        <div class="register-link">
+            Don't have an account? <a href="{% url 'register' %}">Sign up</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const usernameError = document.getElementById('username-error');
+            const passwordError = document.getElementById('password-error');
+            const togglePassword = document.getElementById('togglePassword');
+            
+            // Toggle password visibility
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                // Toggle eye icon
+                if (type === 'password') {
+                    this.innerHTML = '<i class="fas fa-eye"></i>';
+                } else {
+                    this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                }
+            });
+            
+            // Validate on form submission
+            form.addEventListener('submit', function(e) {
+                let isValid = true;
+                
+                // Validate username
+                if (!usernameInput.value.trim()) {
+                    usernameError.textContent = 'Please enter your CONNECT ID, Email or Mobile';
+                    usernameError.style.display = 'block';
+                    usernameInput.classList.add('error');
+                    isValid = false;
+                } else {
+                    usernameError.style.display = 'none';
+                    usernameInput.classList.remove('error');
+                }
+                
+                // Validate password
+                if (!passwordInput.value) {
+                    passwordError.textContent = 'Please enter your password';
+                    passwordError.style.display = 'block';
+                    passwordInput.classList.add('error');
+                    isValid = false;
+                } else {
+                    passwordError.style.display = 'none';
+                    passwordInput.classList.remove('error');
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    
+                    // Scroll to first error
+                    const firstError = document.querySelector('.error');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        firstError.focus();
+                    }
+                }
+            });
+            
+            // Clear errors when typing
+            usernameInput.addEventListener('input', function() {
+                if (this.classList.contains('error')) {
+                    usernameError.style.display = 'none';
+                    this.classList.remove('error');
+                }
+            });
+            
+            passwordInput.addEventListener('input', function() {
+                if (this.classList.contains('error')) {
+                    passwordError.style.display = 'none';
+                    this.classList.remove('error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

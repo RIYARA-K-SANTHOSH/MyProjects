@@ -1,0 +1,722 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education & Professional Information Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            padding-top: 70px;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            min-height: 100vh;
+        }
+        
+        header {
+            background-color: white;
+            color: #333;
+            padding: 10px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 50px;
+        }
+        
+        .logo {
+            font-weight: 700;
+            font-size: 1.2em;
+            color: #6a3093;
+            letter-spacing: 0.5px;
+        }
+        
+        .live-chat {
+            color: #6a3093;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #d3b1f4;
+            font-size: 0.9em;
+        }
+        
+        .live-chat:hover {
+            color: white;
+            background-color: #6a3093;
+            text-decoration: none;
+        }
+        
+        .progress-section {
+            background-color: #f5f0fa;
+            padding: 25px 0;
+            width: 100%;
+            position: relative;
+        }
+        
+        .progress-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+        
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+        
+        .step {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: #e0d0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #8a63b0;
+            font-weight: bold;
+            position: relative;
+            font-size: 18px;
+            z-index: 2;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .step.completed {
+            background-color: #8a2be2;
+            color: white;
+        }
+        
+        .step.completed::before {
+            content: '✓';
+            font-size: 20px;
+        }
+        
+        .step.active {
+            background-color: #6a3093;
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+        }
+        
+        .progress-line {
+            position: absolute;
+            height: 4px;
+            background-color: #e0d0f0;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .progress-active {
+            position: absolute;
+            height: 4px;
+            background: linear-gradient(to right, #8a2be2, #6a3093);
+            left: 0;
+            width: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            transition: width 0.5s ease;
+        }
+        
+        .step-label {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #666;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        
+        .step.completed .step-label,
+        .step.active .step-label {
+            color: #6a3093;
+            font-weight: 600;
+        }
+        
+        .main-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .image-section {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-width: 300px;
+        }
+        
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .form-section {
+            flex: 1;
+            padding: 20px;
+            min-width: 300px;
+        }
+        
+        .section-heading {
+            text-transform: uppercase;
+            color: #6a3093;
+            border-bottom: 2px solid #6a3093;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #6a3093;
+        }
+        
+        .error {
+            border-color: #ff0000 !important;
+        }
+        
+        .error-message {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .next-button-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            z-index: 1000;
+        }
+        
+        .next-button {
+            background-color: #6a3093;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            width: 200px;
+        }
+        
+        .next-button:hover {
+            background-color: #8a2be2;
+        }
+        
+        .next-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .completed-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #6a3093;
+        }
+        
+        .education-details {
+            display: none;
+            padding-left: 15px;
+            border-left: 2px solid #e0d0f0;
+            margin-bottom: 15px;
+        }
+        
+        .education-details.active {
+            display: block;
+        }
+        
+        .subfield {
+            margin-bottom: 15px;
+        }
+        
+        .subfield label {
+            font-weight: normal;
+            color: #555;
+        }
+        
+        .location-details {
+            display: none;
+            margin-top: 10px;
+        }
+        
+        .location-details.active {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+        }
+        
+        /* Message styling */
+        .messages {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        
+        .alert-success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+        
+        .alert-error {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Connect</div>
+        <a href="#" class="live-chat">Live Chat</a>
+    </header>
+    
+    <!-- Messages -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <div class="progress-section">
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="progress-line"></div>
+                <div class="progress-active"></div>
+                
+                <div class="step completed">
+                    <span class="step-label">Step 1</span>
+                </div>
+                <div class="step completed">
+                    <span class="step-label">Step 2</span>
+                </div>
+                <div class="step active">
+                    <span>3</span>
+                    <span class="step-label">Step 3</span>
+                </div>
+                <div class="step">
+                    <span>4</span>
+                    <span class="step-label">Step 4</span>
+                </div>
+                <div class="step">
+                    <span>5</span>
+                    <span class="step-label">Final Step</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-container">
+        <div class="image-section">
+            <img src="{% static 'images/image10.jpg' %}" alt="Profile setup illustration">
+        </div>
+        
+        <div class="form-section">
+            <h2 style="color: #6a3093;">Profile Setup</h2>
+            <p style="color: #555;">Step 3: Please complete your education and professional information below.</p>
+            
+            <form method="post" action="{% url 'education' connect_id=user.connect_id %}">
+                {% csrf_token %}
+                
+                <h2 class="section-heading">Education & Professional Information</h2>
+                
+                <!-- Education Qualification Section -->
+                <div class="form-group">
+                    <label for="education_level">Highest Education Qualification*</label>
+                    <select id="education_level" name="education_level" class="education-level-select" required>
+                        <option value="">Select your highest education</option>
+                        {% for value, label in education_levels %}
+                            <option value="{{ value }}" {% if education_professional.education_level == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="error-message">Please select your education level</div>
+                    
+                    <!-- Bachelor's Details -->
+                    <div id="bachelors-details" class="education-details {% if education_professional.education_level == 'bachelors' %}active{% endif %}">
+                        <div class="subfield">
+                            <label for="bachelors_degree">Bachelor's Degree*</label>
+                            <select id="bachelors_degree" name="bachelors_degree">
+                                <option value="">Select degree</option>
+                                {% for value, label in bachelors_degrees %}
+                                    <option value="{{ value }}" {% if education_professional.bachelors_degree == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="subfield">
+                            <label for="bachelors_specialization">Specialization*</label>
+                            <input type="text" id="bachelors_specialization" name="bachelors_specialization" 
+                                   placeholder="e.g. Computer Science, Economics" 
+                                   value="{{ education_professional.bachelors_specialization|default:'' }}">
+                        </div>
+                        <div class="subfield">
+                            <label for="bachelors_institution">College/University*</label>
+                            <input type="text" id="bachelors_institution" name="bachelors_institution" 
+                                   placeholder="Name of institution" 
+                                   value="{{ education_professional.bachelors_institution|default:'' }}">
+                        </div>
+                    </div>
+                    
+                    <!-- Master's Details -->
+                    <div id="masters-details" class="education-details {% if education_professional.education_level == 'masters' %}active{% endif %}">
+                        <div class="subfield">
+                            <label for="masters_degree">Master's Degree*</label>
+                            <select id="masters_degree" name="masters_degree">
+                                <option value="">Select degree</option>
+                                {% for value, label in masters_degrees %}
+                                    <option value="{{ value }}" {% if education_professional.masters_degree == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="subfield">
+                            <label for="masters_specialization">Specialization*</label>
+                            <input type="text" id="masters_specialization" name="masters_specialization" 
+                                   placeholder="e.g. Finance, Data Science" 
+                                   value="{{ education_professional.masters_specialization|default:'' }}">
+                        </div>
+                        <div class="subfield">
+                            <label for="masters_institution">College/University*</label>
+                            <input type="text" id="masters_institution" name="masters_institution" 
+                                   placeholder="Name of institution" 
+                                   value="{{ education_professional.masters_institution|default:'' }}">
+                        </div>
+                    </div>
+                    
+                    <!-- PhD Details -->
+                    <div id="phd-details" class="education-details {% if education_professional.education_level == 'phd' %}active{% endif %}">
+                        <div class="subfield">
+                            <label for="phd_field">PhD Field*</label>
+                            <input type="text" id="phd_field" name="phd_field" 
+                                   placeholder="Field of research" 
+                                   value="{{ education_professional.phd_field|default:'' }}">
+                        </div>
+                        <div class="subfield">
+                            <label for="phd_institution">University*</label>
+                            <input type="text" id="phd_institution" name="phd_institution" 
+                                   placeholder="Name of university" 
+                                   value="{{ education_professional.phd_institution|default:'' }}">
+                        </div>
+                    </div>
+                    
+                    <!-- Other Education Details -->
+                    <div id="other-details" class="education-details {% if education_professional.education_level == 'other' %}active{% endif %}">
+                        <div class="subfield">
+                            <label for="other_education">Education Description*</label>
+                            <input type="text" id="other_education" name="other_education" 
+                                   placeholder="Describe your education" 
+                                   value="{{ education_professional.other_education|default:'' }}">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Professional Information Section -->
+                <div class="form-group">
+                    <label for="occupation">Occupation Category*</label>
+                    <select id="occupation" name="occupation" required>
+                        <option value="">Select occupation category</option>
+                        {% for value, label in occupation_choices %}
+                            <option value="{{ value }}" {% if education_professional.occupation == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="error-message">Please select your occupation category</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="employment_type">Employment Category*</label>
+                    <select id="employment_type" name="employment_type" required>
+                        <option value="">Select employment category</option>
+                        {% for value, label in employment_choices %}
+                            <option value="{{ value }}" {% if education_professional.employment_type == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="error-message">Please select your employment category</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="working_country">Working Country*</label>
+                    <select id="working_country" name="working_country" required>
+                        <option value="">Select country</option>
+                        <option value="india" {% if education_professional.working_country == 'india' %}selected{% endif %}>India</option>
+                        <option value="usa" {% if education_professional.working_country == 'usa' %}selected{% endif %}>United States</option>
+                        <option value="uk" {% if education_professional.working_country == 'uk' %}selected{% endif %}>United Kingdom</option>
+                        <option value="uae" {% if education_professional.working_country == 'uae' %}selected{% endif %}>UAE</option>
+                        <option value="canada" {% if education_professional.working_country == 'canada' %}selected{% endif %}>Canada</option>
+                        <option value="australia" {% if education_professional.working_country == 'australia' %}selected{% endif %}>Australia</option>
+                        <option value="other" {% if education_professional.working_country == 'other' %}selected{% endif %}>Other</option>
+                    </select>
+                    <div class="error-message">Please select your working country</div>
+                    
+                   <!-- Replace the location-details section with this -->
+<div id="location-details" class="location-details {% if education_professional.working_country %}active{% endif %}">
+    <div class="subfield">
+        <label for="working_state">Working State*</label>
+        <select id="working_state" name="working_state" {% if not education_professional.working_country %}disabled{% endif %}>
+            <option value="">Select state</option>
+            {% if education_professional.working_country %}
+                <option value="{{ education_professional.working_state }}" selected>{{ education_professional.working_state }}</option>
+            {% endif %}
+        </select>
+    </div>
+    <div class="subfield">
+        <label for="working_district">Working District*</label>
+        <select id="working_district" name="working_district" {% if not education_professional.working_state %}disabled{% endif %}>
+            <option value="">Select district</option>
+            {% if education_professional.working_district %}
+                <option value="{{ education_professional.working_district }}" selected>{{ education_professional.working_district }}</option>
+            {% endif %}
+        </select>
+    </div>
+    <div class="subfield">
+        <label for="working_city">Working City/Town*</label>
+        <input type="text" id="working_city" name="working_city" 
+               placeholder="Enter your city/town" 
+               value="{{ education_professional.working_city|default:'' }}"
+               {% if not education_professional.working_district %}disabled{% endif %}>
+    </div>
+</div>
+                
+                <div class="form-group">
+                    <label for="annual_income">Annual Income*</label>
+                    <select id="annual_income" name="annual_income" required>
+                        <option value="">Select income range</option>
+                        {% for value, label in income_choices %}
+                            <option value="{{ value }}" {% if education_professional.annual_income == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="error-message">Please select your income range</div>
+                </div>
+     
+                    <button type="submit" class="next-button">Next</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const requiredFields = form.querySelectorAll('[required]');
+            const nextButton = document.querySelector('.next-button');
+            
+            // Validate fields on blur (when leaving the field)
+            requiredFields.forEach(field => {
+                field.addEventListener('blur', function() {
+                    validateField(field);
+                    checkFormCompletion();
+                });
+            });
+            
+            // Also validate on change for select elements
+            document.querySelectorAll('select[required]').forEach(select => {
+                select.addEventListener('change', function() {
+                    validateField(select);
+                    checkFormCompletion();
+                });
+            });
+            
+            function validateField(field) {
+                const errorMessage = field.nextElementSibling;
+                
+                if (!field.value) {
+                    field.classList.add('error');
+                    errorMessage.style.display = 'block';
+                    return false;
+                } else {
+                    field.classList.remove('error');
+                    errorMessage.style.display = 'none';
+                    return true;
+                }
+            }
+            
+            function checkFormCompletion() {
+                let allValid = true;
+                requiredFields.forEach(field => {
+                    if (!field.value) {
+                        allValid = false;
+                    }
+                });
+                
+                nextButton.disabled = !allValid;
+            }
+            
+            // Initial check
+            checkFormCompletion();
+            
+            // Validate on form submission
+            form.addEventListener('submit', function(e) {
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!validateField(field)) {
+                        isValid = false;
+                    }
+                });
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    // Scroll to first error
+                    const firstError = document.querySelector('.error');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+    
+            // Education details toggle
+            const educationLevelSelect = document.getElementById('education_level');
+            const educationDetails = document.querySelectorAll('.education-details');
+            
+            educationLevelSelect.addEventListener('change', function() {
+                educationDetails.forEach(detail => detail.classList.remove('active'));
+                if (this.value && !['high_school', 'diploma'].includes(this.value)) {
+                    const detailId = this.value + '-details';
+                    const selectedDetail = document.getElementById(detailId);
+                    if (selectedDetail) selectedDetail.classList.add('active');
+                }
+                checkFormCompletion();
+            });
+    
+            // Country/state/district handling
+            const workingCountrySelect = document.getElementById('working_country');
+            const locationDetails = document.getElementById('location-details');
+            const workingStateSelect = document.getElementById('working_state');
+            const workingDistrictSelect = document.getElementById('working_district');
+            const workingCityInput = document.getElementById('working_city');
+            
+            const countryData = {
+                'india': {
+                    states: {
+                        'Kerala': ['Thiruvananthapuram', 'Kollam', 'Pathanamthitta', 'Alappuzha', 'Kottayam', 'Idukki', 'Ernakulam', 'Thrissur', 'Palakkad', 'Malappuram', 'Kozhikode', 'Wayanad', 'Kannur', 'Kasaragod'],
+                        'Tamil Nadu': ['Chennai', 'Coimbatore', 'Madurai', 'Tiruchirappalli', 'Salem', 'Tirunelveli', 'Vellore', 'Erode', 'Thoothukudi', 'Dindigul'],
+                        'Karnataka': ['Bangalore Urban', 'Bangalore Rural', 'Mysore', 'Hubli-Dharwad', 'Belgaum', 'Gulbarga', 'Davanagere', 'Shimoga', 'Bijapur', 'Mangalore'],
+                        'Maharashtra': ['Mumbai', 'Pune', 'Nagpur', 'Nashik', 'Thane', 'Aurangabad', 'Solapur', 'Amravati', 'Kolhapur', 'Nanded'],
+                        'Delhi': ['Central Delhi', 'East Delhi', 'New Delhi', 'North Delhi', 'North East Delhi', 'North West Delhi', 'South Delhi', 'South West Delhi', 'West Delhi']
+                    }
+                }
+            };
+            
+            workingCountrySelect.addEventListener('change', function() {
+                const hasValue = this.value;
+                locationDetails.classList.toggle('active', hasValue);
+                workingStateSelect.disabled = !hasValue;
+                
+                // Reset state, district, city
+                workingStateSelect.innerHTML = '<option value="">Select state</option>';
+                workingDistrictSelect.innerHTML = '<option value="">Select district</option>';
+                workingCityInput.value = '';
+                workingDistrictSelect.disabled = true;
+                workingCityInput.disabled = true;
+                
+                // Populate states if country data exists
+                if (hasValue && countryData[this.value]) {
+                    Object.keys(countryData[this.value].states).forEach(state => {
+                        const option = new Option(state, state);
+                        workingStateSelect.add(option);
+                    });
+                }
+                checkFormCompletion();
+            });
+            
+            workingStateSelect.addEventListener('change', function() {
+                const hasValue = this.value;
+                workingDistrictSelect.disabled = !hasValue;
+                workingDistrictSelect.innerHTML = '<option value="">Select district</option>';
+                workingCityInput.value = '';
+                workingCityInput.disabled = true;
+                
+                // Populate districts if state data exists
+                if (hasValue && countryData[workingCountrySelect.value]?.states[this.value]) {
+                    countryData[workingCountrySelect.value].states[this.value].forEach(district => {
+                        const option = new Option(district, district);
+                        workingDistrictSelect.add(option);
+                    });
+                }
+                checkFormCompletion();
+            });
+            
+            workingDistrictSelect.addEventListener('change', function() {
+                workingCityInput.disabled = !this.value;
+                checkFormCompletion();
+            });
+        });
+    </script>
+</body>
+</html>

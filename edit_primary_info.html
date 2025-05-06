@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile Information</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --light-gray: #e9ecef;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8fafc;
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 25px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .connect-id-badge {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .form-container {
+            padding: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(72, 149, 239, 0.2);
+        }
+
+        .form-group input[readonly],
+        .form-group select[disabled] {
+            background-color: var(--light-gray);
+            color: var(--gray-color);
+            cursor: not-allowed;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--light-color);
+        }
+
+        .messages {
+            margin-bottom: 25px;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: var(--border-radius);
+            margin-bottom: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-color);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .alert-error {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--error-color);
+            border-left: 4px solid var(--error-color);
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .connect-id-badge {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-title">
+                <i class="fas fa-user-edit"></i>
+                <span>Edit Profile Information</span>
+            </div>
+            <div class="connect-id-badge">
+                <i class="fas fa-id-card"></i> {{ current_user.connect_id }}
+            </div>
+        </div>
+
+        <div class="form-container">
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %}">
+                    <i class="fas {% if message.tags == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %}"></i>
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <form method="POST" action="{% url 'edit_primary_info' connect_id=current_user.connect_id %}">
+                {% csrf_token %}
+                
+                <div class="section-title">Basic Information</div>
+                
+                <div class="form-group">
+                    <label for="full_name">Full Name</label>
+                    <input type="text" id="full_name" name="full_name" value="{{ current_user.full_name }}" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" disabled>
+                        <option value="">Select Gender</option>
+                        {% for value, label in current_user.GENDER_CHOICES %}
+                            <option value="{{ value }}" {% if current_user.gender == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" id="phone" name="phone" value="{{ current_user.phone }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="{{ current_user.email }}" readonly>
+                </div>
+                
+                <div class="section-title">Physical Attributes</div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="date_of_birth">Date of Birth</label>
+                        <input type="date" id="date_of_birth" name="date_of_birth" 
+                               value="{{ current_user.date_of_birth|date:'Y-m-d' }}">
+                    </div>
+                    
+            <!-- Gender Dropdown -->
+<div class="form-group">
+    <label for="gender">Gender</label>
+    <select id="gender" name="gender" disabled>
+        <option value="">Select Gender</option>
+        <option value="male" {% if current_user.gender == 'male' %}selected{% endif %}>Male</option>
+        <option value="female" {% if current_user.gender == 'female' %}selected{% endif %}>Female</option>
+        <option value="other" {% if current_user.gender == 'other' %}selected{% endif %}>Other</option>
+        <option value="prefer_not" {% if current_user.gender == 'prefer_not' %}selected{% endif %}>Prefer not to say</option>
+    </select>
+</div>
+
+<!-- Height Dropdown -->
+<div class="form-group">
+    <label for="height">Height (cm)</label>
+    <select id="height" name="height">
+        <option value="">Select Height</option>
+        <option value="140" {% if profile.height == 140 %}selected{% endif %}>140 cm</option>
+        <option value="145" {% if profile.height == 145 %}selected{% endif %}>145 cm</option>
+        <option value="150" {% if profile.height == 150 %}selected{% endif %}>150 cm</option>
+        <option value="155" {% if profile.height == 155 %}selected{% endif %}>155 cm</option>
+        <option value="160" {% if profile.height == 160 %}selected{% endif %}>160 cm</option>
+        <option value="165" {% if profile.height == 165 %}selected{% endif %}>165 cm</option>
+        <option value="170" {% if profile.height == 170 %}selected{% endif %}>170 cm</option>
+        <option value="175" {% if profile.height == 175 %}selected{% endif %}>175 cm</option>
+        <option value="180" {% if profile.height == 180 %}selected{% endif %}>180 cm</option>
+        <option value="185" {% if profile.height == 185 %}selected{% endif %}>185 cm</option>
+        <option value="190" {% if profile.height == 190 %}selected{% endif %}>190 cm</option>
+        <option value="195" {% if profile.height == 195 %}selected{% endif %}>195 cm</option>
+        <option value="200" {% if profile.height == 200 %}selected{% endif %}>200 cm</option>
+    </select>
+</div>
+  <!-- Blood Group Dropdown -->
+  <div class="form-group">
+    <label for="blood_group">Blood Group</label>
+    <select id="blood_group" name="blood_group">
+        <option value="">Select Blood Group</option>
+        {% for value, label in current_user.BLOOD_GROUP_CHOICES %}
+            <option value="{{ value }}" {% if current_user.blood_group == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<!-- Mother Tongue Input -->
+<div class="form-group">
+    <label for="mother_tongue">Mother Tongue</label>
+    <input type="text" id="mother_tongue" name="mother_tongue" 
+           value="{{ current_user.mother_tongue }}" placeholder="Enter your mother tongue">
+</div>
+
+<!-- Weight Input -->
+<div class="form-group">
+    <label for="weight">Weight (kg)</label>
+    <input type="number" id="weight" name="weight" 
+           value="{{ current_user.weight }}" placeholder="Enter weight in kg">
+</div>
+
+<!-- Complexion Dropdown -->
+<div class="form-group">
+    <label for="complexion">Complexion</label>
+    <select id="complexion" name="complexion">
+        <option value="">Select Complexion</option>
+        <option value="very_fair" {% if profile.complexion == 'very_fair' %}selected{% endif %}>Very Fair</option>
+        <option value="fair" {% if profile.complexion == 'fair' %}selected{% endif %}>Fair</option>
+        <option value="moderate_fair" {% if profile.complexion == 'moderate_fair' %}selected{% endif %}>Moderate Fair</option>
+        <option value="medium" {% if profile.complexion == 'medium' %}selected{% endif %}>Medium</option>
+        <option value="dark" {% if profile.complexion == 'dark' %}selected{% endif %}>Dark</option>
+        <option value="prefer_not" {% if profile.complexion == 'prefer_not' %}selected{% endif %}>Prefer not to say</option>
+    </select>
+</div>
+
+<!-- Body Type Dropdown -->
+<div class="form-group">
+    <label for="body_type">Body Type</label>
+    <select id="body_type" name="body_type">
+        <option value="">Select Body Type</option>
+        <option value="slim" {% if profile.body_type == 'slim' %}selected{% endif %}>Slim</option>
+        <option value="average" {% if profile.body_type == 'average' %}selected{% endif %}>Average</option>
+        <option value="heavy" {% if profile.body_type == 'heavy' %}selected{% endif %}>Heavy</option>
+    </select>
+</div>
+
+<!-- Physical Status Dropdown -->
+<div class="form-group">
+    <label for="physical_status">Physical Status</label>
+    <select id="physical_status" name="physical_status">
+        <option value="">Select Physical Status</option>
+        <option value="normal" {% if profile.physical_status == 'normal' %}selected{% endif %}>Normal</option>
+        <option value="differently_abled" {% if profile.physical_status == 'differently_abled' %}selected{% endif %}>Differently Abled</option>
+    </select>
+</div>
+
+<!-- Marital Status Dropdown -->
+<div class="form-group">
+    <label for="marital_status">Marital Status</label>
+    <select id="marital_status" name="marital_status">
+        <option value="">Select Marital Status</option>
+        <option value="unmarried" {% if profile.marital_status == 'unmarried' %}selected{% endif %}>Unmarried</option>
+        <option value="widowed" {% if profile.marital_status == 'widowed' %}selected{% endif %}>Widowed</option>
+        <option value="divorcee" {% if profile.marital_status == 'divorcee' %}selected{% endif %}>Divorcee</option>
+    </select>
+</div>
+
+<!-- Family Status Dropdown -->
+<div class="form-group">
+    <label for="family_status">Family Status</label>
+    <select id="family_status" name="family_status">
+        <option value="">Select Family Status</option>
+        <option value="lower_middle" {% if profile.family_status == 'lower_middle' %}selected{% endif %}>Lower Middle Class</option>
+        <option value="middle" {% if profile.family_status == 'middle' %}selected{% endif %}>Middle Class</option>
+        <option value="upper_middle" {% if profile.family_status == 'upper_middle' %}selected{% endif %}>Upper Middle Class</option>
+        <option value="rich" {% if profile.family_status == 'rich' %}selected{% endif %}>Rich</option>
+    </select>
+</div>
+
+                
+                <div class="section-title">About Me</div>
+                
+                <div class="form-group">
+                    <textarea id="about_me" name="about_me" placeholder="Tell us about yourself...">{{ current_user.about_me }}</textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <a href="{% url 'profilecompletion' current_user.connect_id %}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

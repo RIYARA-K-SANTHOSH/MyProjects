@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Shortlisted Profiles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .main-container {
+            display: flex;
+            min-height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        .profile-sidebar {
+            flex: 0 0 300px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+        
+        .profile-card {
+            width: 100%;
+        }
+        
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 3px solid #f0f0f0;
+        }
+        
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .profile-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .profiles-content {
+            flex: 1;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: #333;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .profile-item {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            border: 1px solid #eee;
+        }
+        
+        .profile-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-heart {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+        
+        .profile-heart i {
+            color: #ccc;
+            font-size: 14px;
+        }
+        
+        .profile-heart.liked i {
+            color: #ff4757;
+        }
+        
+        .profile-item-avatar {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .profile-item-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-item:hover .profile-item-avatar img {
+            transform: scale(1.05);
+        }
+        
+        .profile-item-content {
+            padding: 20px;
+        }
+        
+        .profile-item-header h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .profile-item-header p {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .profile-item-details {
+            margin-bottom: 15px;
+        }
+        
+        .profile-item-details p {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        
+        .profile-item-details strong {
+            color: #333;
+        }
+        
+        .profile-actions {
+            margin-top: 15px;
+        }
+        
+        .btn-primary {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #4a6bff;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a56d4;
+        }
+        
+        .btn-primary i {
+            margin-right: 5px;
+        }
+        
+        .no-profiles {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+        
+        .no-profiles p {
+            margin-bottom: 10px;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 250px;
+        }
+        
+        .toast.show {
+            display: block;
+            opacity: 1;
+        }
+        
+        .bg-success {
+            background-color: #28a745 !important;
+        }
+        
+        .bg-error {
+            background-color: #dc3545 !important;
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            .profile-sidebar {
+                flex: 0 0 auto;
+                width: 100%;
+            }
+            
+            .profiles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Left Sidebar - User Profile -->
+        <div class="profile-sidebar">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        {% if profile_picture %}
+                            <img src="{{ profile_picture.image.url }}" 
+                                 alt="{{ current_user.name }}'s Profile Picture" 
+                                 class="avatar-image"
+                                 onerror="this.onerror=null; this.src='{% if current_user.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}'">
+                        {% else %}
+                            <img src="{% if current_user.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}" 
+                                 alt="Default {% if current_user.gender.lower == 'male' %}Male{% else %}Female{% endif %} Avatar" 
+                                 class="avatar-image">
+                        {% endif %}
+                    </div>
+                    <div class="profile-info">
+                        <h3>{{ current_user.full_name }}</h3>
+                        <p>{{ current_user.connect_id }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Content - Shortlisted Profiles -->
+        <div class="profiles-content">
+            <h2 class="section-title">
+                Your Shortlisted Profiles
+            </h2>
+            
+            <div class="profiles-grid">
+                {% for profile in profiles %}
+                <div class="profile-item">
+                    <div class="profile-heart liked" onclick="toggleLike(this)" data-profile-id="{{ profile.connect_id }}">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="profile-item-avatar">
+                        {% if profile.picture_url %}
+                            <img src="{{ profile.picture_url }}" alt="Profile" class="avatar-image">
+                        {% else %}
+                            {% if profile.gender.lower == 'male' %}
+                                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Male Avatar" class="avatar-image">
+                            {% else %}
+                                <img src="https://cdn-icons-png.flaticon.com/512/4140/4140047.png" alt="Female Avatar" class="avatar-image">
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="profile-item-content">
+                        <div class="profile-item-header">
+                            <h3>{{ profile.full_name }}</h3>
+                            <p>{{ profile.connect_id }}</p>
+                        </div>
+                        
+                        <div class="profile-item-details">
+                            <p><strong>Age:</strong> {{ profile.age }}</p>
+                            <p><strong>Gender:</strong> {{ profile.gender|title }}</p>
+                            <p><strong>Email:</strong> {{ profile.email }}</p>
+                        </div>
+                        
+                        <div class="profile-actions">
+                            <a href="{% url 'view_profile' profile.connect_id %}" class="btn-primary">
+                                <i class="fas fa-eye"></i> View Profile
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="no-profiles">
+                    <p>You haven't shortlisted any profiles yet.</p>
+                    <p>Click the heart icon on profiles to add them here.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeLikeButtons();
+    });
+
+    function initializeLikeButtons() {
+        document.querySelectorAll('.profile-heart').forEach(heart => {
+            heart.addEventListener('click', function() {
+                toggleLike(this);
+            });
+        });
+    }
+
+    function toggleLike(element) {
+        const isLiked = element.classList.contains('liked');
+        const profileId = element.getAttribute('data-profile-id');
+        const action = isLiked ? 'unlike' : 'like';
+        
+        fetch('/toggle-shortlist/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: JSON.stringify({
+                'profile_id': profileId,
+                'action': action
+            })
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network error');
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === 'success') {
+                if (data.action === 'removed') {
+                    // Remove the profile card with animation
+                    const profileCard = element.closest('.profile-item');
+                    profileCard.style.transition = 'all 0.3s ease';
+                    profileCard.style.opacity = '0';
+                    profileCard.style.height = '0';
+                    profileCard.style.margin = '0';
+                    profileCard.style.padding = '0';
+                    profileCard.style.border = 'none';
+                    
+                    // Remove from DOM after animation
+                    setTimeout(() => {
+                        profileCard.remove();
+                        
+                        // Check if no profiles left
+                        if (document.querySelectorAll('.profile-item').length === 0) {
+                            const grid = document.querySelector('.profiles-grid');
+                            grid.innerHTML = `
+                                <div class="no-profiles">
+                                    <p>You haven't shortlisted any profiles yet.</p>
+                                    <p>Click the heart icon on profiles to add them here.</p>
+                                </div>
+                            `;
+                        }
+                    }, 300);
+                }
+                showToast(isLiked ? 'Profile removed from shortlist' : 'Profile added to shortlist', 'success');
+            } else {
+                showToast(data.message || 'Shortlist action failed', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Shortlist error:', error);
+            showToast('Failed to update shortlist status', 'error');
+        });
+    }
+
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Toast notification function
+    function showToast(message, type = 'info') {
+        // Implement your toast notification system here
+        const toast = document.createElement('div');
+        toast.className = `toast show align-items-center text-white bg-${type}`;
+        toast.style.position = 'fixed';
+        toast.style.bottom = '20px';
+        toast.style.right = '20px';
+        toast.style.zIndex = '9999';
+        
+        toast.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    }
+    </script>
+</body>
+</html>

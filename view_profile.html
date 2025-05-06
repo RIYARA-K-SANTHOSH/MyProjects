@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ profile.full_name }} - Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #8a2be2;
+            --primary-light: #b57eed;
+            --primary-dark: #6a3093;
+            --text-color: #2d3748;
+            --text-light: #718096;
+            --bg-grey: #f8f9fa;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: var(--bg-grey);
+        }
+        
+        /* Header Styles */
+        .header {
+            background-color: var(--white);
+            padding: 0.75rem 0;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        
+        .header-container {
+            width: 98%;
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            margin-right: 4rem;
+            margin-left: 2rem;
+        }
+        
+        .nav-main {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin-right: auto;
+            margin-left: 4rem;
+        }
+        
+        .nav-links li {
+            position: relative;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-light), var(--primary-dark));
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-dark);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--white);
+            min-width: 220px;
+            box-shadow: var(--shadow-lg);
+            border-radius: 0.5rem;
+            z-index: 100;
+            top: 100%;
+            left: 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+            padding: 0.5rem 0;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: rgba(138, 43, 226, 0.05);
+            color: var(--primary-dark);
+            padding-left: 1.75rem;
+        }
+        
+        .dropdown-content a::after {
+            display: none;
+        }
+        
+        /* Right Side Navigation */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-right: 2rem;
+        }
+        
+        /* Search Styles */
+        .search-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 2;
+        }
+        
+        .search-icon:hover {
+            color: var(--primary-dark);
+        }
+        
+        .search-input {
+            width: 36px;
+            height: 36px;
+            padding: 0 10px 0 36px;
+            border: none;
+            border-radius: 2rem;
+            background-color: #f0f0f0;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            opacity: 0;
+            visibility: hidden;
+            cursor: pointer;
+        }
+        
+        .search-input.active {
+            width: 220px;
+            opacity: 1;
+            visibility: visible;
+            cursor: text;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+        
+        /* Profile Icon */
+        .profile-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            overflow: hidden;
+        }
+        
+        .profile-icon:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.05);
+        }
+        
+        .profile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Profile Dropdown */
+        .profile-container {
+            position: relative;
+        }
+        
+        .profile-dropdown {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 3px);
+            background-color: var(--white);
+            min-width: 200px;
+            box-shadow: var(--shadow-lg);
+            border-radius: 0.5rem;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            display: none;
+        }
+        
+        .profile-container:hover .profile-dropdown {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .profile-dropdown a {
+            color: var(--text-color);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .profile-dropdown a:hover {
+            background-color: rgba(138, 43, 226, 0.05);
+            color: var(--primary-dark);
+            padding-left: 1.75rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .profile-view-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 30px;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .profile-avatar {
+            margin-right: 30px;
+            flex-shrink: 0;
+        }
+        
+        .avatar-image-large {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-basic-info {
+            flex-grow: 1;
+        }
+        
+        .profile-basic-info h1 {
+            margin: 0 0 10px;
+            color: #2c3e50;
+            font-size: 28px;
+        }
+        
+        .connect-id {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .profile-basic-info p {
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .profile-basic-info strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .profile-sections {
+            margin-top: 30px;
+        }
+        
+        .profile-section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #3498db;
+        }
+        
+        .profile-section h2 {
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: #2c3e50;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        
+        .profile-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .profile-details-grid div {
+            padding: 8px 0;
+            font-size: 15px;
+        }
+        
+        .profile-details-grid strong {
+            color: #2c3e50;
+            font-weight: 600;
+            display: inline-block;
+            min-width: 150px;
+        }
+        
+        .btn-primary {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-avatar {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .profile-details-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-view-container {
+                padding: 20px;
+            }
+            
+            .profile-section {
+                padding: 20px 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .avatar-image-large {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-basic-info h1 {
+                font-size: 24px;
+            }
+            
+            .profile-details-grid strong {
+                min-width: 120px;
+            }
+        }
+    
+
+        .footer {
+            background-color: #222;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+        
+        .footer-column {
+            width: 23%;
+            margin-bottom: 25px;
+        }
+        
+        .footer-title {
+            font-size: 17px;
+            margin-bottom: 15px;
+            color: #d82a4e;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        
+        .footer-title:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 35px;
+            height: 2px;
+            background-color: #d82a4e;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background-color: #333;
+            color: white;
+            margin-right: 8px;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: #d82a4e;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid #444;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #999;
+        }
+        .download-icon-top {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #3498db; /* Green color for download */
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .download-icon-top:hover {
+            background: #3498db; /* Darker green on hover */
+            transform: scale(1.1);
+        }
+        
+        .profile-view-container {
+            position: relative; /* For positioning the download icon */
+        }
+    </style>
+</head>
+<body>
+    <!-- White Header Section -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">Connect</div>
+            
+            <div class="nav-main">
+                <ul class="nav-links">
+                    <li class="dropdown">
+                        <a href="#">Home</a>
+                        <div class="dropdown-content">
+                            <a href="">View and Edit My Profile</a>
+
+                            <a href="">Manage Photo</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Search</a>
+                        <div class="dropdown-content">
+                            <a href="#">Search Partner</a>
+                            <a href="#">Keyword Search</a>
+                            <a href="#">Discover Profile</a>
+                            <a href="#">Digital Magazine</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Matches</a>
+                        <div class="dropdown-content">
+                            <a href="#">My Matches</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Messages</a>
+                        <div class="dropdown-content">
+                            <a href="#">Interests</a>
+                            <a href="#">Request</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Activity</a>
+                        <div class="dropdown-content">
+                            <a href="#">Shortlisted Profile</a>
+                            <a href="#">Blocked Profile</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Payment Plans</a>
+                        <div class="dropdown-content">
+                            <a href="#">Upgrade</a>
+                            <a href="#">Other Plans</a>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="nav-right">
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon" id="searchIcon"></i>
+                        <input type="text" class="search-input" placeholder="Search by ID..." id="searchInput">
+                    </div>
+                    
+                    <div class="profile-container">
+                        <div class="profile-icon">
+                          {% if profile_picture %}
+    <img src="{{ profile_picture.image.url }}" 
+         alt="{{ current_user.name }}'s Profile Picture" 
+         class="avatar-image"
+         onerror="this.onerror=null; this.src='{% if current_user.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}'">
+{% else %}
+    <img src="{% if current_user.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}" 
+         alt="Default {% if current_user.gender.lower == 'male' %}Male{% else %}Female{% endif %} Avatar" 
+         class="avatar-image">
+{% endif %}
+                        </div>
+                        <div class="profile-dropdown">
+                            <a href="{% url 'myprofile' %}">My Profile</a>
+                            <a href="#">Settings</a>
+                            <a href="#">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="profile-view-container">
+        <div class="download-icon-top" id="downloadPdfTop" title="Download Profile">
+            <i class="fas fa-download"></i> <!-- Changed from fa-file-pdf to fa-download -->
+        </div>
+        
+        <div class="profile-header">
+            <div class="profile-avatar">
+                {% if profile_picture %}
+                    <img src="{{ profile_picture.image.url }}" 
+                         alt="{{ profile.full_name }}'s Profile Picture" 
+                         class="avatar-image-large"
+                         onerror="this.onerror=null; this.src='{% if profile.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}'">
+                {% else %}
+                    <img src="{% if profile.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}" 
+                         alt="Default {% if profile.gender.lower == 'male' %}Male{% else %}Female{% endif %} Avatar" 
+                         class="avatar-image-large">
+                {% endif %}
+            </div>
+            
+            <div class="profile-basic-info">
+                <h1>{{ profile.full_name }}</h1>
+                <p class="connect-id">Connect ID: {{ profile.connect_id }}</p>
+                <p><strong>Age:</strong> {{ profile.age }}</p>
+                <p><strong>Gender:</strong> {{ profile.gender|title }}</p>
+                <p><strong>Email:</strong> {{ profile.email }}</p>
+                <p><strong>Phone:</strong> {{ profile.phone }}</p>
+                {% if profile.date_of_birth %}
+                    <p><strong>Date of Birth:</strong> {{ profile.date_of_birth }}</p>
+                {% endif %}
+                {% if profile.weight %}
+                    <p><strong>Weight:</strong> {{ profile.weight }} kg</p>
+                {% endif %}
+                {% if profile.mother_tongue %}
+                    <p><strong>Mother Tongue:</strong> {{ profile.mother_tongue }}</p>
+                {% endif %}
+                {% if profile.blood_group %}
+                    <p><strong>Blood Group:</strong> {{ profile.get_blood_group_display }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="profile-sections">
+            <!-- Basic Profile Section -->
+            <div class="profile-section">
+                <h2>Basic Information</h2>
+                {% if profile_details %}
+                    <div class="profile-details-grid">
+                        {% if profile_details.height %}
+                            <div><strong>Height:</strong> {{ profile_details.height }} cm</div>
+                        {% endif %}
+                        {% if profile_details.complexion %}
+                            <div><strong>Complexion:</strong> {{ profile_details.get_complexion_display }}</div>
+                        {% endif %}
+                        {% if profile_details.body_type %}
+                            <div><strong>Body Type:</strong> {{ profile_details.get_body_type_display }}</div>
+                        {% endif %}
+                        {% if profile_details.physical_status %}
+                            <div><strong>Physical Status:</strong> {{ profile_details.get_physical_status_display }}</div>
+                        {% endif %}
+                        {% if profile_details.marital_status %}
+                            <div><strong>Marital Status:</strong> {{ profile_details.get_marital_status_display }}</div>
+                        {% endif %}
+                        {% if profile_details.family_status %}
+                            <div><strong>Family Status:</strong> {{ profile_details.get_family_status_display }}</div>
+                        {% endif %}
+                        {% if profile_details.denomination %}
+                            <div><strong>Denomination:</strong> {{ profile_details.get_denomination_display }}</div>
+                        {% endif %}
+                        {% if profile_details.parish_name %}
+                            <div><strong>Parish Name:</strong> {{ profile_details.parish_name }}</div>
+                        {% endif %}
+                        {% if profile_details.parish_place %}
+                            <div><strong>Parish Place:</strong> {{ profile_details.parish_place }}</div>
+                        {% endif %}
+                        {% if profile.user.about_me %}
+                            <div><strong>About Me:</strong> {{ profile.user.about_me }}</div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <p>No basic information available.</p>
+                {% endif %}
+            </div>
+
+            <!-- Education & Professional Section -->
+            <div class="profile-section">
+                <h2>Education & Professional</h2>
+                {% if education_details %}
+                    <div class="profile-details-grid">
+                        <div><strong>Education Level:</strong> {{ education_details.get_education_level_display }}</div>
+                        
+                        {% if education_details.bachelors_degree %}
+                            <div><strong>Bachelor's Degree:</strong> {{ education_details.get_bachelors_degree_display }}</div>
+                            {% if education_details.bachelors_specialization %}
+                                <div><strong>Specialization:</strong> {{ education_details.bachelors_specialization }}</div>
+                            {% endif %}
+                            {% if education_details.bachelors_institution %}
+                                <div><strong>Institution:</strong> {{ education_details.bachelors_institution }}</div>
+                            {% endif %}
+                        {% endif %}
+                        
+                        {% if education_details.masters_degree %}
+                            <div><strong>Master's Degree:</strong> {{ education_details.get_masters_degree_display }}</div>
+                            {% if education_details.masters_specialization %}
+                                <div><strong>Specialization:</strong> {{ education_details.masters_specialization }}</div>
+                            {% endif %}
+                            {% if education_details.masters_institution %}
+                                <div><strong>Institution:</strong> {{ education_details.masters_institution }}</div>
+                            {% endif %}
+                        {% endif %}
+                        
+                        {% if education_details.phd_field %}
+                            <div><strong>PhD Field:</strong> {{ education_details.phd_field }}</div>
+                            {% if education_details.phd_institution %}
+                                <div><strong>Institution:</strong> {{ education_details.phd_institution }}</div>
+                            {% endif %}
+                        {% endif %}
+                        
+                        {% if education_details.other_education %}
+                            <div><strong>Other Education:</strong> {{ education_details.other_education }}</div>
+                        {% endif %}
+                        
+                        <div><strong>Occupation:</strong> {{ education_details.get_occupation_display }}</div>
+                        <div><strong>Employment Type:</strong> {{ education_details.get_employment_type_display }}</div>
+                        <div><strong>Working Location:</strong> 
+                            {{ education_details.working_city }}, 
+                            {{ education_details.working_district }}, 
+                            {{ education_details.working_state }}, 
+                            {{ education_details.working_country }}
+                        </div>
+                        <div><strong>Annual Income:</strong> {{ education_details.get_annual_income_display }}</div>
+                    </div>
+                {% else %}
+                    <p>No education and professional information available.</p>
+                {% endif %}
+            </div>
+
+            <!-- Additional Profile Section -->
+            <div class="profile-section">
+                <h2>Contact & Location</h2>
+                {% if additional_details %}
+                    <div class="profile-details-grid">
+                        <div><strong>WhatsApp:</strong> {{ additional_details.whatsapp_code }} {{ additional_details.whatsapp_number }}</div>
+                        <div><strong>Mobile:</strong> {{ additional_details.mobile_code }} {{ additional_details.mobile_number }}</div>
+                        
+                        {% if additional_details.secondary_mobile %}
+                            <div><strong>Secondary Mobile:</strong> {{ additional_details.secondary_mobile_code }} {{ additional_details.secondary_mobile }}</div>
+                        {% endif %}
+                        
+                        {% if additional_details.landline_number %}
+                            <div><strong>Landline:</strong> {{ additional_details.landline_number }}</div>
+                        {% endif %}
+                        
+                        {% if additional_details.alternate_email %}
+                            <div><strong>Alternate Email:</strong> {{ additional_details.alternate_email }}</div>
+                        {% endif %}
+                        
+                        <div><strong>Native Country:</strong> {{ additional_details.get_native_country_display }}</div>
+                        
+                        {% if additional_details.native_state %}
+                            <div><strong>Native State:</strong> {{ additional_details.native_state }}</div>
+                        {% endif %}
+                        
+                        {% if additional_details.native_city %}
+                            <div><strong>Native City:</strong> {{ additional_details.native_city }}</div>
+                        {% endif %}
+                        
+                        <div><strong>Address:</strong> {{ additional_details.address }}</div>
+                        <div><strong>Pincode:</strong> {{ additional_details.pincode }}</div>
+                        
+                        {% if additional_details.present_address_type == 'different' %}
+                            <div><strong>Present Address:</strong> {{ additional_details.present_address }}</div>
+                            <div><strong>Present Pincode:</strong> {{ additional_details.present_pincode }}</div>
+                        {% endif %}
+                        
+                        {% if additional_details.permanent_address_type == 'different' %}
+                            <div><strong>Permanent Address:</strong> {{ additional_details.permanent_address }}</div>
+                            <div><strong>Permanent Pincode:</strong> {{ additional_details.permanent_pincode }}</div>
+                        {% endif %}
+                        
+                        {% if additional_details.preferred_contact_time %}
+                            <div><strong>Preferred Contact Time:</strong> {{ additional_details.preferred_contact_time }}</div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <p>No contact and location information available.</p>
+                {% endif %}
+            </div>
+
+            <!-- Family Information Section -->
+            <div class="profile-section">
+                <h2>Family Information</h2>
+                {% if family_details %}
+                    <div class="profile-details-grid">
+                        {% if family_details.father_name %}
+                            <div><strong>Father's Name:</strong> {{ family_details.father_name }}</div>
+                        {% endif %}
+                        
+                        {% if family_details.father_occupation %}
+                            <div><strong>Father's Occupation:</strong> {{ family_details.get_father_occupation_display }}</div>
+                        {% endif %}
+                        
+                        {% if family_details.father_housename %}
+                            <div><strong>Father's House Name:</strong> {{ family_details.father_housename }}</div>
+                        {% endif %}
+                        
+                        {% if family_details.father_native_place %}
+                            <div><strong>Father's Native Place:</strong> {{ family_details.father_native_place }}</div>
+                        {% endif %}
+                        
+                        {% if family_details.mother_name %}
+                            <div><strong>Mother's Name:</strong> {{ family_details.mother_name }}</div>
+                        {% endif %}
+                        
+                        {% if family_details.mother_occupation %}
+                            <div><strong>Mother's Occupation:</strong> {{ family_details.get_mother_occupation_display }}</div>
+                        {% endif %}
+                        
+                        {% if family_details.mother_housename %}
+                            <div><strong>Mother's House Name:</strong> {{ family_details.mother_housename }}</div>
+                        {% endif %}
+                        
+                        {% if family_details.mother_native_place %}
+                            <div><strong>Mother's Native Place:</strong> {{ family_details.mother_native_place }}</div>
+                        {% endif %}
+                        
+                        <div><strong>Brothers:</strong> 
+                            {{ family_details.no_of_brothers }} 
+                            ({{ family_details.no_of_brothers_married }} married, 
+                            {{ family_details.no_of_brothers_unmarried }} unmarried, 
+                            {{ family_details.no_of_brothers_priest }} priests)
+                        </div>
+                        
+                        <div><strong>Sisters:</strong> 
+                            {{ family_details.no_of_sisters }} 
+                            ({{ family_details.no_of_sisters_married }} married, 
+                            {{ family_details.no_of_sisters_unmarried }} unmarried, 
+                            {{ family_details.no_of_sisters_nun }} nuns)
+                        </div>
+                        
+                        {% if family_details.family_status %}
+                            <div><strong>Family Status:</strong> {{ family_details.get_family_status_display }}</div>
+                        {% endif %}
+                        
+                        {% if family_details.asset_details %}
+                            <div><strong>Family Assets:</strong> {{ family_details.asset_details }}</div>
+                        {% endif %}
+                        
+                        {% if family_details.about_family %}
+                            <div><strong>About Family:</strong> {{ family_details.about_family }}</div>
+                        {% endif %}
+                        
+                        {% if family_details.family_contact_number %}
+                            <div><strong>Family Contact:</strong> {{ family_details.family_contact_number }}</div>
+                        {% endif %}
+                        
+                        {% if family_details.family_email %}
+                            <div><strong>Family Email:</strong> {{ family_details.family_email }}</div>
+                        {% endif %}
+                        
+                        {% if family_details.family_address %}
+                            <div><strong>Family Address:</strong> {{ family_details.family_address }}</div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <p>No family information available.</p>
+                {% endif %}
+            </div>
+
+            <!-- Hobbies & Lifestyle Section -->
+            <div class="profile-section">
+                <h2>Hobbies & Lifestyle</h2>
+                {% if hobbies_details %}
+                    <div class="profile-details-grid">
+                        {% if hobbies_details.hobbies %}
+                            <div><strong>Hobbies:</strong> {{ hobbies_details.hobbies }}</div>
+                        {% endif %}
+                        
+                        {% if hobbies_details.favorite_music %}
+                            <div><strong>Favorite Music:</strong> {{ hobbies_details.favorite_music }}</div>
+                        {% endif %}
+                        
+                        {% if hobbies_details.preferred_books %}
+                            <div><strong>Preferred Books:</strong> {{ hobbies_details.preferred_books }}</div>
+                        {% endif %}
+                        
+                        {% if hobbies_details.preferred_movies %}
+                            <div><strong>Preferred Movies:</strong> {{ hobbies_details.preferred_movies }}</div>
+                        {% endif %}
+                        
+                        {% if hobbies_details.sports_games %}
+                            <div><strong>Sports/Games:</strong> {{ hobbies_details.sports_games }}</div>
+                        {% endif %}
+                        
+                        {% if hobbies_details.favorite_cuisine %}
+                            <div><strong>Favorite Cuisine:</strong> {{ hobbies_details.favorite_cuisine }}</div>
+                        {% endif %}
+                        
+                        {% if hobbies_details.spoken_languages %}
+                            <div><strong>Spoken Languages:</strong> {{ hobbies_details.spoken_languages }}</div>
+                        {% endif %}
+                        
+                        {% if hobbies_details.cultural_background %}
+                            <div><strong>Cultural Background:</strong> {{ hobbies_details.cultural_background }}</div>
+                        {% endif %}
+                        
+                        {% if hobbies_details.eating_habits %}
+                            <div><strong>Eating Habits:</strong> {{ hobbies_details.get_eating_habits_display }}</div>
+                        {% endif %}
+                        
+                        {% if hobbies_details.drinking_habits %}
+                            <div><strong>Drinking Habits:</strong> {{ hobbies_details.get_drinking_habits_display }}</div>
+                        {% endif %}
+                        
+                        {% if hobbies_details.smoking_habits %}
+                            <div><strong>Smoking Habits:</strong> {{ hobbies_details.get_smoking_habits_display }}</div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <p>No hobbies and lifestyle information available.</p>
+                {% endif %}
+            </div>
+
+            <!-- Profile Creation Details Section -->
+            <div class="profile-section">
+                <h2>Profile Creation</h2>
+                {% if creation_details %}
+                    <div class="profile-details-grid">
+                        <div><strong>Created By:</strong> {{ creation_details.get_created_by_display }}</div>
+                        <div><strong>Creator Name:</strong> {{ creation_details.creator_name }}</div>
+                        <div><strong>Heard About From:</strong> {{ creation_details.get_hear_about_display }}</div>
+                        <div><strong>Created At:</strong> {{ creation_details.created_at }}</div>
+                    </div>
+                {% else %}
+                    <p>No profile creation information available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        document.getElementById('downloadPdfTop').addEventListener('click', async function() {
+            // Show loading indicator
+            const loading = document.createElement('div');
+            loading.style.position = 'fixed';
+            loading.style.top = '50%';
+            loading.style.left = '50%';
+            loading.style.transform = 'translate(-50%, -50%)';
+            loading.style.backgroundColor = 'rgba(0,0,0,0.7)';
+            loading.style.color = 'white';
+            loading.style.padding = '20px';
+            loading.style.borderRadius = '5px';
+            loading.style.zIndex = '9999';
+            loading.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing PDF...';
+            document.body.appendChild(loading);
+        
+            try {
+                // Clone the profile container to modify for PDF
+                const element = document.querySelector('.profile-view-container');
+                const elementClone = element.cloneNode(true);
+                
+                // Remove the download button from the clone
+                const downloadBtn = elementClone.querySelector('#downloadPdfTop');
+                if (downloadBtn) downloadBtn.remove();
+                
+                // Create a temporary container for PDF generation
+                const tempContainer = document.createElement('div');
+                tempContainer.style.position = 'absolute';
+                tempContainer.style.left = '-9999px';
+                tempContainer.appendChild(elementClone);
+                document.body.appendChild(tempContainer);
+        
+                // PDF options
+                const opt = {
+                    margin: 10,
+                    filename: '{{ profile.full_name }}_Profile.pdf',
+                    image: { 
+                        type: 'jpeg', 
+                        quality: 0.8
+                    },
+                    html2canvas: { 
+                        scale: 1,
+                        scrollY: 0,
+                        useCORS: true,
+                        logging: false,
+                        async: true
+                    },
+                    jsPDF: { 
+                        unit: 'mm', 
+                        format: 'a4', 
+                        orientation: 'portrait'
+                    }
+                };
+        
+                // Generate PDF
+                await html2pdf().set(opt).from(elementClone).save();
+                
+                loading.innerHTML = '<i class="fas fa-check"></i> PDF downloaded!';
+            } catch (err) {
+                console.error('PDF generation error:', err);
+                loading.innerHTML = `<i class="fas fa-times"></i> Error: ${err.message}`;
+            } finally {
+                // Remove loading after delay
+                setTimeout(() => {
+                    const loadingElement = document.querySelector('div[style*="fixed"]');
+                    if (loadingElement) loadingElement.remove();
+                }, 2000);
+            }
+        });
+        </script>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3 class="footer-title">About Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Connect</a></li>
+                    <li><a href="#">Success Stories</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Awards</a></li>
+                    <li><a href="#">Press & Media</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3 class="footer-title">Help & Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Safety Tips</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Feedback</a></li>
+                    <li><a href="#">Customer Care</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3 class="footer-title">Services</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Premium Membership</a></li>
+                    <li><a href="#">Profile Verification</a></li>
+                    <li><a href="#">Wedding Services</a></li>
+                    <li><a href="#">Astrology Services</a></li>
+                    <li><a href="#">Photo Privacy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3 class="footer-title">Connect With Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">YouTube</a></li>
+                </ul>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Connect Christian Matrimony. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

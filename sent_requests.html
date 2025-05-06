@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Sent Requests</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+        .request-card {
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            border-left: 5px solid #0d6efd;
+            transition: transform 0.2s;
+        }
+        .request-card:hover {
+            transform: translateY(-2px);
+        }
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .badge-pending {
+            background-color: #ffc107;
+            color: #000;
+        }
+        .badge-accepted {
+            background-color: #198754;
+        }
+        .badge-rejected {
+            background-color: #dc3545;
+        }
+        .gender-icon {
+            font-size: 0.9rem;
+        }
+        .male-icon {
+            color: #0d6efd;
+        }
+        .female-icon {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h2 class="h4 mb-0"><i class="bi bi-send-check me-2"></i>Your Sent Connection Requests</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        {% if sent_interests %}
+                            <div class="requests-list">
+                                {% for interest in sent_interests %}
+                                <div class="request-card p-4 mb-3 bg-white">
+                                    <div class="d-flex align-items-start">
+                                        <!-- Profile Picture -->
+                                        <div class="flex-shrink-0 me-3">
+                                            {% if interest.receiver.profile_picture %}
+                                                <img src="{{ interest.receiver.profile_picture.image.url }}" 
+                                                     alt="{{ interest.receiver.full_name }}" 
+                                                     class="profile-img">
+                                            {% else %}
+                                                <div class="profile-img bg-light d-flex align-items-center justify-content-center">
+                                                    <i class="bi bi-person-fill text-muted" style="font-size: 2.5rem;"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <!-- Request Details -->
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <div>
+                                                    <h5 class="mb-1">
+                                                        {{ interest.receiver.full_name }}, {{ interest.receiver.age }}
+                                                        
+                                                    </h5>
+                                                    <p class="mb-1 text-muted small">
+                                                        <i class="bi bi-envelope me-1"></i>{{ interest.receiver.email }}
+                                                    </p>
+                                                    <p class="mb-1 text-muted small">
+                                                        <i class="bi bi-person-badge me-1"></i>Connect ID: {{ interest.receiver.connect_id }}
+                                                    </p>
+                                                </div>
+                                                <span class="badge rounded-pill py-2 px-3 
+                                                    {% if interest.status == 'accepted' %}badge-accepted
+                                                    {% elif interest.status == 'rejected' %}badge-rejected
+                                                    {% else %}badge-pending{% endif %}">
+                                                    <i class="bi 
+                                                        {% if interest.status == 'accepted' %}bi-check-circle-fill
+                                                        {% elif interest.status == 'rejected' %}bi-x-circle-fill
+                                                        {% else %}bi-hourglass-split{% endif %} me-1"></i>
+                                                    {{ interest.get_status_display }}
+                                                </span>
+                                            </div>
+                                            
+                                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                                <small class="text-muted">
+                                                    <i class="bi bi-calendar me-1"></i>Sent on {{ interest.created_at|date:"M d, Y" }}
+                                                    {% if interest.status != 'pending' %}
+                                                        <span class="ms-3">
+                                                            <i class="bi bi-clock-history me-1"></i>Responded on {{ interest.updated_at|date:"M d, Y" }}
+                                                        </span>
+                                                    {% endif %}
+                                                </small>
+                                                
+                                                {% if interest.status == 'pending' %}
+                                                <form method="post" action="{% url 'withdraw_request' connect_id=current_user.connect_id %}" class="mb-0">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="request_id" value="{{ interest.id }}">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                        <i class="bi bi-x-circle me-1"></i> Withdraw
+                                                    </button>
+                                                </form>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info text-center">
+                                <i class="bi bi-info-circle-fill me-2"></i>
+                                You haven't sent any connection requests yet.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

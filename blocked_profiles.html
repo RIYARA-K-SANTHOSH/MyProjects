@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blocked Profiles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .main-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .profile-sidebar {
+            width: 300px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .profiles-content {
+            flex: 1;
+            margin-left: 300px;
+            padding: 30px;
+            background-color: #f5f5f5;
+        }
+        
+        .section-title {
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .profile-item {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .profile-item-avatar {
+            height: 200px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+        }
+        
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-item-content {
+            padding: 20px;
+        }
+        
+        .profile-item-header {
+            margin-bottom: 15px;
+        }
+        
+        .profile-item-header h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .profile-item-header p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .profile-item-details {
+            margin-bottom: 20px;
+        }
+        
+        .profile-item-details p {
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .profile-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-outline {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            background-color: transparent;
+            color: #333;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background-color: #f0f0f0;
+            border-color: #ccc;
+        }
+        
+        .btn-outline i {
+            font-size: 14px;
+        }
+        
+        .no-profiles {
+            text-align: center;
+            padding: 50px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .no-profiles p {
+            font-size: 16px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <div class="profile-sidebar">
+            <!-- Sidebar content would go here -->
+            <div style="text-align: center; padding: 20px 0;">
+                <h3>Navigation</h3>
+                <!-- Add your navigation links here -->
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="profiles-content">
+            <h2 class="section-title">Blocked Profiles</h2>
+            
+            {% if blocked_profiles %}
+            <div class="profiles-grid">
+                {% for profile in blocked_profiles %}
+                <div class="profile-item">
+                    <div class="profile-item-avatar">
+                        {% if profile.picture %}
+                            <img src="{{ profile.picture.image.url }}" alt="{{ profile.full_name }}" class="avatar-image">
+                        {% else %}
+                            <img src="{% if profile.gender.lower == 'male' %}https://cdn-icons-png.flaticon.com/512/3135/3135715.png{% else %}https://cdn-icons-png.flaticon.com/512/4140/4140047.png{% endif %}" 
+                                 alt="Default {% if profile.gender.lower == 'male' %}Male{% else %}Female{% endif %} Avatar" 
+                                 class="avatar-image">
+                        {% endif %}
+                    </div>
+                    
+                    <div class="profile-item-content">
+                        <div class="profile-item-header">
+                            <h3>{{ profile.full_name }}</h3>
+                            <p>{{ profile.connect_id }}</p>
+                        </div>
+                        
+                        <div class="profile-item-details">
+                            <p><strong>Age:</strong> {{ profile.age }}</p>
+                            <p><strong>Gender:</strong> {{ profile.gender|title }}</p>
+                        </div>
+                        
+                        <div class="profile-actions">
+                            <form method="post" action="{% url 'unblock_profile' connect_id=current_user.connect_id profile_id=profile.connect_id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-outline">
+                                    <i class="fas fa-user-check"></i> Unblock
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="no-profiles">
+                <p>You haven't blocked any profiles yet.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

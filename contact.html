@@ -1,0 +1,743 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Information</title>
+    <!-- Your existing CSS styles here -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            padding-top: 70px;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            min-height: 100vh;
+        }
+        
+        header {
+            background-color: white;
+            color: #333;
+            padding: 10px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 50px;
+        }
+        
+        .logo {
+            font-weight: 700;
+            font-size: 1.2em;
+            color: #6a3093;
+            letter-spacing: 0.5px;
+        }
+        
+        .live-chat {
+            color: #6a3093;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #d3b1f4;
+            font-size: 0.9em;
+        }
+        
+        .live-chat:hover {
+            color: white;
+            background-color: #6a3093;
+            text-decoration: none;
+        }
+        
+        .progress-section {
+            background-color: #f5f0fa;
+            padding: 25px 0;
+            width: 100%;
+            position: relative;
+        }
+        
+        .progress-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+        
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+        
+        .step {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: #e0d0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #8a63b0;
+            font-weight: bold;
+            position: relative;
+            font-size: 18px;
+            z-index: 2;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .step.completed {
+            background-color: #8a2be2;
+            color: white;
+        }
+        
+        .step.completed::before {
+            content: '✓';
+            font-size: 20px;
+        }
+        
+        .step.active {
+            background-color: #6a3093;
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+        }
+        
+        .progress-line {
+            position: absolute;
+            height: 4px;
+            background-color: #e0d0f0;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .progress-active {
+            position: absolute;
+            height: 4px;
+            background: linear-gradient(to right, #8a2be2, #6a3093);
+            left: 0;
+            width: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            transition: width 0.5s ease;
+        }
+        
+        .step-label {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #666;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        
+        .step.completed .step-label,
+        .step.active .step-label {
+            color: #6a3093;
+            font-weight: 600;
+        }
+        
+        .main-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .image-section {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-width: 300px;
+        }
+        
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .form-section {
+            flex: 1;
+            padding: 20px;
+            min-width: 300px;
+        }
+        
+        .section-heading {
+            text-transform: uppercase;
+            color: #6a3093;
+            border-bottom: 2px solid #6a3093;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #6a3093;
+        }
+        
+        .error {
+            border-color: #ff0000 !important;
+        }
+        
+        .error-message {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .next-button-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            z-index: 1000;
+        }
+        
+        .next-button {
+            background-color: #6a3093;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            width: 200px;
+        }
+        
+        .next-button:hover {
+            background-color: #8a2be2;
+        }
+        
+        .next-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .completed-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #6a3093;
+        }
+        
+        .education-details {
+            display: none;
+            padding-left: 15px;
+            border-left: 2px solid #e0d0f0;
+            margin-bottom: 15px;
+        }
+        
+        .education-details.active {
+            display: block;
+        }
+        
+        .subfield {
+            margin-bottom: 15px;
+        }
+        
+        .subfield label {
+            font-weight: normal;
+            color: #555;
+        }
+        
+        .location-details {
+            display: none;
+            margin-top: 10px;
+        }
+        
+        .location-details.active {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+        }
+        
+        /* Message styling */
+        .messages {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+        
+        .alert-success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+        
+        .alert-error {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Connect</div>
+        <a href="#" class="live-chat">Live Chat</a>
+    </header>
+    
+    <div class="progress-section">
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="progress-line"></div>
+                <div class="progress-active" style="width: 75%;"></div>
+                
+                <div class="step completed">
+                    <span class="step-label">Step 1</span>
+                </div>
+                <div class="step completed">
+                    <span class="step-label">Step 2</span>
+                </div>
+                <div class="step completed">
+                    <span class="step-label">Step 3</span>
+                </div>
+                <div class="step active">
+                    <span>4</span>
+                    <span class="step-label">Step 4</span>
+                </div>
+                <div class="step">
+                    <span>5</span>
+                    <span class="step-label">Final Step</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-container">
+        <div class="image-section">
+            <img src="{% static 'images/image10.jpg' %}" alt="Profile setup illustration">
+        </div>
+        
+        <div class="form-section">
+            <h2 style="color: #6a3093;">Profile Setup</h2>
+            <p style="color: #555;">Step 4: Please complete your contact information below.</p>
+            
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <form method="post" action="{% url 'contact' connect_id=user.connect_id %}">
+                {% csrf_token %}
+                
+                <!-- Your existing form fields here -->
+                <h2 class="section-heading">Location & Contact Information</h2>
+                
+                <div class="form-group">
+                    <label for="country">Native Country</label>
+                    <select id="country" name="native_country" required>
+                        <option value="">Select your country</option>
+                        {% for code, name in additional_profile.COUNTRY_CHOICES %}
+                            <option value="{{ code }}" {% if additional_profile.native_country == code %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="error-message">Please select your country</div>
+                </div>
+                
+                <div class="form-group {% if not additional_profile.native_country or additional_profile.native_country == 'other' %}hidden{% endif %}" id="state-group">
+                    <label for="state">Native State/Region</label>
+                    <select id="state" name="native_state" {% if not additional_profile.native_country or additional_profile.native_country == 'other' %}disabled{% else %}required{% endif %}>
+                        <option value="">Select state/region</option>
+                        {% if additional_profile.native_state %}
+                            <option value="{{ additional_profile.native_state }}" selected>{{ additional_profile.native_state }}</option>
+                        {% endif %}
+                    </select>
+                    <div class="error-message">Please select your native state/region</div>
+                </div>
+                
+                <div class="form-group {% if not additional_profile.native_state %}hidden{% endif %}" id="city-group">
+                    <label for="city">Native City/District</label>
+                    <select id="city" name="native_city" {% if not additional_profile.native_state %}disabled{% else %}required{% endif %}>
+                        <option value="">Select city/district</option>
+                        {% if additional_profile.native_city %}
+                            <option value="{{ additional_profile.native_city }}" selected>{{ additional_profile.native_city }}</option>
+                        {% endif %}
+                    </select>
+                    <div class="error-message">Please select your native city/district</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="whatsapp">WhatsApp Number</label>
+                    <div style="display: flex;">
+                        <select id="whatsapp-code" name="whatsapp_code" style="width: 100px; margin-right: 10px;">
+                            {% for code, name in additional_profile.PHONE_CODE_CHOICES %}
+                                <option value="{{ code }}" {% if additional_profile.whatsapp_code == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="tel" id="whatsapp" name="whatsapp_number" placeholder="9876543210" 
+                               value="{{ additional_profile.whatsapp_number|default:'' }}" style="flex: 1;" required>
+                    </div>
+                    <div class="error-message">Please enter your WhatsApp number</div>
+                </div>
+                
+                <h2 class="section-heading">Primary Contact Details</h2>
+                
+                <div class="form-group">
+                    <label for="mobile">Mobile Number</label>
+                    <div style="display: flex;">
+                        <select id="mobile-code" name="mobile_code" style="width: 100px; margin-right: 10px;">
+                            {% for code, name in additional_profile.PHONE_CODE_CHOICES %}
+                                <option value="{{ code }}" {% if additional_profile.mobile_code == code %}selected{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="tel" id="mobile" name="mobile_number" placeholder="9876543210" 
+                               value="{{ additional_profile.mobile_number|default:'' }}" style="flex: 1;" required>
+                    </div>
+                    <div class="error-message">Please enter your mobile number</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Communication Address</label>
+                    <textarea id="address" name="address" rows="4" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; box-sizing: border-box;" required>{{ additional_profile.address|default:'' }}</textarea>
+                    <div class="error-message">Please enter your address</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pincode">PIN Code/Zip Code</label>
+                    <input type="text" id="pincode" name="pincode" placeholder="600001 or 90210" 
+                           value="{{ additional_profile.pincode|default:'' }}" required>
+                    <div class="error-message">Please enter your PIN/Zip code</div>
+                </div>
+                <button type="submit" class="next-button">Next</button>
+           
+               
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const requiredFields = form.querySelectorAll('[required]');
+            const nextButton = document.querySelector('.next-button');
+            
+            // Country-state-city data
+            const countryData = {
+                "IN": {
+                    "states": {
+                        "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Guntur", "Nellore", "Kurnool"],
+                        "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem"],
+                        "Karnataka": ["Bangalore", "Mysore", "Hubli", "Mangalore", "Belgaum"],
+                        "Kerala": ["Thiruvananthapuram", "Kollam", "Pathanamthitta", "Alappuzha", "Kottayam", "Idukki", "Ernakulam", "Thrissur", "Palakkad", "Malappuram", "Kozhikode", "Wayanad", "Kannur", "Kasaragod"],
+                        "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik", "Aurangabad"]
+                    }
+                },
+                "US": {
+                    "states": {
+                        "California": ["Los Angeles", "San Diego", "San Jose", "San Francisco", "Fresno"],
+                        "Texas": ["Houston", "San Antonio", "Dallas", "Austin", "Fort Worth"],
+                        "Florida": ["Jacksonville", "Miami", "Tampa", "Orlando", "St. Petersburg"],
+                        "New York": ["New York City", "Buffalo", "Rochester", "Yonkers", "Syracuse"],
+                        "Illinois": ["Chicago", "Aurora", "Rockford", "Joliet", "Naperville"]
+                    }
+                },
+                "UK": {
+                    "states": {
+                        "England": ["London", "Birmingham", "Manchester", "Liverpool", "Leeds"],
+                        "Scotland": ["Glasgow", "Edinburgh", "Aberdeen", "Dundee", "Inverness"],
+                        "Wales": ["Cardiff", "Swansea", "Newport", "Bangor", "St Davids"],
+                        "Northern Ireland": ["Belfast", "Derry", "Lisburn", "Newry", "Bangor"]
+                    }
+                },
+                "CA": {
+                    "states": {
+                        "Ontario": ["Toronto", "Ottawa", "Mississauga", "Brampton", "Hamilton"],
+                        "Quebec": ["Montreal", "Quebec City", "Laval", "Gatineau", "Longueuil"],
+                        "British Columbia": ["Vancouver", "Surrey", "Burnaby", "Richmond", "Abbotsford"],
+                        "Alberta": ["Calgary", "Edmonton", "Red Deer", "Lethbridge", "St. Albert"]
+                    }
+                },
+                "AU": {
+                    "states": {
+                        "New South Wales": ["Sydney", "Newcastle", "Wollongong", "Central Coast", "Albury"],
+                        "Victoria": ["Melbourne", "Geelong", "Ballarat", "Bendigo", "Mildura"],
+                        "Queensland": ["Brisbane", "Gold Coast", "Townsville", "Cairns", "Toowoomba"],
+                        "Western Australia": ["Perth", "Bunbury", "Geraldton", "Kalgoorlie", "Albany"]
+                    }
+                }
+            };
+    
+            // DOM elements
+            const countrySelect = document.getElementById('country');
+            const stateGroup = document.getElementById('state-group');
+            const stateSelect = document.getElementById('state');
+            const cityGroup = document.getElementById('city-group');
+            const citySelect = document.getElementById('city');
+            
+            // Initialize form with existing data
+            if (countrySelect.value && countrySelect.value !== 'other') {
+                populateStates(countrySelect.value);
+                
+                // If state is already selected, populate cities
+                if (stateSelect.value) {
+                    populateCities(countrySelect.value, stateSelect.value);
+                }
+            }
+    
+            // Validate fields on blur (when leaving the field)
+            requiredFields.forEach(field => {
+                field.addEventListener('blur', function() {
+                    validateField(field);
+                    checkFormCompletion();
+                });
+            });
+            
+            // Also validate on change for select elements
+            document.querySelectorAll('select[required]').forEach(select => {
+                select.addEventListener('change', function() {
+                    validateField(select);
+                    checkFormCompletion();
+                });
+            });
+            
+            function validateField(field) {
+                const errorMessage = field.nextElementSibling?.classList?.contains('error-message') 
+                    ? field.nextElementSibling 
+                    : field.parentElement.nextElementSibling;
+                
+                if (field.required && !field.value) {
+                    field.classList.add('error');
+                    if (errorMessage) errorMessage.style.display = 'block';
+                    return false;
+                } else {
+                    field.classList.remove('error');
+                    if (errorMessage) errorMessage.style.display = 'none';
+                    return true;
+                }
+            }
+            
+            function checkFormCompletion() {
+                let allValid = true;
+                
+                // Check all required fields
+                requiredFields.forEach(field => {
+                    if (field.required && !field.value) {
+                        allValid = false;
+                    }
+                });
+                
+                // Additional check for state/city if country is selected and not "other"
+                const countryCode = countrySelect.value;
+                if (countryCode && countryCode !== 'other') {
+                    if (!stateSelect.value) allValid = false;
+                    if (!citySelect.value) allValid = false;
+                }
+                
+                nextButton.disabled = !allValid;
+            }
+            
+            // Country change handler
+            countrySelect.addEventListener('change', function() {
+                const countryCode = this.value;
+                
+                // Show/hide state and city fields based on country selection
+                if (countryCode && countryCode !== 'other') {
+                    stateGroup.classList.remove('hidden');
+                    stateSelect.disabled = false;
+                    stateSelect.required = true;
+                    
+                    // Populate states
+                    populateStates(countryCode);
+                } else if (countryCode === 'other') {
+                    // Hide state and city fields for "Other" country
+                    stateGroup.classList.add('hidden');
+                    cityGroup.classList.add('hidden');
+                    stateSelect.disabled = true;
+                    citySelect.disabled = true;
+                    stateSelect.required = false;
+                    citySelect.required = false;
+                    stateSelect.value = '';
+                    citySelect.value = '';
+                } else {
+                    // Hide both if no country selected
+                    stateGroup.classList.add('hidden');
+                    cityGroup.classList.add('hidden');
+                    stateSelect.disabled = true;
+                    citySelect.disabled = true;
+                    stateSelect.required = false;
+                    citySelect.required = false;
+                    stateSelect.value = '';
+                    citySelect.value = '';
+                }
+                
+                validateField(this);
+                checkFormCompletion();
+            });
+    
+            // State change handler
+            stateSelect.addEventListener('change', function() {
+                const countryCode = countrySelect.value;
+                const state = this.value;
+                
+                if (countryCode && state) {
+                    cityGroup.classList.remove('hidden');
+                    citySelect.disabled = false;
+                    citySelect.required = true;
+                    
+                    // Populate cities
+                    populateCities(countryCode, state);
+                } else {
+                    cityGroup.classList.add('hidden');
+                    citySelect.disabled = true;
+                    citySelect.required = false;
+                    citySelect.value = '';
+                }
+                
+                validateField(this);
+                checkFormCompletion();
+            });
+    
+            // City change handler
+            citySelect.addEventListener('change', function() {
+                validateField(this);
+                checkFormCompletion();
+            });
+    
+            // Populate states based on country
+            function populateStates(countryCode) {
+                stateSelect.innerHTML = '<option value="">Select state/region</option>';
+                
+                if (countryData[countryCode] && countryData[countryCode].states) {
+                    const states = Object.keys(countryData[countryCode].states);
+                    
+                    states.forEach(state => {
+                        const option = document.createElement('option');
+                        option.value = state;
+                        option.textContent = state;
+                        stateSelect.appendChild(option);
+                    });
+                }
+                
+                // Clear city selection when state changes
+                citySelect.innerHTML = '<option value="">Select city/district</option>';
+                cityGroup.classList.add('hidden');
+                citySelect.disabled = true;
+                citySelect.required = false;
+                citySelect.value = '';
+            }
+    
+            // Populate cities based on state
+            function populateCities(countryCode, state) {
+                citySelect.innerHTML = '<option value="">Select city/district</option>';
+                
+                if (countryData[countryCode] && countryData[countryCode].states[state]) {
+                    const cities = countryData[countryCode].states[state];
+                    
+                    cities.forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city;
+                        option.textContent = city;
+                        citySelect.appendChild(option);
+                    });
+                }
+            }
+            
+            // Initial check
+            checkFormCompletion();
+            
+            // Validate on form submission
+            form.addEventListener('submit', function(e) {
+                let isValid = true;
+                
+                // Validate all required fields
+                requiredFields.forEach(field => {
+                    if (!validateField(field)) {
+                        isValid = false;
+                    }
+                });
+                
+                // Additional validation for state/city if country is selected and not "other"
+                const countryCode = countrySelect.value;
+                if (countryCode && countryCode !== 'other') {
+                    if (!validateField(stateSelect)) isValid = false;
+                    if (!validateField(citySelect)) isValid = false;
+                }
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    // Scroll to first error
+                    const firstError = document.querySelector('.error');
+                    if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

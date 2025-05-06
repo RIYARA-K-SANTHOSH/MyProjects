@@ -1,0 +1,494 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Creation - Final Step</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            padding-top: 70px;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            min-height: 100vh;
+        }
+        
+        header {
+            background-color: white;
+            color: #333;
+            padding: 10px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 50px;
+        }
+        
+        .logo {
+            font-weight: 700;
+            font-size: 1.2em;
+            color: #6a3093;
+            letter-spacing: 0.5px;
+        }
+        
+        .live-chat {
+            color: #6a3093;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #d3b1f4;
+            font-size: 0.9em;
+        }
+        
+        .live-chat:hover {
+            color: white;
+            background-color: #6a3093;
+            text-decoration: none;
+        }
+        
+        .progress-section {
+            background-color: #f5f0fa;
+            padding: 25px 0;
+            width: 100%;
+            position: relative;
+        }
+        
+        .progress-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 15px 20px;
+        }
+        
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+        
+        .step {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: #e0d0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #8a63b0;
+            font-weight: bold;
+            position: relative;
+            font-size: 18px;
+            z-index: 2;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .step.completed {
+            background-color: #8a2be2;
+            color: white;
+        }
+        
+        .step.completed::before {
+            content: '✓';
+            font-size: 20px;
+        }
+        
+        .step.active {
+            background-color: #6a3093;
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+        }
+        
+        .progress-line {
+            position: absolute;
+            height: 4px;
+            background-color: #e0d0f0;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .progress-active {
+            position: absolute;
+            height: 4px;
+            background: linear-gradient(to right, #8a2be2, #6a3093);
+            left: 0;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            transition: width 0.5s ease;
+        }
+        
+        .step-label {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #666;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        
+        .step.completed .step-label,
+        .step.active .step-label {
+            color: #6a3093;
+            font-weight: 600;
+        }
+        
+        .main-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .image-section {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-width: 300px;
+        }
+        
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .form-section {
+            flex: 1;
+            padding: 20px;
+            min-width: 300px;
+        }
+        
+        .section-heading {
+            text-transform: uppercase;
+            color: #6a3093;
+            border-bottom: 2px solid #6a3093;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #6a3093;
+        }
+        
+        .error {
+            border-color: #ff0000 !important;
+        }
+        
+        .error-message {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .next-button-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            z-index: 1000;
+        }
+        
+        .next-button {
+            background-color: #6a3093;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            width: 200px;
+        }
+        
+        .next-button:hover {
+            background-color: #8a2be2;
+        }
+        
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .alert-success {
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+        
+        .alert-error {
+            background-color: #f2dede;
+            color: #a94442;
+            border: 1px solid #ebccd1;
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Connect</div>
+        <a href="#" class="live-chat">Live Chat</a>
+    </header>
+    
+    <div class="progress-section">
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="progress-line"></div>
+                <div class="progress-active"></div>
+                
+                <div class="step completed">
+                    <span class="step-label">Step 1</span>
+                </div>
+                <div class="step completed">
+                    <span class="step-label">Step 2</span>
+                </div>
+                <div class="step completed">
+                    <span class="step-label">Step 3</span>
+                </div>
+                <div class="step completed">
+                    <span class="step-label">Step 4</span>
+                </div>
+                <div class="step active">
+                    <span>5</span>
+                    <span class="step-label">Final Step</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-container">
+        <div class="image-section">
+            <img src="{% static 'images/image10.jpg' %}" alt="Profile setup illustration">
+        </div>
+        
+        <div class="form-section">
+            <h2 style="color: #6a3093;">Profile Setup</h2>
+            <p style="color: #555;">Step 5: Please complete your profile creation details below.</p>
+            
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <form method="post" action="{% url 'profilecreate' connect_id=user.connect_id %}">
+                {% csrf_token %}
+                
+                <h2 class="section-heading">Profile Creation Details</h2>
+                
+                <div class="form-group">
+                    <label for="created-by">Created by</label>
+                    <select id="created-by" name="created_by" required>
+                        <option value="">Select an option</option>
+                        <option value="brother" {% if form_data.created_by == 'brother' %}selected{% endif %}>Brother</option>
+                        <option value="candidate" {% if form_data.created_by == 'candidate' %}selected{% endif %}>Candidate</option>
+                        <option value="father" {% if form_data.created_by == 'father' %}selected{% endif %}>Father</option>
+                        <option value="friend" {% if form_data.created_by == 'friend' %}selected{% endif %}>Friend</option>
+                        <option value="mother" {% if form_data.created_by == 'mother' %}selected{% endif %}>Mother</option>
+                        <option value="relative" {% if form_data.created_by == 'relative' %}selected{% endif %}>Relative</option>
+                        <option value="sister" {% if form_data.created_by == 'sister' %}selected{% endif %}>Sister</option>
+                    </select>
+                    <div class="error-message" id="created-by-error">
+                        {% if form_errors.created_by %}{{ form_errors.created_by }}{% endif %}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="creator-name">Creator name</label>
+                    <input type="text" id="creator-name" name="creator_name" 
+                           value="{{ form_data.creator_name|default:'' }}" 
+                           placeholder="Enter creator's name" required>
+                    <div class="error-message" id="creator-name-error">
+                        {% if form_errors.creator_name %}{{ form_errors.creator_name }}{% endif %}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="hear-about">How did you hear about us?</label>
+                    <select id="hear-about" name="hear_about" required>
+                        <option value="">Select an option</option>
+                        <option value="friend" {% if form_data.hear_about == 'friend' %}selected{% endif %}>Friend/Family</option>
+                        <option value="social-media" {% if form_data.hear_about == 'social-media' %}selected{% endif %}>Social Media</option>
+                        <option value="newspaper" {% if form_data.hear_about == 'newspaper' %}selected{% endif %}>Newspaper</option>
+                        <option value="tv" {% if form_data.hear_about == 'tv' %}selected{% endif %}>TV Advertisement</option>
+                        <option value="search-engine" {% if form_data.hear_about == 'search-engine' %}selected{% endif %}>Search Engine</option>
+                        <option value="other" {% if form_data.hear_about == 'other' %}selected{% endif %}>Other</option>
+                    </select>
+                    <div class="error-message" id="hear-about-error">
+                        {% if form_errors.hear_about %}{{ form_errors.hear_about }}{% endif %}
+                    </div>
+                </div>
+                    <button type="submit" class="next-button">Finish</button>
+                </div>
+                
+              
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const requiredFields = form.querySelectorAll('[required]');
+            const nextButton = document.querySelector('.next-button');
+            
+            // Custom error messages for each field
+            const errorMessages = {
+                'created-by': 'Please select who created the profile',
+                'creator-name': 'Please enter creator name',
+                'hear-about': 'Please select how you heard about us'
+            };
+            
+            // Validate fields on blur (when leaving the field)
+            requiredFields.forEach(field => {
+                field.addEventListener('blur', function() {
+                    validateField(field);
+                    checkFormCompletion();
+                });
+            });
+            
+            // Also validate on change for select elements
+            document.querySelectorAll('select[required]').forEach(select => {
+                select.addEventListener('change', function() {
+                    validateField(select);
+                    checkFormCompletion();
+                });
+            });
+            
+            function validateField(field) {
+                const fieldId = field.id;
+                const errorMessage = field.nextElementSibling?.classList?.contains('error-message') 
+                    ? field.nextElementSibling 
+                    : field.parentElement.nextElementSibling;
+                
+                if (field.required && !field.value) {
+                    field.classList.add('error');
+                    if (errorMessage) {
+                        errorMessage.textContent = errorMessages[fieldId] || 'This field is required';
+                        errorMessage.style.display = 'block';
+                    }
+                    return false;
+                } else {
+                    field.classList.remove('error');
+                    if (errorMessage) errorMessage.style.display = 'none';
+                    return true;
+                }
+            }
+            
+            function checkFormCompletion() {
+                let allValid = true;
+                requiredFields.forEach(field => {
+                    if (!field.value) {
+                        allValid = false;
+                    }
+                });
+                
+                nextButton.disabled = !allValid;
+            }
+            
+            // Initialize error display from server-side validation
+            document.querySelectorAll('.error-message').forEach(el => {
+                if (el.textContent.trim() !== '') {
+                    el.style.display = 'block';
+                    const field = el.previousElementSibling?.previousElementSibling || 
+                                  el.previousElementSibling;
+                    if (field) field.classList.add('error');
+                }
+            });
+            
+            // Initial check
+            checkFormCompletion();
+            
+            // Validate on form submission
+            form.addEventListener('submit', function(e) {
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!validateField(field)) {
+                        isValid = false;
+                    }
+                });
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    // Scroll to first error
+                    const firstError = document.querySelector('.error');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+            
+            // Clear errors when user starts typing/selecting
+            document.querySelectorAll('input, select').forEach(field => {
+                field.addEventListener('input', function() {
+                    this.classList.remove('error');
+                    const errorMessage = this.nextElementSibling?.classList?.contains('error-message') 
+                        ? this.nextElementSibling 
+                        : this.parentElement.nextElementSibling;
+                    if (errorMessage) errorMessage.style.display = 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

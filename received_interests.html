@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Received Interests</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+        .interest-card {
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            border-left: 5px solid #6f42c1;
+            transition: transform 0.2s;
+        }
+        .interest-card:hover {
+            transform: translateY(-2px);
+        }
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .male-icon {
+            color: #0d6efd;
+        }
+        .female-icon {
+            color: #dc3545;
+        }
+        .btn-accept {
+            background-color: #198754;
+            color: white;
+        }
+        .btn-reject {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-purple text-white">
+                        <h2 class="h4 mb-0"><i class="bi bi-heart-fill me-2"></i>Received Interests</h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        {% if received_interests %}
+                            <div class="interests-list">
+                                {% for interest in received_interests %}
+                                <div class="interest-card p-4 mb-3 bg-white">
+                                    <div class="d-flex align-items-start">
+                                        <!-- Profile Picture -->
+                                        <div class="flex-shrink-0 me-3">
+                                            {% if interest.sender.profile_picture %}
+                                                <img src="{{ interest.sender.profile_picture.image.url }}" 
+                                                     alt="{{ interest.sender.name }}" 
+                                                     class="profile-img">
+                                            {% else %}
+                                                <div class="profile-img bg-light d-flex align-items-center justify-content-center">
+                                                    <i class="bi bi-person-fill text-muted" style="font-size: 2.5rem;"></i>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <!-- Interest Details -->
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <div>
+                                                    <h5 class="mb-1">
+                                                        {{ interest.sender.full_name }}, {{ interest.sender.age }}
+                                                        
+                                                    </h5>
+                                                    <p class="mb-1 text-muted small">
+                                                        <i class="bi bi-envelope me-1"></i>{{ interest.sender.email }}
+                                                    </p>
+                                                    <p class="mb-1 text-muted small">
+                                                        <i class="bi bi-person-badge me-1"></i>Connect ID: {{ interest.sender.connect_id }}
+                                                    </p>
+                                                </div>
+                                                <span class="badge bg-warning text-dark rounded-pill py-2">
+                                                    <i class="bi bi-hourglass-split me-1"></i>Pending
+                                                </span>
+                                            </div>
+                                            
+                                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                                <small class="text-muted">
+                                                    <i class="bi bi-calendar me-1"></i>Received on {{ interest.created_at|date:"M d, Y" }}
+                                                </small>
+                                                
+                                                <div class="btn-group">
+                                                    <form method="post" action="{% url 'respond_to_interest' connect_id=current_user.connect_id %}" class="mb-0 me-2">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="interest_id" value="{{ interest.id }}">
+                                                        <input type="hidden" name="action" value="accept">
+                                                        <button type="submit" class="btn btn-sm btn-accept">
+                                                            <i class="bi bi-check-circle me-1"></i> Accept
+                                                        </button>
+                                                    </form>
+                                                    <form method="post" action="{% url 'respond_to_interest' connect_id=current_user.connect_id %}" class="mb-0">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="interest_id" value="{{ interest.id }}">
+                                                        <input type="hidden" name="action" value="reject">
+                                                        <button type="submit" class="btn btn-sm btn-reject">
+                                                            <i class="bi bi-x-circle me-1"></i> Reject
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info text-center">
+                                <i class="bi bi-info-circle-fill me-2"></i>
+                                You haven't received any interest requests yet.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

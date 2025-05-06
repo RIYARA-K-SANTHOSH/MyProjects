@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href=" ">Users</a></li>
+                    <li><a href=" ">Blogs</a></li>
+                    <li><a href="{% url 'plans_list' %}">Plans</a></li>
+                    <li><a href=" {% url 'success_stories' %}">Success Stories</a></li>
+                    <li><a href=" ">Notification</a></li>
+                    <li><a href="{% url 'logout' %}" class="logout-link">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+        
+    </div>
+</body>
+</html>

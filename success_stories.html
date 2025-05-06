@@ -1,0 +1,1065 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Success Stories</title>
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <!-- Add the same stylesheets as your success stories page -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e83e8c;
+            --primary-light: rgba(232, 62, 140, 0.1);
+            --secondary-color: #6c757d;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --light-gray: #e9ecef;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.15);
+            --border-radius: 16px;
+            --border-radius-sm: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.8;
+            color: var(--dark-color);
+            background-color: #fefefe;
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 3rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .page-header h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.2rem;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1.8rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), rgba(232, 62, 140, 0.3));
+            border-radius: 2px;
+        }
+
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .stories-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2.4rem;
+            }
+        }
+
+        .story-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .story-card.expanded {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            overflow-y: auto;
+            background: white;
+            border-radius: 0;
+            transform: none;
+            box-shadow: none;
+            cursor: default;
+            padding: 2rem;
+        }
+
+        .story-card.expanded .cover-photo-container {
+            height: 60vh;
+            max-height: 600px;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .story-card.expanded .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .story-card.unapproved {
+            position: relative;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .story-card.unapproved::after {
+            content: 'Pending Approval';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: var(--warning-color);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 50px;
+            z-index: 1;
+            box-shadow: var(--shadow-sm);
+            font-family: var(--font-body);
+        }
+
+        .cover-photo-container {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+        }
+
+        .story-card.unapproved .cover-photo {
+            filter: brightness(0.9);
+        }
+
+        .cover-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1s ease;
+        }
+
+        .story-card:hover .cover-photo {
+            transform: scale(1.05);
+        }
+
+        .story-card.expanded .cover-photo {
+            transform: none;
+            object-position: center center;
+        }
+
+        .story-content {
+            padding: 2rem;
+        }
+
+        .couple-names {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+        }
+
+        .story-card:not(.expanded) .couple-names {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .story-card.expanded .couple-names {
+            font-size: 2.5rem;
+            text-align: center;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .story-card.expanded .couple-names::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), rgba(232, 62, 140, 0.3));
+            margin: 1.5rem auto;
+            border-radius: 3px;
+        }
+
+        .wedding-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+
+        .story-card.expanded .wedding-meta {
+            margin: 2rem 0;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            background: var(--light-color);
+            padding: 0.6rem 1rem;
+            border-radius: 50px;
+        }
+
+        .story-card.expanded .meta-item {
+            font-size: 1rem;
+            padding: 0.8rem 1.2rem;
+        }
+
+        .meta-item i {
+            margin-right: 0.6rem;
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        .story-text {
+            color: #555;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .story-card:not(.expanded) .story-text {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .story-card.expanded .story-text {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: #444;
+            margin: 3rem 0;
+        }
+
+        .gallery-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .story-card.expanded .gallery-section {
+            margin: 4rem 0;
+            padding: 3rem 0;
+            border-top: 1px solid var(--light-gray);
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .gallery-section h3 {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .story-card.expanded .gallery-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .gallery-section h3 i {
+            margin-right: 0.8rem;
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .story-card.expanded .photo-gallery {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-photo {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            aspect-ratio: 1/1;
+        }
+
+        .story-card.expanded .gallery-photo {
+            height: 220px;
+            border-radius: var(--border-radius);
+        }
+
+        .gallery-photo:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .no-photos {
+            color: var(--secondary-color);
+            font-style: italic;
+            font-size: 0.95rem;
+            text-align: center;
+            padding: 2rem 0;
+            background-color: var(--primary-light);
+            border-radius: var(--border-radius-sm);
+        }
+
+        .story-card.expanded .no-photos {
+            padding: 3rem 0;
+            font-size: 1.1rem;
+        }
+
+        .expand-btn {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            border: none;
+            z-index: 2;
+        }
+
+        .expand-btn:hover {
+            background-color: white;
+            transform: scale(1.1);
+        }
+
+        .story-card.expanded .expand-btn {
+            top: 2rem;
+            right: 2rem;
+            bottom: auto;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .close-btn {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+            border: none;
+            z-index: 1001;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .story-card.expanded ~ .close-btn {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+            background-color: #d62e7a;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 5rem 0;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            opacity: 0.2;
+            margin-bottom: 2rem;
+        }
+
+        .empty-state h3 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-state p {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 6px 20px rgba(232, 62, 140, 0.3);
+        }
+
+        .btn:hover {
+            background-color: #d62e7a;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(232, 62, 140, 0.4);
+        }
+
+        /* Overlay for expanded view */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .story-card.expanded ~ .overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Animation for cards */
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .story-card {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .story-card:nth-child(1) { animation-delay: 0.1s; }
+        .story-card:nth-child(2) { animation-delay: 0.2s; }
+        .story-card:nth-child(3) { animation-delay: 0.3s; }
+        .story-card:nth-child(4) { animation-delay: 0.4s; }
+        .story-card:nth-child(5) { animation-delay: 0.5s; }
+        .story-card:nth-child(6) { animation-delay: 0.6s; }
+
+        /* Image modal */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .image-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: var(--border-radius-sm);
+            transform: scale(0.9);
+            transition: var(--transition);
+        }
+
+        .image-modal.active .modal-image {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        .modal-nav button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-nav button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Admin approval buttons */
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .approve-btn, .reject-btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-family: var(--font-body);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .approve-btn {
+            background-color: var(--success-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .approve-btn:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        .reject-btn {
+            background-color: var(--danger-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        .reject-btn:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: var(--border-radius-sm);
+            color: white;
+            font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            z-index: 1100;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.success {
+            background-color: var(--success-color);
+        }
+        
+        .toast.error {
+            background-color: var(--danger-color);
+        }
+        
+        .toast.warning {
+            background-color: var(--warning-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>Admin Dashboard</h2>
+            <nav>
+                <ul>
+                    <li><a href=" ">Users</a></li>
+                    <li><a href=" ">Blogs</a></li>
+                    <li><a href="{% url 'plans_list' %}">Plans</a></li>
+                    <li class="active"><a href="{% url 'success_stories' %}">Success Stories</a></li>
+                    <li><a href=" ">Notification</a></li>
+                    <li><a href="{% url 'logout' %}" class="logout-link">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+    <!-- Toast notification container -->
+    <div id="toast-container"></div>
+    
+    <div class="container">
+        <div class="page-header">
+            <h1>Wedding Success Stories</h1>
+            <p>Browse through our collection of beautiful love stories. Click on any story to view it in full detail.</p>
+        </div>
+        
+        <div class="stories-grid">
+            {% for story in stories %}
+            <div class="story-card {% if not story.is_approved %}unapproved{% endif %}" onclick="expandStory(this)" data-id="{{ story.id }}">
+                <div class="cover-photo-container">
+                    <img src="{{ story.cover_photo.url }}" alt="{{ story.brides_name }} & {{ story.grooms_name }}" class="cover-photo">
+                    <button class="expand-btn">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+                <div class="story-content">
+                    <h2 class="couple-names">{{ story.brides_name }} & {{ story.grooms_name }}</h2>
+                    
+                    <div class="wedding-meta">
+                        <div class="meta-item">
+                            <i class="far fa-calendar-alt"></i>
+                            {{ story.wedding_date|date:"F j, Y" }}
+                        </div>
+                        {% if story.contact_number %}
+                        <div class="meta-item">
+                            <i class="fas fa-phone"></i>
+                            {{ story.contact_number }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="story-text">
+                        {{ story.story }}
+                    </div>
+                    
+                    <div class="gallery-section">
+                        <h3><i class="far fa-images"></i> Wedding Gallery</h3>
+                        {% if story.additional_photos.all %}
+                            <div class="photo-gallery">
+                                {% for photo in story.additional_photos.all %}
+                                    <img src="{{ photo.photo.url }}" alt="Wedding photo of {{ story.brides_name }} & {{ story.grooms_name }}" class="gallery-photo" onclick="openImageModal(event, '{{ photo.photo.url }}')">
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="no-photos">
+                                <i class="far fa-image"></i> No additional photos shared
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    {% if not story.is_approved %}
+                    <div class="admin-actions">
+                        <button class="approve-btn" onclick="approveStory(event, {{ story.id }})">
+                            <i class="fas fa-check"></i> Approve
+                        </button>
+                        <button class="reject-btn" onclick="rejectStory(event, {{ story.id }})">
+                            <i class="fas fa-times"></i> Reject
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="far fa-heart"></i>
+                </div>
+                <h3>No Stories Yet</h3>
+                <p>Be the first to share your beautiful wedding story with us. Your journey could inspire others!</p>
+                <a href="/add-your-story/" class="btn">Share Your Story</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button class="close-btn" onclick="closeExpandedStory()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="overlay" onclick="closeExpandedStory()"></div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="image-modal">
+        <button class="modal-close" onclick="closeImageModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-nav">
+            <button onclick="navigateImage(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button onclick="navigateImage(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        <img src="" alt="" class="modal-image" id="modal-image">
+    </div>
+
+    <!-- Floating action buttons -->
+    <div class="floating-actions">
+        <button class="floating-btn back-to-top" onclick="scrollToTop()">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <a href="/add-your-story/" class="floating-btn add-story-btn">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
+
+    <script>
+        // Toast notification function
+        function showToast(message, type = 'success') {
+            const toastContainer = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            toastContainer.appendChild(toast);
+            
+            // Show the toast
+            setTimeout(() => toast.classList.add('show'), 10);
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+
+        function expandStory(card) {
+            // Don't expand if clicking on a link or button
+            if (event.target.tagName === 'A' || event.target.tagName === 'BUTTON' || event.target.parentElement.tagName === 'BUTTON') {
+                return;
+            }
+            
+            card.classList.add('expanded');
+            document.body.style.overflow = 'hidden';
+            
+            // Scroll to top of expanded card
+            card.scrollTo(0, 0);
+        }
+
+        function closeExpandedStory() {
+            const expandedCard = document.querySelector('.story-card.expanded');
+            if (expandedCard) {
+                expandedCard.classList.remove('expanded');
+                document.body.style.overflow = '';
+                
+                // Scroll back to the card position
+                setTimeout(() => {
+                    expandedCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 10);
+            }
+        }
+
+        // Close when pressing ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeExpandedStory();
+                closeImageModal();
+            }
+        });
+
+        // Image modal functionality
+        let currentImageIndex = 0;
+        let galleryImages = [];
+
+        function openImageModal(event, imageUrl) {
+            event.stopPropagation();
+            
+            // Get all images in the current gallery
+            const gallery = event.target.closest('.photo-gallery');
+            galleryImages = Array.from(gallery.querySelectorAll('.gallery-photo')).map(img => img.src);
+            
+            // Find the clicked image index
+            currentImageIndex = galleryImages.indexOf(imageUrl);
+            
+            // Set the modal image
+            document.getElementById('modal-image').src = imageUrl;
+            document.getElementById('modal-image').alt = event.target.alt;
+            
+            // Show the modal
+            document.getElementById('image-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            document.getElementById('image-modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function navigateImage(direction) {
+            currentImageIndex += direction;
+            
+            // Wrap around if at beginning or end
+            if (currentImageIndex < 0) {
+                currentImageIndex = galleryImages.length - 1;
+            } else if (currentImageIndex >= galleryImages.length) {
+                currentImageIndex = 0;
+            }
+            
+            // Update the image
+            const modalImage = document.getElementById('modal-image');
+            modalImage.style.opacity = 0;
+            
+            setTimeout(() => {
+                modalImage.src = galleryImages[currentImageIndex];
+                modalImage.style.opacity = 1;
+            }, 200);
+        }
+
+        // Keyboard navigation for image modal
+        document.addEventListener('keydown', function(event) {
+            if (document.getElementById('image-modal').classList.contains('active')) {
+                if (event.key === 'ArrowLeft') {
+                    navigateImage(-1);
+                } else if (event.key === 'ArrowRight') {
+                    navigateImage(1);
+                }
+            }
+        });
+
+        // Approve/reject story functions
+        function approveStory(event, storyId) {
+            event.stopPropagation();
+            if (confirm('Are you sure you want to approve this story? It will be visible to all visitors.')) {
+                fetch(`/approve-story/${storyId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({approved: true})
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Remove the unapproved badge and buttons
+                        const card = document.querySelector(`.story-card[data-id="${storyId}"]`);
+                        if (card) {
+                            card.classList.remove('unapproved');
+                            const adminActions = card.querySelector('.admin-actions');
+                            if (adminActions) {
+                                adminActions.remove();
+                            }
+                        }
+                        // Show success toast
+                        showToast('Story approved successfully!', 'success');
+                    } else {
+                        throw new Error(data.error || 'Error approving story');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showToast(error.message || 'Failed to approve story', 'error');
+                });
+            }
+        }
+
+        function rejectStory(event, storyId) {
+            event.stopPropagation();
+            
+            if (confirm('Are you sure you want to reject this story? It will be permanently deleted.')) {
+                // Show loading state
+                const rejectBtn = event.target.closest('.reject-btn');
+                const originalText = rejectBtn.innerHTML;
+                rejectBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                rejectBtn.disabled = true;
+                
+                fetch(`/reject-story/${storyId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'same-origin'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Remove the story card from the DOM
+                        const card = document.querySelector(`.story-card[data-id="${storyId}"]`);
+                        if (card) {
+                            card.style.opacity = '0';
+                            card.style.transition = 'opacity 0.3s ease';
+                            
+                            setTimeout(() => {
+                                card.remove();
+                                
+                                // Check if we have no more stories
+                                if (document.querySelectorAll('.story-card').length === 0) {
+                                    showEmptyState();
+                                }
+                            }, 300);
+                        }
+                        
+                        // Show success toast
+                        showToast('Story rejected successfully!', 'success');
+                    } else {
+                        throw new Error(data.error || 'Error rejecting story');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showToast(error.message || 'Failed to reject story', 'error');
+                    
+                    // Reset button state
+                    rejectBtn.innerHTML = originalText;
+                    rejectBtn.disabled = false;
+                });
+            }
+        }
+
+        // Helper function to get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Show empty state if all stories are removed
+        function showEmptyState() {
+            const emptyStateHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <h3>No Stories Yet</h3>
+                    <p>Be the first to share your beautiful wedding story with us. Your journey could inspire others!</p>
+                    <a href="/add-your-story/" class="btn">Share Your Story</a>
+                </div>
+            `;
+            document.querySelector('.stories-grid').innerHTML = emptyStateHTML;
+        }
+
+        // Back to top button functionality
+        window.addEventListener('scroll', function() {
+            const backToTopBtn = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
