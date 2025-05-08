@@ -60,15 +60,14 @@ def index(request):
 
     return render(request, 'index.html')
 
-
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from .models import Register
-
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
-from .models import Register
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+from social_django.utils import psa
+
+# The login view
 def login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -90,9 +89,6 @@ def login(request):
             # Log the user in
             auth_login(request, user)
 
-            # Save user email to session
-            request.session['user_email'] = email
-
             # Check if the user has completed their profile
             if check_profile_completion(user):
                 messages.success(request, "Login successful.")
@@ -105,6 +101,22 @@ def login(request):
             return redirect('login')
 
     return render(request, 'login.html')
+
+# View to handle login via Google
+@psa('social:complete')
+def google_login(request, backend):
+    user = request.user
+
+    # Check if the user has completed their profile
+    if check_profile_completion(user):
+        messages.success(request, "Login successful.")
+        return redirect('profile1', reg_id=user.reg_id)  # Redirect to profile1 if complete
+    else:
+        messages.success(request, "Login successful. Please complete your profile.")
+        return redirect('profile')  # Redirect to profile if not complete
+
+
+
 
 
 
@@ -1458,57 +1470,6 @@ def home(request):
 
 
 
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
-from django.conf import settings
-import os
-from .models import Register, ImageUpload
-from .image_compression import compress_image_pillow, compress_with_tensorflow
-
-def upload_images(request, reg_id):
-    # Retrieve the user object or return a 404 error if not found
-    user = get_object_or_404(Register, reg_id=reg_id)
-    
-    if request.method == 'POST':
-        uploaded_files = request.FILES.getlist('images')
-        image_folder = os.path.join(settings.MEDIA_ROOT, 'images')
-        compressed_folder_pillow = os.path.join(settings.MEDIA_ROOT, 'compressed_images_pillow')
-        compressed_folder_tf = os.path.join(settings.MEDIA_ROOT, 'compressed_images_tf')
-        
-        # Create folders if they don't exist
-        os.makedirs(image_folder, exist_ok=True)
-        os.makedirs(compressed_folder_pillow, exist_ok=True)
-        os.makedirs(compressed_folder_tf, exist_ok=True)
-
-        for file in uploaded_files:
-            image_path = os.path.join(image_folder, file.name)
-            # Save the original image
-            with open(image_path, 'wb+') as destination:
-                for chunk in file.chunks():
-                    destination.write(chunk)
-
-            # Compress image using Pillow
-            compressed_image_pillow_path = os.path.join(compressed_folder_pillow, f'compressed_{file.name}')
-            compress_image_pillow(image_path, compressed_image_pillow_path)
-
-            # Compress image using TensorFlow
-            compressed_image_tf_path = os.path.join(compressed_folder_tf, f'compressed_tf_{file.name}')
-            compress_with_tensorflow(image_path, compressed_image_tf_path)
-
-            # Save to the database (only saving the Pillow compressed image for now)
-            ImageUpload.objects.create(
-                reg_id=user,
-                image=image_path,  # Save original image path
-                compressed_image=compressed_image_pillow_path  # Save compressed image path (Pillow)
-            )
-
-        # Redirect to the profile page after successful upload and compression
-        return redirect('profile1', reg_id=reg_id)
-
-    return render(request, 'upload_images.html', {'user': user})
-
-# matrimonypro/matrimonyapp/views.py
-# matrimonypro/matrimonyapp/views.py
 
 
 
@@ -1548,63 +1509,7 @@ def upload_more_image(request):
 
 
 # matrimonypro/matrimonyapp/views.py
-from django.http import HttpResponse
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-from django.shortcuts import get_object_or_404
-from .models import Profile, Education, Family
 
-def download_profile_pdf(request, personal_id):
-    # Fetch the profile, education, and family details
-    profile = get_object_or_404(Profile, personal_id=personal_id)
-    education = Education.objects.filter(reg_id=profile.reg_id)
-    family = Family.objects.filter(reg_id=profile.reg_id)
-
-    # Create a PDF response
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="{profile.reg_id.first_name}_profile.pdf"'
-
-    # Create a PDF canvas
-    p = canvas.Canvas(response, pagesize=letter)
-    width, height = letter
-
-    # Add content to the PDF
-    p.drawString(100, height - 50, f"{profile.reg_id.first_name}'s Profile")
-    p.drawString(100, height - 70, f"Address: {profile.address}")
-    p.drawString(100, height - 90, f"Height: {profile.height} cm")
-    p.drawString(100, height - 110, f"Weight: {profile.weight} kg")
-    p.drawString(100, height - 130, f"Marital Status: {profile.marital_status}")
-    p.drawString(100, height - 150, f"Religion: {profile.religion}")
-    p.drawString(100, height - 170, f"Mother Tongue: {profile.mother_tongue}")
-    p.drawString(100, height - 190, f"Caste: {profile.caste}")
-    p.drawString(100, height - 210, f"Occupation: {profile.occupation}")
-    p.drawString(100, height - 230, f"Annual Income: {profile.annual_income}")
-    p.drawString(100, height - 250, f"Spoken Language: {profile.spoken_language}")
-    p.drawString(100, height - 270, f"More About Me: {profile.more_about_me}")
-    p.drawString(100, height - 290, f"Age: {profile.age} years")
-    p.drawString(100, height - 310, f"Complexion: {profile.complexion}")
-    p.drawString(100, height - 330, f"About: {profile.about}")
-    p.drawString(100, height - 350, f"Hobbies: {profile.hobbies}")
-
-    # Add Education Details
-    p.drawString(100, height - 380, "Education Details:")
-    y_position = height - 400
-    for edu in education:
-        p.drawString(100, y_position, f"Institution: {edu.school_name}, Degree: {edu.degree_name}, Year: {edu.degree_passout_year}")
-        y_position -= 20
-
-    # Add Family Details
-    p.drawString(100, y_position, "Family Details:")
-    y_position -= 20
-    for fam in family:
-        p.drawString(100, y_position, f"Father's Name: {fam.father_name}, Mother's Name: {fam.mother_name}")
-        y_position -= 20
-
-    # Finalize the PDF
-    p.showPage()
-    p.save()
-
-    return response
 
 import razorpay
 from django.conf import settings
