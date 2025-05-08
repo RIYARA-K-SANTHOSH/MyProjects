@@ -17,11 +17,10 @@ urlpatterns = [
     path('family/', views.family, name='family'),
     path('edit_family/', views.edit_family, name='edit_family'),
     path('profile1/<int:reg_id>/', views.profile_view, name='profile1'),  # Ensure this line exists
-    path('upload-images/<int:reg_id>/', views.upload_images, name='upload_images'),
+    
     path('view_all_details/<int:personal_id>/', views.view_all_details, name='view_all_details'),
     path('view_profile/<int:personal_id>/', views.view_profile1, name='view_profile1'),
-    path('download_profile_pdf/<int:personal_id>/', views.download_profile_pdf, name='download_profile_pdf'),
-    path('upload_more_image/', views.upload_more_image, name='upload_more_image'),
+ 
     path('packages/create/', views.package_create, name='package_create'),
     path('packages/', views.view_packages, name='view_packages'),
     path('packages/edit/<int:package_id>/', views.edit_package, name='edit_package'),
